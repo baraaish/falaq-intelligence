@@ -9,6 +9,11 @@
   
   // Check if GSAP is available
   const gsapAvailable = typeof gsap !== 'undefined';
+
+  function siteBase() {
+    const parts = location.pathname.replace(/\/index\.html$/, '/').split('/').filter(Boolean);
+    return location.hostname.endsWith('github.io') && parts[0] === 'falaq-intelligence' ? '/falaq-intelligence' : '';
+  }
   
   if (prefersReducedMotion || !gsapAvailable) {
     // Fallback: reveal all elements immediately
@@ -28,7 +33,7 @@
     const loadingScreen = document.createElement('div');
     loadingScreen.className = 'loading-screen';
     loadingScreen.innerHTML = `
-      <img src="${document.body.dir === 'rtl' ? '/assets/arabic-logo-transparent.png' : '/assets/main-logo-transparent.png'}" 
+      <img src="${siteBase()}${document.body.dir === 'rtl' ? '/assets/arabic-logo-transparent.png' : '/assets/main-logo-transparent.png'}" 
            alt="Falaq Intelligence" 
            class="loading-logo">
     `;

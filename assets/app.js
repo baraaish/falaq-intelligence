@@ -134,22 +134,36 @@ const industryAr = {
   "content-teams": ["فرق المحتوى", "تحويل الأفكار والمحتوى الخام إلى أصول منظمة، مراجعات واضحة، ومهام نشر جاهزة."]
 };
 
-function pathParts() {
+function rawPathParts() {
   return location.pathname.replace(/\/index\.html$/, "/").split("/").filter(Boolean);
+}
+
+function pathParts() {
+  const parts = rawPathParts();
+  return location.hostname.endsWith("github.io") && parts[0] === "falaq-intelligence" ? parts.slice(1) : parts;
 }
 
 function isArabic() {
   return pathParts()[0] === "ar";
 }
 
+function siteBase() {
+  const first = rawPathParts()[0];
+  return location.hostname.endsWith("github.io") && first === "falaq-intelligence" ? "/falaq-intelligence" : "";
+}
+
 function rootPath(path = "") {
-  return `${isArabic() ? "/ar" : ""}${path}`;
+  return `${siteBase()}${isArabic() ? "/ar" : ""}${path}`;
+}
+
+function assetPath(path = "") {
+  return `${siteBase()}${path}`;
 }
 
 function otherLangPath() {
   const p = pathParts();
-  if (isArabic()) return "/" + p.slice(1).join("/");
-  return "/ar/" + p.join("/");
+  if (isArabic()) return `${siteBase()}/${p.slice(1).join("/")}`;
+  return `${siteBase()}/ar/${p.join("/")}`;
 }
 
 function serviceBySlug(slug) { return services.find((s) => s[0] === slug); }
@@ -161,7 +175,7 @@ function nav(t, currentPage) {
     <header class="nav">
       <div class="container nav-inner">
         <a class="brand" href="${rootPath("/")}" aria-label="Falaq Intelligence">
-          <img src="${isArabic() ? "/assets/arabic-logo-transparent.png" : "/assets/main-logo-transparent.png"}" alt="Falaq Intelligence">
+          <img src="${assetPath(isArabic() ? "/assets/arabic-logo-transparent.png" : "/assets/main-logo-transparent.png")}" alt="Falaq Intelligence">
         </a>
         <nav class="nav-links" id="navLinks">
           <a href="${rootPath("/services/")}" ${isActive("services")}>${t.nav.solutions}</a>
@@ -188,7 +202,7 @@ function footer(t) {
         <div class="footer-grid">
           <div class="footer-brand">
             <a class="brand" href="${rootPath("/")}" aria-label="Falaq Intelligence">
-              <img src="${isArabic() ? "/assets/arabic-logo-transparent.png" : "/assets/main-logo-transparent.png"}" alt="Falaq Intelligence" style="width:120px">
+              <img src="${assetPath(isArabic() ? "/assets/arabic-logo-transparent.png" : "/assets/main-logo-transparent.png")}" alt="Falaq Intelligence" style="width:120px">
             </a>
             <p class="footer-tagline">${isArabic() ? "وكلاء ذكاء اصطناعي للرد، التأهيل، المتابعة، وتسليم العمل بوضوح." : "AI agents for response, qualification, follow-up, and cleaner operational handoff."}</p>
           </div>
@@ -236,7 +250,8 @@ function cards(items, base) {
     const slug = item[0];
     const label = isArabic() && base === "services" && serviceAr[slug] ? serviceAr[slug][0] : isArabic() && base === "industries" && industryAr[slug] ? industryAr[slug][0] : item[1];
     const text = isArabic() && base === "services" && serviceAr[slug] ? serviceAr[slug][1] : isArabic() && base === "industries" && industryAr[slug] ? industryAr[slug][1] : item[2];
-    const iconSrc = `/assets/infographics/icon-${slug}.png`;
+    const iconSlug = slug === "sales-marketing-ai" ? "sales-marketing" : slug;
+    const iconSrc = assetPath(`/assets/infographics/icon-${iconSlug}.png`);
     const hasIcon = base === "services" || base === "industries";
     return `<a class="card card-with-icon" href="${rootPath(`/${base}/${slug}/`)}">${hasIcon ? `<img src="${iconSrc}" alt="" class="card-icon">` : ""}<h3>${label}</h3><p>${text}</p></a>`;
   }).join("")}</div>`;
@@ -321,7 +336,7 @@ function falaqLogoAnimation() {
       </g>
 
       <!-- ===== PHASE 5: final logo (crossfade in) ===== -->
-      <image class="flq-final" href="/assets/logo-symbol-transparent.png"
+      <image class="flq-final" href="${assetPath("/assets/logo-symbol-transparent.png")}"
              x="62" y="62" width="296" height="296" preserveAspectRatio="xMidYMid meet"/>
     </svg>
   </div>`;
@@ -350,7 +365,7 @@ function home(t) {
       <section>
         <div class="container">
           <div class="section-head"><div><div class="eyebrow">${t.home.sections.focusEyebrow}</div><h2>${t.home.sections.focusTitle}</h2></div><p>${t.home.sections.focusText}</p></div>
-          <div class="infographic-wrapper"><img src="/assets/infographics/funnel-pipeline.png" alt="Pipeline leakage infographic" class="infographic-img"></div>
+          <div class="infographic-wrapper"><img src="${assetPath("/assets/infographics/funnel-pipeline.png")}" alt="Pipeline leakage infographic" class="infographic-img"></div>
           <div class="metric-row">
             ${t.home.sections.metrics.map((metric, index) => `<div class="metric"><strong>${String(index + 1).padStart(2, "0")}</strong><span>${metric}</span></div>`).join("")}
           </div>
@@ -358,7 +373,7 @@ function home(t) {
       </section>
       <section><div class="container"><div class="section-head"><h2>${t.home.sections.solutionsTitle}</h2><a class="btn" href="${rootPath("/services/")}">${t.nav.solutions}</a></div>${cards(services.slice(0, 6), "services")}</div></section>
       <section><div class="container"><div class="section-head"><h2>${t.home.sections.industriesTitle}</h2><a class="btn" href="${rootPath("/industries/")}">${t.nav.industries}</a></div>${cards(industries, "industries")}</div></section>
-      <section><div class="container split"><div><div class="eyebrow">${t.home.sections.processEyebrow}</div><h2>${t.home.sections.processTitle}</h2><p class="lead">${t.home.sections.processText}</p></div><div class="infographic-wrapper"><img src="/assets/infographics/workflow-4step.png" alt="Implementation workflow" class="infographic-img"></div></div></section>
+      <section><div class="container split"><div><div class="eyebrow">${t.home.sections.processEyebrow}</div><h2>${t.home.sections.processTitle}</h2><p class="lead">${t.home.sections.processText}</p></div><div class="infographic-wrapper"><img src="${assetPath("/assets/infographics/workflow-4step.png")}" alt="Implementation workflow" class="infographic-img"></div></div></section>
     </main>`;
 }
 
@@ -461,7 +476,7 @@ function salesMarketingPage(t) {
           </div>
         </div>
         <div class="service-visual reveal" aria-label="Sales and marketing agent workflow">
-          <div class="visual-core"><img src="/assets/logo-symbol-transparent.png" alt=""></div>
+          <div class="visual-core"><img src="${assetPath("/assets/logo-symbol-transparent.png")}" alt=""></div>
           <div class="pipeline-line"></div>
           <div class="diagram-node node-a">Lead</div>
           <div class="diagram-node node-b">Qualify</div>
@@ -481,14 +496,14 @@ function salesMarketingPage(t) {
           <h2>${copy.painTitle}</h2>
           <p class="lead">${copy.painLead}</p>
         </div>
-        <div class="infographic-wrapper reveal"><img src="/assets/infographics/funnel-pipeline.png" alt="Pipeline leakage funnel" class="infographic-img"></div>
+        <div class="infographic-wrapper reveal"><img src="${assetPath("/assets/infographics/funnel-pipeline.png")}" alt="Pipeline leakage funnel" class="infographic-img"></div>
       </div>
     </section>
 
     <section>
       <div class="container">
         <div class="section-head reveal"><div><div class="eyebrow">Execution layer</div><h2>${copy.systemTitle}</h2></div><p>${copy.systemLead}</p></div>
-        <div class="infographic-wrapper reveal"><img src="/assets/infographics/capabilities.png" alt="Execution capabilities diagram" class="infographic-img"></div>
+        <div class="infographic-wrapper reveal"><img src="${assetPath("/assets/infographics/capabilities.png")}" alt="Execution capabilities diagram" class="infographic-img"></div>
         <div class="feature-row">
           ${copy.capabilities.map(([title, text]) => `<div class="flow-card reveal"><span></span><h3>${title}</h3><p>${text}</p></div>`).join("")}
         </div>
@@ -502,7 +517,7 @@ function salesMarketingPage(t) {
           <h2>${copy.flowTitle}</h2>
           <p class="lead">${copy.flowLead}</p>
         </div>
-        <div class="infographic-wrapper reveal"><img src="/assets/infographics/workflow-6step.png" alt="Sales workflow diagram" class="infographic-img"></div>
+        <div class="infographic-wrapper reveal"><img src="${assetPath("/assets/infographics/workflow-6step.png")}" alt="Sales workflow diagram" class="infographic-img"></div>
       </div>
     </section>
 
@@ -517,7 +532,7 @@ function salesMarketingPage(t) {
           <div class="eyebrow">Integrations</div>
           <h2>${copy.integrationsTitle}</h2>
           <p class="muted">${copy.integrationsLead}</p>
-          <div class="infographic-wrapper"><img src="/assets/infographics/integration-hub.png" alt="Integration hub diagram" class="infographic-img"></div>
+          <div class="infographic-wrapper"><img src="${assetPath("/assets/infographics/integration-hub.png")}" alt="Integration hub diagram" class="infographic-img"></div>
         </div>
       </div>
     </section>
@@ -654,7 +669,7 @@ function salesMarketingPageV2(t) {
           <div class="hero-badges">${copy.badges.map((badge) => `<span>${badge}</span>`).join("")}</div>
         </div>
         <div class="product-visual reveal" aria-label="Sales and marketing AI product visual">
-          <img src="/assets/sales-marketing-ai-product.png" alt="Falaq Sales and Marketing AI workflow visual">
+          <img src="${assetPath("/assets/sales-marketing-ai-product.png")}" alt="Falaq Sales and Marketing AI workflow visual">
           <div class="product-shine"></div>
         </div>
       </div>
@@ -760,7 +775,7 @@ function servicePage(slug, t) {
   return `<main>
     <section class="page-hero"><div class="container"><div class="eyebrow">${copy.eyebrow}</div><h1>${title}</h1><p class="lead">${lead}</p><div class="hero-actions"><a class="btn primary" href="${rootPath("/contact/")}">${t.nav.cta}</a><a class="btn" href="https://wa.me/${CONFIG.whatsappNumber}" target="_blank" rel="noreferrer">${t.labels.whatsapp}</a></div></div></section>
     <section><div class="container split"><div><h2>${copy.whatTitle}</h2><p class="lead">${copy.whatText}</p></div><div class="grid">${copy.benefits.map((b) => `<div class="card"><h3>${b}</h3><p>${copy.whatText}</p></div>`).join("")}</div></div></section>
-    <section><div class="container split"><div><h2>${copy.flowTitle}</h2><p class="muted">${copy.flowText}</p></div><div class="infographic-wrapper"><img src="/assets/infographics/workflow-${slug === "whatsapp-agent" ? "whatsapp" : slug === "lead-agent" ? "lead" : slug === "proposal-agent" ? "proposal" : slug === "content-engine" ? "content" : "4step"}.png" alt="${copy.flowTitle}" class="infographic-img"></div></div></section>
+    <section><div class="container split"><div><h2>${copy.flowTitle}</h2><p class="muted">${copy.flowText}</p></div><div class="infographic-wrapper"><img src="${assetPath(`/assets/infographics/workflow-${slug === "whatsapp-agent" ? "whatsapp" : slug === "lead-agent" ? "lead" : slug === "proposal-agent" ? "proposal" : slug === "content-engine" ? "content" : "4step"}.png`)}" alt="${copy.flowTitle}" class="infographic-img"></div></div></section>
     <section><div class="container"><div class="section-head"><h2>${copy.startTitle}</h2><p>${copy.startText}</p></div><a class="btn primary" href="${rootPath("/contact/")}">${t.home.primary}</a></div></section>
   </main>`;
 }
@@ -789,7 +804,7 @@ function industryPage(slug, t) {
   };
   return `<main>
     <section class="page-hero"><div class="container"><div class="eyebrow">${copy.eyebrow}</div><h1>${title}</h1><p class="lead">${lead}</p><div class="hero-actions"><a class="btn primary" href="${rootPath("/contact/")}">${t.nav.cta}</a></div></div></section>
-    <section><div class="container split"><div><h2>${copy.whereTitle}</h2><p class="lead">${lead}</p></div><div class="infographic-wrapper"><img src="/assets/infographics/friction-${slug === "sales-marketing" ? "sales" : slug}.png" alt="Friction points" class="infographic-img"></div></div></section>
+    <section><div class="container split"><div><h2>${copy.whereTitle}</h2><p class="lead">${lead}</p></div><div class="infographic-wrapper"><img src="${assetPath(`/assets/infographics/friction-${slug === "sales-marketing" ? "sales" : slug === "real-estate" ? "realestate" : slug === "content-teams" ? "content" : slug}.png`)}" alt="Friction points" class="infographic-img"></div></div></section>
     <section><div class="container"><div class="section-head"><h2>${copy.relevantTitle}</h2></div>${cards(services.slice(0, slug === "sales-marketing" ? 5 : 4), "services")}</div></section>
   </main>`;
 }
@@ -806,9 +821,9 @@ function about(t) {
     <section class="page-hero"><div class="container"><div class="eyebrow">${isArabic() ? "عن فلق" : "About Falaq"}</div><h1>${t.about.title}</h1><p class="lead">${t.about.lead}</p></div></section>
     <section><div class="container split"><div><h2>${t.about.storyTitle}</h2></div><div class="rich"><p class="lead">${t.about.story}</p><div class="grid two">${values.map(([title, text]) => `<div class="card"><h3>${title}</h3><p>${text}</p></div>`).join("")}</div></div></div></section>
     <section><div class="container"><div class="section-head"><div><div class="eyebrow">${isArabic() ? "الفريق" : "People"}</div><h2>${t.about.teamTitle}</h2></div><p>${t.about.teamLead}</p></div><div class="grid three">
-      <div class="card card-team"><img src="/assets/infographics/team-baraa.png" alt="Baraa Al-Shakarna" class="team-avatar"><h3>Baraa Al-Shakarna</h3><p>Founder & AI Solutions Specialist</p></div>
-      <div class="card card-team"><img src="/assets/infographics/team-mohammed.png" alt="Mohammed Najajreh" class="team-avatar"><h3>Mohammed Najajreh</h3><p>Sales Manager & Public Relations</p></div>
-      <div class="card card-team"><img src="/assets/infographics/team-younis.png" alt="Younis Elayn" class="team-avatar"><h3>Younis Elayn</h3><p>Marketing Manager & Business Analyst</p></div>
+      <div class="card card-team"><img src="${assetPath("/assets/infographics/team-baraa.png")}" alt="Baraa Al-Shakarna" class="team-avatar"><h3>Baraa Al-Shakarna</h3><p>Founder & AI Solutions Specialist</p></div>
+      <div class="card card-team"><img src="${assetPath("/assets/infographics/team-mohammed.png")}" alt="Mohammed Najajreh" class="team-avatar"><h3>Mohammed Najajreh</h3><p>Sales Manager & Public Relations</p></div>
+      <div class="card card-team"><img src="${assetPath("/assets/infographics/team-younis.png")}" alt="Younis Elayn" class="team-avatar"><h3>Younis Elayn</h3><p>Marketing Manager & Business Analyst</p></div>
     </div></div></section>
   </main>`;
 }
