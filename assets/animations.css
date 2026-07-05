@@ -1,0 +1,487 @@
+/* Custom Cursor */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(32, 215, 255, 0.8);
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
+}
+
+.cursor.active {
+  width: 60px;
+  height: 60px;
+  background: rgba(108, 76, 255, 0.4);
+}
+
+.cursor.hover {
+  width: 80px;
+  height: 80px;
+  background: rgba(32, 215, 255, 0.3);
+}
+
+.cursor-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(32, 215, 255, 0.5);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease, border-color 0.3s ease;
+}
+
+.cursor-follower.active {
+  width: 80px;
+  height: 80px;
+  border-color: rgba(108, 76, 255, 0.6);
+}
+
+/* Scroll Progress Bar */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--violet), var(--blue), var(--cyan));
+  z-index: 10001;
+  transition: width 0.1s ease-out;
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10002;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loading-logo {
+  width: 120px;
+  height: auto;
+  animation: loadingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+/* Text Reveal Animation */
+.text-reveal {
+  overflow: hidden;
+}
+
+.text-reveal .word {
+  display: inline-block;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+}
+
+.text-reveal.revealed .word {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Line Reveal Animation */
+.line-reveal {
+  overflow: hidden;
+}
+
+.line-reveal .line-inner {
+  transform: translateY(100%);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.line-reveal.revealed .line-inner {
+  transform: translateY(0);
+}
+
+/* Magnetic Button Effect */
+.magnetic-btn {
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.magnetic-btn .btn-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Enhanced Card Hover Effects */
+.card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease,
+              box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(32, 215, 255, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+              0 0 40px rgba(32, 215, 255, 0.1);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(108, 76, 255, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+/* Enhanced Button Hover Effects */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn:hover::before {
+  opacity: 1;
+}
+
+.btn.primary {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease;
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 50px rgba(47, 123, 255, 0.35);
+}
+
+/* Hero Panel Animation Enhancements */
+.hero-panel {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-panel:hover {
+  transform: scale(1.02);
+}
+
+/* Service Visual Animation */
+.service-visual {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-visual:hover {
+  transform: scale(1.01);
+}
+
+/* Product Visual Animation */
+.product-visual {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.6s ease;
+}
+
+.product-visual:hover {
+  transform: scale(1.02);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.35);
+}
+
+/* Metric Counter Animation */
+.metric strong {
+  transition: color 0.3s ease;
+}
+
+.metric:hover strong {
+  color: var(--cyan);
+}
+
+/* Flow Card Hover */
+.flow-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease;
+}
+
+.flow-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(32, 215, 255, 0.3);
+}
+
+/* Icon Bubble Animation */
+.icon-bubble {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease;
+}
+
+.icon-card:hover .icon-bubble {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 16px 40px rgba(32, 215, 255, 0.2);
+}
+
+/* Navigation Link Hover */
+.nav-links a {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--violet), var(--cyan));
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Brand Logo Animation */
+.brand img {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand:hover img {
+  transform: scale(1.05);
+}
+
+/* Signal List Animation */
+.signal {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s ease;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.signal:hover {
+  transform: translateX(8px);
+  background: rgba(244, 247, 255, 0.05);
+}
+
+/* Workflow Step Animation */
+.workflow li {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease,
+              background 0.3s ease;
+}
+
+.workflow li:hover {
+  transform: translateX(8px);
+  border-color: rgba(32, 215, 255, 0.3);
+  background: rgba(244, 247, 255, 0.05);
+}
+
+/* CTA Band Animation */
+.cta-band {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease;
+}
+
+.cta-band:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Integration Badge Animation */
+.integration-strip span {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s ease,
+              border-color 0.3s ease;
+}
+
+.integration-strip span:hover {
+  transform: translateY(-4px);
+  background: rgba(32, 215, 255, 0.1);
+  border-color: rgba(32, 215, 255, 0.4);
+}
+
+/* Hero Badge Animation */
+.hero-badges span {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s ease;
+}
+
+.hero-badges span:hover {
+  transform: translateY(-4px);
+  background: rgba(32, 215, 255, 0.1);
+}
+
+/* Page Transition */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 10003;
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+
+/* Section Reveal Animation */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.section-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Stagger Animation for Grid Items */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.stagger-item.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Parallax Container */
+.parallax-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.parallax-layer {
+  will-change: transform;
+}
+
+/* Glow Effect */
+.glow-effect {
+  position: relative;
+}
+
+.glow-effect::after {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(32, 215, 255, 0.15), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.glow-effect:hover::after {
+  opacity: 1;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .cursor,
+  .cursor-follower,
+  .scroll-progress,
+  .loading-screen {
+    display: none !important;
+  }
+  
+  .text-reveal .word,
+  .line-reveal .line-inner,
+  .stagger-item,
+  .section-reveal {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  
+  .card,
+  .btn,
+  .flow-card,
+  .signal,
+  .workflow li,
+  .cta-band,
+  .integration-strip span,
+  .hero-badges span,
+  .brand img,
+  .icon-bubble,
+  .service-visual,
+  .product-visual,
+  .hero-panel,
+  .metric strong,
+  .nav-links a::after {
+    transition: none !important;
+  }
+}
+
+/* Mobile Optimizations */
+@media (max-width: 900px) {
+  .cursor,
+  .cursor-follower {
+    display: none !important;
+  }
+  
+  .card:hover,
+  .flow-card:hover,
+  .signal:hover,
+  .workflow li:hover,
+  .cta-band:hover {
+    transform: none;
+  }
+  
+  .btn:hover {
+    transform: none;
+  }
+  
+  .btn.primary:hover {
+    transform: none;
+  }
+}
+
+/* Performance Optimizations */
+.card,
+.btn,
+.flow-card,
+.signal,
+.workflow li,
+.cta-band,
+.integration-strip span,
+.hero-badges span,
+.brand img,
+.icon-bubble,
+.service-visual,
+.product-visual,
+.hero-panel,
+.metric strong,
+.nav-links a::after {
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
