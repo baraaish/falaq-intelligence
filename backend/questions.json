@@ -1,0 +1,104 @@
+{
+  "ar": [
+    {
+      "id": "business",
+      "type": "choice",
+      "question": "ما نوع نشاط الشركة أو القطاع الذي تعملون فيه؟",
+      "options": ["خدمات B2B", "رعاية صحية", "عقارات", "لوجستيات", "تجارة إلكترونية"],
+      "placeholder": "أو اكتب نوع النشاط..."
+    },
+    {
+      "id": "currentProcess",
+      "type": "text",
+      "question": "كيف ينفذ فريقك هذه العملية حاليًا؟ اشرحها ببساطة من البداية للنهاية.",
+      "options": [],
+      "placeholder": "مثال: تصل الطلبات على واتساب ثم يوزعها موظف يدويًا..."
+    },
+    {
+      "id": "pain",
+      "type": "choice",
+      "question": "ما المشكلة الأكثر تأثيرًا في العملية الحالية؟",
+      "options": ["بطء الاستجابة", "عمل يدوي متكرر", "ضياع الطلبات", "أخطاء في البيانات", "صعوبة المتابعة"],
+      "placeholder": "أو صف المشكلة بطريقتك..."
+    },
+    {
+      "id": "channels",
+      "type": "choice",
+      "question": "ما القناة الأساسية التي تبدأ منها العملية؟",
+      "options": ["واتساب", "الموقع", "البريد الإلكتروني", "المكالمات", "CRM أو نظام داخلي"],
+      "placeholder": "يمكنك ذكر أكثر من قناة..."
+    },
+    {
+      "id": "volume",
+      "type": "choice",
+      "question": "ما الحجم التقريبي للطلبات أو الحالات؟",
+      "options": ["أقل من 20 يوميًا", "20–100 يوميًا", "أكثر من 100 يوميًا", "يتغير حسب الموسم"],
+      "placeholder": "اكتب رقمًا تقريبيًا إن أمكن..."
+    },
+    {
+      "id": "handoff",
+      "type": "text",
+      "question": "متى يجب أن يتوقف الوكيل ويحوّل الحالة إلى موظف؟",
+      "options": ["عند الشكوى", "عند طلب موظف", "قبل الموافقة النهائية", "عند نقص المعلومات"],
+      "placeholder": "اذكر الحالات التي تحتاج قرارًا بشريًا..."
+    },
+    {
+      "id": "systems",
+      "type": "text",
+      "question": "ما الأدوات أو الأنظمة التي يجب أن يعمل معها الحل؟",
+      "options": ["Google Sheets", "CRM", "تقويم", "لا يوجد نظام حالي"],
+      "placeholder": "مثال: HubSpot، Zoho، Google Calendar..."
+    }
+  ],
+  "en": [
+    {
+      "id": "business",
+      "type": "choice",
+      "question": "What type of business or industry do you operate in?",
+      "options": ["B2B services", "Healthcare", "Real estate", "Logistics", "E-commerce"],
+      "placeholder": "Or type your industry..."
+    },
+    {
+      "id": "currentProcess",
+      "type": "text",
+      "question": "How does your team handle this process today? Describe it simply from start to finish.",
+      "options": [],
+      "placeholder": "Example: requests arrive on WhatsApp and a team member distributes them manually..."
+    },
+    {
+      "id": "pain",
+      "type": "choice",
+      "question": "What has the biggest impact on the current process?",
+      "options": ["Slow response", "Repeated manual work", "Lost requests", "Data errors", "Difficult follow-up"],
+      "placeholder": "Or describe the problem in your own words..."
+    },
+    {
+      "id": "channels",
+      "type": "choice",
+      "question": "Which channel usually starts the process?",
+      "options": ["WhatsApp", "Website", "Email", "Phone calls", "CRM or internal system"],
+      "placeholder": "You can mention more than one channel..."
+    },
+    {
+      "id": "volume",
+      "type": "choice",
+      "question": "What is the approximate request or case volume?",
+      "options": ["Under 20 per day", "20–100 per day", "Over 100 per day", "Seasonal"],
+      "placeholder": "Enter an estimate if possible..."
+    },
+    {
+      "id": "handoff",
+      "type": "text",
+      "question": "When should the agent stop and hand the case to a team member?",
+      "options": ["On a complaint", "When a human is requested", "Before final approval", "When information is missing"],
+      "placeholder": "Describe cases that require a human decision..."
+    },
+    {
+      "id": "systems",
+      "type": "text",
+      "question": "Which tools or systems should the solution work with?",
+      "options": ["Google Sheets", "CRM", "Calendar", "No current system"],
+      "placeholder": "Example: HubSpot, Zoho, Google Calendar..."
+    }
+  ]
+}

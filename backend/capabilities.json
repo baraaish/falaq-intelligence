@@ -1,0 +1,107 @@
+{
+  "lead-qualification": {
+    "ar": {
+      "title": "استقبال وتأهيل العملاء",
+      "summary": "وكيل يستقبل العملاء من القنوات الحالية، يجمع المعلومات المطلوبة، يصنف الأولوية، ويوجه كل حالة إلى الإجراء المناسب.",
+      "focusQuestion": "ما أهم نتيجة تريدها من عملية استقبال العملاء؟",
+      "focusOptions": ["رد أسرع", "تأهيل وتصنيف", "حجز مواعيد", "توزيع على الموظفين"]
+    },
+    "en": {
+      "title": "Lead intake and qualification",
+      "summary": "An agent that receives leads, gathers required information, prioritizes them, and routes each case to the right action.",
+      "focusQuestion": "What is the most important outcome from your lead intake process?",
+      "focusOptions": ["Faster response", "Qualification and scoring", "Appointment booking", "Team routing"]
+    },
+    "keywords": ["عميل", "عملاء", "مبيعات", "lead", "sales", "تأهيل", "استقبال"]
+  },
+  "quote-follow-up": {
+    "ar": {
+      "title": "متابعة العروض والفرص",
+      "summary": "وكيل يتابع عروض الأسعار والفرص المفتوحة، يسجل الردود، ويصعد الحالات الجاهزة أو المتعثرة للفريق.",
+      "focusQuestion": "أين تضيع فرص البيع غالبًا بعد إرسال العرض؟",
+      "focusOptions": ["تأخر المتابعة", "عدم معرفة قرار العميل", "نسيان المواعيد", "تشتت البيانات"]
+    },
+    "en": {
+      "title": "Quote and opportunity follow-up",
+      "summary": "An agent that follows open quotes, logs responses, and escalates ready or stalled opportunities to the team.",
+      "focusQuestion": "Where do opportunities usually stall after a quote is sent?",
+      "focusOptions": ["Late follow-up", "No clear decision", "Missed dates", "Scattered data"]
+    },
+    "keywords": ["عرض", "عروض", "سعر", "تسعير", "quote", "proposal", "follow up", "متابعة"]
+  },
+  "booking-recovery": {
+    "ar": {
+      "title": "إدارة واستعادة الحجوزات",
+      "summary": "وكيل يدير الحجز والتأكيد وإعادة الجدولة والتذكير، ويعيد تنشيط المواعيد الملغاة أو الفائتة.",
+      "focusQuestion": "ما المشكلة الأكبر في دورة الحجز الحالية؟",
+      "focusOptions": ["فوات المكالمات", "عدم الحضور", "إعادة الجدولة", "بطء التأكيد"]
+    },
+    "en": {
+      "title": "Booking management and recovery",
+      "summary": "An agent that manages booking, confirmation, rescheduling, reminders, and recovery of missed appointments.",
+      "focusQuestion": "What is the biggest issue in your current booking cycle?",
+      "focusOptions": ["Missed calls", "No-shows", "Rescheduling", "Slow confirmation"]
+    },
+    "keywords": ["حجز", "موعد", "مواعيد", "عيادة", "booking", "appointment", "no-show", "اتصال"]
+  },
+  "customer-service": {
+    "ar": {
+      "title": "خدمة العملاء وتوجيه الطلبات",
+      "summary": "وكيل يجيب ضمن المعلومات المعتمدة، يجمع تفاصيل الطلب، يصنفه، وينقله للموظف المناسب عند الحاجة.",
+      "focusQuestion": "ما نوع الطلبات الأكثر استهلاكًا لوقت الفريق؟",
+      "focusOptions": ["أسئلة متكررة", "شكاوى", "تتبع طلبات", "توجيه للأقسام"]
+    },
+    "en": {
+      "title": "Customer service and request routing",
+      "summary": "An agent that answers approved questions, gathers request details, categorizes cases, and hands off when needed.",
+      "focusQuestion": "Which requests consume most of your team’s time?",
+      "focusOptions": ["Repeated questions", "Complaints", "Order tracking", "Department routing"]
+    },
+    "keywords": ["خدمة", "دعم", "شكوى", "شكاوى", "support", "customer service", "استفسار"]
+  },
+  "accounts-receivable": {
+    "ar": {
+      "title": "متابعة تحصيل المستحقات",
+      "summary": "وكيل ينظم تذكير العملاء بالمستحقات، يسجل الردود والوعود، ويصعد الحالات التي تحتاج تدخلًا بشريًا.",
+      "focusQuestion": "ما الجزء الأكثر صعوبة في متابعة المستحقات؟",
+      "focusOptions": ["التذكير المنتظم", "تسجيل الوعود", "تحديد المتأخرين", "التصعيد للموظف"]
+    },
+    "en": {
+      "title": "Accounts receivable follow-up",
+      "summary": "An agent that organizes payment reminders, records responses and promises, and escalates cases requiring human action.",
+      "focusQuestion": "What is the hardest part of receivables follow-up?",
+      "focusOptions": ["Regular reminders", "Promise tracking", "Overdue detection", "Human escalation"]
+    },
+    "keywords": ["تحصيل", "مستحقات", "فاتورة", "فواتير", "دفع", "collection", "invoice", "payment"]
+  },
+  "document-processing": {
+    "ar": {
+      "title": "معالجة وتنظيم المستندات",
+      "summary": "وكيل يستقبل المستندات، يستخرج البيانات المطلوبة، يتحقق من اكتمالها، ويرسل الاستثناءات للمراجعة.",
+      "focusQuestion": "ما العمل المتكرر المطلوب على المستندات؟",
+      "focusOptions": ["استخراج بيانات", "تدقيق الاكتمال", "تصنيف الملفات", "إعداد ملخصات"]
+    },
+    "en": {
+      "title": "Document processing and organization",
+      "summary": "An agent that receives documents, extracts required data, checks completeness, and sends exceptions for review.",
+      "focusQuestion": "What repetitive work is required on your documents?",
+      "focusOptions": ["Data extraction", "Completeness checks", "File classification", "Summary preparation"]
+    },
+    "keywords": ["مستند", "مستندات", "وثيقة", "ملف", "document", "pdf", "استخراج", "قراءة"]
+  },
+  "crm-control": {
+    "ar": {
+      "title": "تنظيم وتحديث CRM",
+      "summary": "وكيل يحافظ على اكتمال سجلات العملاء، يكشف التكرار، وينفذ التحديثات والتوجيه وفق قواعد واضحة.",
+      "focusQuestion": "ما المشكلة الأساسية في بيانات العملاء الحالية؟",
+      "focusOptions": ["نقص البيانات", "سجلات مكررة", "تأخر التحديث", "صعوبة التقارير"]
+    },
+    "en": {
+      "title": "CRM organization and control",
+      "summary": "An agent that maintains complete customer records, detects duplicates, and updates and routes records using clear rules.",
+      "focusQuestion": "What is the main issue with your current customer data?",
+      "focusOptions": ["Missing data", "Duplicate records", "Late updates", "Difficult reporting"]
+    },
+    "keywords": ["crm", "بيانات", "سجلات", "تحديث", "نظام العملاء", "duplicate", "database"]
+  }
+}

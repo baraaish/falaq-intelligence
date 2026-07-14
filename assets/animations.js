@@ -33,8 +33,8 @@
     const loadingScreen = document.createElement('div');
     loadingScreen.className = 'loading-screen';
     loadingScreen.innerHTML = `
-      <img src="${siteBase()}${document.body.dir === 'rtl' ? '/assets/arabic-logo-transparent.png' : '/assets/main-logo-transparent.png'}" 
-           alt="Falaq Intelligence" 
+      <img src="${siteBase()}/assets/agent-logo-gold.png"
+           alt="Falaq Intelligence"
            class="loading-logo">
     `;
     document.body.appendChild(loadingScreen);
@@ -499,10 +499,10 @@
       const currentScroll = window.scrollY;
       
       if (currentScroll > 100) {
-        nav.style.background = 'rgba(7, 9, 13, 0.95)';
+        nav.style.background = 'rgba(10, 15, 30, 0.95)';
         nav.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
       } else {
-        nav.style.background = 'rgba(7, 9, 13, 0.82)';
+        nav.style.background = 'rgba(10, 15, 30, 0.82)';
         nav.style.boxShadow = 'none';
       }
       

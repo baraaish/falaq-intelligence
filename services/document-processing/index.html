@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>معالجة المستندات بالذكاء الاصطناعي | فلق AI</title>
+<meta name="description" content="وكيل ذكاء اصطناعي يستخرج بيانات المستندات ويتحقق منها ويرسل الحالات غير الواضحة للمراجعة.">
+<script src="./support.js"></script>
+  <link rel="stylesheet" href="../../assets/aether-flow.css">
+  <script defer src="../../assets/aether-flow.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #03030A; }
+    ::selection { background: #8B5CF6; color: #03030A; }
+    @keyframes pulseRing { 0% { transform: scale(0.9); opacity: 0.6; } 100% { transform: scale(1.6); opacity: 0; } }
+    @keyframes bounceArrow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes popIn { 0% { transform: scale(0.4); opacity: 0; } 70% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes floatOrb1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px,-40px) scale(1.08); } }
+    @keyframes floatOrb2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-40px,30px) scale(1.1); } }
+    @keyframes docFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes docScan { 0% { transform: translateY(-14px); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateY(16px); opacity: 0; } }
+    @keyframes badgePulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(139,92,246,0.35); } 50% { box-shadow: 0 0 0 8px rgba(139,92,246,0); } }
+    @keyframes dotBounce { 0%, 100% { transform: translateY(0); opacity: 0.4; } 50% { transform: translateY(-5px); opacity: 1; } }
+    @keyframes tagWiggle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+    @keyframes conflictPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(232,93,93,0.35); } 50% { box-shadow: 0 0 0 10px rgba(232,93,93,0); } }
+    @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  </style>
+</helmet>
+<div ref="{{ setRootRef }}" style="{{ rootStyle }}">
+
+  <!-- NAV -->
+  <nav style="{{ navStyle }}">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;border-radius:11px;background:linear-gradient(150deg,#16213d,#0b1120);border:1px solid rgba(139,92,246,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <rect x="5" y="3" width="14" height="18" rx="2" stroke="#8B5CF6" stroke-width="1.7"></rect>
+          <line x1="8" y1="8" x2="16" y2="8" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round"></line>
+          <line x1="8" y1="12" x2="16" y2="12" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round"></line>
+          <line x1="8" y1="16" x2="13" y2="16" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round"></line>
+        </svg>
+      </div>
+      <span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;color:#E8E8EC;letter-spacing:0.3px;">Falaq <span style="color:#8B5CF6;">AI</span></span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button onClick="{{ toggleLang }}" style="{{ langBtnStyle }}">{{ t.nav.langToggle }}</button>
+      <button onClick="{{ scrollToForm }}" style="{{ navCtaStyle }}">{{ t.nav.cta }}</button>
+    </div>
+  </nav>
+
+  <!-- HERO · Aether Flow -->
+  <section class="aether-flow-hero" style="{{ heroSectionStyle }}">
+    <canvas class="aether-canvas" aria-hidden="true"></canvas>
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+      <div style="position:absolute;top:-10%;{{ heroOrbSide1 }}:-5%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(139,92,246,0.32), rgba(139,92,246,0) 65%);filter:blur(10px);animation:floatOrb1 16s ease-in-out infinite;"></div>
+      <div style="position:absolute;bottom:-15%;{{ heroOrbSide2 }}:-8%;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle at 60% 40%, rgba(168,85,247,0.16), rgba(168,85,247,0) 65%);filter:blur(10px);animation:floatOrb2 18s ease-in-out infinite;"></div>
+    </div>
+    <div style="position:relative;z-index:2;max-width:920px;margin:0 auto;padding:0 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px;">
+      <div style="position:relative;width:84px;height:84px;margin-bottom:4px;display:flex;align-items:center;justify-content:center;">
+        <div style="position:relative;width:76px;height:76px;border-radius:20px;background:linear-gradient(150deg,#16213d,#0b1120);border:1px solid rgba(139,92,246,0.45);display:flex;align-items:center;justify-content:center;box-shadow:0 16px 34px rgba(0,0,0,0.4);animation:docFloat 4.6s ease-in-out infinite;overflow:hidden;">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+            <rect x="5" y="3" width="14" height="18" rx="2" stroke="#8B5CF6" stroke-width="1.5"></rect>
+            <line x1="8" y1="8" x2="16" y2="8" stroke="#8B5CF6" stroke-width="1.4" stroke-linecap="round"></line>
+            <line x1="8" y1="12" x2="16" y2="12" stroke="#8B5CF6" stroke-width="1.4" stroke-linecap="round"></line>
+            <line x1="8" y1="16" x2="13" y2="16" stroke="#8B5CF6" stroke-width="1.4" stroke-linecap="round"></line>
+          </svg>
+          <div style="position:absolute;left:9px;right:9px;top:5px;height:2px;background:linear-gradient(90deg,rgba(139,92,246,0),rgba(139,92,246,0.9),rgba(139,92,246,0));animation:docScan 2.6s ease-in-out infinite;"></div>
+          <div style="position:absolute;bottom:-7px;right:-7px;width:28px;height:28px;border-radius:9px;background:#0b1120;border:1.5px solid #8B5CF6;display:flex;align-items:center;justify-content:center;animation:badgePulse 2.4s ease-in-out infinite;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M5 13l4 4L19 7" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="aether-badge" style="{{ heroEyebrowStyle }}">{{ t.hero.eyebrow }}</div>
+      <h1 class="aether-title" style="{{ heroHeadlineStyle }}">{{ t.hero.headline }}</h1>
+      <div class="aether-brief" style="{{ heroBriefStyle }}">{{ t.hero.brief }}</div>
+      <p class="aether-copy" style="{{ heroSubStyle }}">{{ t.hero.sub }}</p>
+      <div class="aether-actions" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:6px;">
+        <button class="aether-primary" onClick="{{ scrollToForm }}" style="{{ heroPrimaryBtnStyle }}">
+          {{ t.hero.ctaPrimary }}
+          <span style="{{ heroCtaRingStyle }}"></span>
+        </button>
+        <button onClick="{{ scrollToWorkflow }}" style="{{ heroSecondaryBtnStyle }}">{{ t.hero.ctaSecondary }}</button>
+      </div>
+      <div class="aether-scroll-cue" style="{{ heroScrollCueStyle }}">
+        <span style="font-size:12px;color:#5A5A68;letter-spacing:1px;">{{ t.hero.scrollHint }}</span>
+        <div style="animation:bounceArrow 1.8s ease-in-out infinite;color:#8B5CF6;font-size:18px;">↓</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER: DOCUMENT TYPES -->
+  <div style="{{ tickerWrapStyle }}">
+    <div style="{{ tickerTrackStyle }}">
+      <sc-for list="{{ tickerItemsVM }}" as="tag" hint-placeholder-count="26">
+        <span style="{{ tag.style }}">{{ tag.label }}</span>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- TRUST / CONTROLS -->
+  <section data-reveal="trust" ref="{{ trustRef }}" style="{{ revealStyle('trust', trustSectionStyle) }}">
+    <div style="max-width:1080px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto 56px;">
+        <div style="{{ kickerStyle }}">{{ t.trust.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.trust.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.trust.sub }}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;">
+        <sc-for list="{{ t.trust.pillars }}" as="item" hint-placeholder-count="4">
+          <div style="{{ pillarCardStyle }}">
+            <div style="{{ pillarIconWrapStyle }}">{{ item.num }}</div>
+            <div style="font-family:{{ fontHead }};font-weight:700;font-size:18px;color:#E8E8EC;margin-top:16px;">{{ item.title }}</div>
+            <div style="font-family:{{ fontBody }};font-size:14.5px;line-height:1.7;color:#9AA3B2;margin-top:8px;">{{ item.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW -->
+  <section ref="{{ setWorkflowRef }}" style="{{ workflowSectionStyle }}">
+    <div style="max-width:1120px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:720px;margin:0 auto 64px;">
+        <div style="{{ kickerStyle }}">{{ t.workflow.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.workflow.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.workflow.sub }}</p>
+      </div>
+      <div style="position:relative;">
+        <div style="{{ workflowLineTrackStyle }}"></div>
+        <div style="{{ workflowLineFillStyle }}"></div>
+        <sc-for list="{{ workflowStepsVM }}" as="step" hint-placeholder-count="5">
+          <div data-reveal="{{ step.revealId }}" ref="{{ step.ref }}" style="{{ step.wrapStyle }}">
+            <div style="{{ step.circleStyle }}">{{ step.tag }}</div>
+            <div style="{{ workflowStepBodyStyle }}">
+              <div style="font-family:{{ fontHead }};font-weight:700;font-size:20px;color:#E8E8EC;margin-bottom:10px;">{{ step.title }}</div>
+              <div style="font-family:{{ fontBody }};font-size:15px;line-height:1.9;color:#9AA3B2;max-width:520px;">{{ step.desc }}</div>
+            </div>
+            <div style="{{ step.mockWrapStyle }}">
+              <div style="{{ step.mockInnerStyle }}">
+              <sc-if value="{{ step.isSent }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ mockLabelStyle }}">{{ t.workflow.mockLabels.sent }}</div>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+                  <div style="{{ mockIconCircleStyle }}">📥</div>
+                  <div>
+                    <div style="{{ mockLineStrongStyle }}">{{ t.workflow.mockSent.title }}</div>
+                    <div style="{{ mockLineMutedStyle }}">{{ t.workflow.mockSent.time }}</div>
+                  </div>
+                </div>
+                <div style="{{ mockPillStyle }}">{{ t.workflow.mockSent.status }}</div>
+              </sc-if>
+              <sc-if value="{{ step.isTrack }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ mockLabelStyle }}">{{ t.workflow.mockLabels.track }}</div>
+                <div style="display:flex;align-items:baseline;gap:8px;margin-top:10px;">
+                  <span style="font-family:{{ fontHead }};font-weight:800;font-size:32px;color:#E8E8EC;">{{ t.workflow.mockTrack.count }}</span>
+                  <span style="{{ mockLineMutedStyle }}">{{ t.workflow.mockTrack.opens }}</span>
+                </div>
+                <div style="{{ mockLineMutedStyle }};margin-top:6px;">{{ t.workflow.mockTrack.firstOpen }}</div>
+                <div style="display:flex;gap:4px;margin-top:12px;align-items:flex-end;">
+                  <span style="{{ mockDotBounceStyle }}"></span>
+                  <span style="{{ mockDotBounceStyle2 }}"></span>
+                  <span style="{{ mockDotBounceStyle3 }}"></span>
+                </div>
+              </sc-if>
+              <sc-if value="{{ step.isSequence }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ mockLabelStyle }}">{{ t.workflow.mockLabels.sequence }}</div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;">
+                  <sc-for list="{{ workflowMockSequenceVM }}" as="seq" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <span style="{{ seq.dotStyle }}"></span>
+                      <span style="{{ seq.textStyle }}">{{ seq.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ step.isClassify }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ mockLabelStyle }}">{{ t.workflow.mockLabels.classify }}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">
+                  <sc-for list="{{ workflowMockTagsVM }}" as="chip" hint-placeholder-count="4">
+                    <span style="{{ chip.style }}">{{ chip.label }}</span>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ step.isAlert }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ mockLabelStyle }}">{{ t.workflow.mockLabels.alert }}</div>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+                  <div style="{{ mockIconCircleStyle }}">📁</div>
+                  <div>
+                    <div style="{{ mockLineStrongStyle }}">{{ t.workflow.mockAlert.title }}</div>
+                    <div style="{{ mockLineMutedStyle }}">{{ t.workflow.mockAlert.sub }}</div>
+                  </div>
+                </div>
+                <div style="{{ mockPillStyle }}">{{ t.workflow.mockAlert.status }}</div>
+              </sc-if>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONFIDENCE LEVELS (NEW PATTERN) -->
+  <section data-reveal="confidence" ref="{{ confidenceRef }}" style="{{ revealStyle('confidence', confidenceSectionStyle) }}">
+    <div style="max-width:1080px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto 56px;">
+        <div style="{{ kickerStyle }}">{{ t.confidence.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.confidence.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.confidence.sub }}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;">
+        <sc-for list="{{ confidenceVM }}" as="lvl" hint-placeholder-count="4">
+          <div style="{{ lvl.cardStyle }}">
+            <sc-if value="{{ lvl.isAlert }}" hint-placeholder-val="{{ false }}">
+              <div style="{{ lvl.alertRingStyle }}">
+                <span style="{{ lvl.alertMarkStyle }}">!</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ lvl.isGauge }}" hint-placeholder-val="{{ true }}">
+              <div style="position:relative;width:96px;height:96px;">
+                <svg width="96" height="96" viewBox="0 0 96 96" style="transform:rotate(-90deg);">
+                  <circle cx="48" cy="48" r="40" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="8"></circle>
+                  <circle cx="48" cy="48" r="40" fill="none" stroke-width="8" stroke-linecap="round" style="{{ lvl.circleStyle }}"></circle>
+                </svg>
+                <div style="{{ lvl.pctLabelStyle }}">{{ lvl.pctDisplay }}</div>
+              </div>
+            </sc-if>
+            <div style="font-family:{{ fontHead }};font-weight:700;font-size:17px;color:#E8E8EC;margin-top:18px;">{{ lvl.title }}</div>
+            <div style="font-family:{{ fontBody }};font-size:14px;line-height:1.7;color:#9AA3B2;margin-top:8px;">{{ lvl.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON: WITH VS WITHOUT -->
+  <section data-reveal="compare" ref="{{ compareRef }}" style="{{ revealStyle('compare', compareSectionStyle) }}">
+    <div style="max-width:1080px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto 56px;">
+        <div style="{{ kickerStyle }}">{{ t.compare.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.compare.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.compare.sub }}</p>
+      </div>
+      <div style="{{ compareGridStyle }}">
+        <div>
+          <div style="{{ compareBadWithoutLabelStyle }}">{{ t.compare.withoutLabel }}</div>
+          <sc-for list="{{ compareWithoutVM }}" as="node" hint-placeholder-count="4">
+            <div>
+              <div style="{{ node.boxStyle }}">
+                <sc-if value="{{ node.isEnd }}" hint-placeholder-val="{{ false }}"><span style="{{ node.markStyle }}">✕</span></sc-if>
+                <span>{{ node.label }}</span>
+              </div>
+              <sc-if value="{{ node.hasLine }}" hint-placeholder-val="{{ true }}"><div style="{{ node.lineStyle }}"></div></sc-if>
+              <sc-if value="{{ node.isEnd }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ node.popupStyle }}">{{ t.compare.withoutPopup }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <div>
+          <div style="{{ compareGoodWithLabelStyle }}">{{ t.compare.withLabel }}</div>
+          <sc-for list="{{ compareWithVM }}" as="node" hint-placeholder-count="5">
+            <div>
+              <div style="{{ node.boxStyle }}">
+                <sc-if value="{{ node.isEnd }}" hint-placeholder-val="{{ false }}"><span style="{{ node.markStyle }}">✓</span></sc-if>
+                <span>{{ node.label }}</span>
+              </div>
+              <sc-if value="{{ node.hasLine }}" hint-placeholder-val="{{ true }}"><div style="{{ node.lineStyle }}"></div></sc-if>
+              <sc-if value="{{ node.isEnd }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ node.popupStyle }}">{{ t.compare.withPopup }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section data-reveal="dashboard" ref="{{ dashboardRef }}" style="{{ revealStyle('dashboard', dashboardSectionStyle) }}">
+    <div style="max-width:1080px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1fr;gap:48px;align-items:center;">
+      <div style="text-align:center;max-width:680px;margin:0 auto;">
+        <div style="{{ kickerStyle }}">{{ t.dashboard.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.dashboard.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.dashboard.sub }}</p>
+      </div>
+      <div style="{{ dashboardCardStyle }}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:10px;">
+          <div style="font-family:{{ fontHead }};font-weight:700;font-size:15px;color:#E8E8EC;">{{ t.dashboard.cardTitle }}</div>
+          <div style="{{ demoTagStyle }}">{{ t.dashboard.demoTag }}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-bottom:28px;">
+          <sc-for list="{{ dashboardStats }}" as="stat" hint-placeholder-count="4">
+            <div style="{{ dashboardStatCardStyle }}">
+              <div style="font-family:{{ fontHead }};font-weight:800;font-size:30px;color:#E8E8EC;">{{ stat.display }}</div>
+              <div style="font-family:{{ fontBody }};font-size:13px;color:#8891A0;margin-top:4px;">{{ stat.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <sc-for list="{{ dashboardBars }}" as="bar" hint-placeholder-count="5">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-family:{{ fontBody }};font-size:13px;color:#B7BECB;margin-bottom:6px;">
+                <span>{{ bar.label }}</span>
+                <span style="color:#E8E8EC;font-weight:600;">{{ bar.displayVal }}</span>
+              </div>
+              <div style="height:8px;border-radius:5px;background:#171121;overflow:hidden;">
+                <div style="{{ bar.fillStyle }}"></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DELIVERABLES -->
+  <section data-reveal="deliverables" ref="{{ deliverablesRef }}" style="{{ revealStyle('deliverables', deliverablesSectionStyle) }}">
+    <div style="max-width:1080px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto 56px;">
+        <div style="{{ kickerStyle }}">{{ t.deliverables.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.deliverables.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.deliverables.sub }}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;">
+        <sc-for list="{{ t.deliverables.items }}" as="item" hint-placeholder-count="8">
+          <div style="{{ deliverableCardStyle }}">
+            <div style="{{ deliverableIconStyle }}">✓</div>
+            <div style="font-family:{{ fontBody }};font-weight:600;font-size:15px;color:#EDEFF3;line-height:1.5;">{{ item.text }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section data-reveal="faq" ref="{{ faqRef }}" style="{{ revealStyle('faq', faqSectionStyle) }}">
+    <div style="max-width:820px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto 48px;">
+        <div style="{{ kickerStyle }}">{{ t.faq.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.faq.headline }}</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <sc-for list="{{ faqItemsVM }}" as="item" hint-placeholder-count="6">
+          <div style="{{ faqItemWrapStyle }}">
+            <button onClick="{{ item.toggle }}" aria-expanded="{{ item.open }}" style="{{ faqQuestionStyle }}">
+              <span>{{ item.q }}</span>
+              <span style="{{ item.chevronStyle }}">＋</span>
+            </button>
+            <div style="{{ item.answerWrapStyle }}">
+              <div style="{{ faqAnswerInnerStyle }}">{{ item.a }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA + FORM -->
+  <section data-reveal="cta-form" ref="{{ ctaFormRef }}" style="{{ revealStyle('cta-form', ctaFormSectionStyle) }}">
+    <div ref="{{ setFormRef }}" style="max-width:960px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1fr;gap:0;">
+      <div style="{{ ctaFormCardStyle }}">
+        <div style="{{ ctaFormLeftStyle }}">
+          <div style="{{ kickerStyle }}text-align:{{ startAlign }};">{{ t.form.kicker }}</div>
+          <h2 style="{{ h2StyleLeft }}">{{ t.form.headline }}</h2>
+          <p style="font-family:{{ fontBody }};font-size:15.5px;line-height:1.8;color:#B7BECB;margin:0;">{{ t.form.sub }}</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:28px;">
+            <sc-for list="{{ t.form.trustPoints }}" as="pt" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="color:#8B5CF6;font-size:16px;">✓</span>
+                <span style="font-family:{{ fontBody }};font-size:14px;color:#D5D9E0;">{{ pt }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="{{ ctaFormRightStyle }}">
+          <sc-if value="{{ !submitted }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ handleSubmit }}" style="display:flex;flex-direction:column;gap:16px;">
+              <div>
+                <label style="{{ labelStyle }}">{{ t.form.fields.name }}</label>
+                <input type="text" aria-label="{{ t.form.fields.name }}" autocomplete="name" required placeholder="{{ t.form.fields.name }}" value="{{ formName }}" onChange="{{ onNameChange }}" style="{{ inputStyle }}"/>
+                <sc-if value="{{ errNameShow }}" hint-placeholder-val="{{ false }}"><div role="alert" style="{{ errStyle }}">{{ t.form.errors.name }}</div></sc-if>
+              </div>
+              <div>
+                <label style="{{ labelStyle }}">{{ t.form.fields.email }}</label>
+                <input type="email" aria-label="{{ t.form.fields.email }}" autocomplete="email" required placeholder="{{ t.form.fields.email }}" value="{{ formEmail }}" onChange="{{ onEmailChange }}" style="{{ inputStyle }}"/>
+                <sc-if value="{{ errEmailShow }}" hint-placeholder-val="{{ false }}"><div role="alert" style="{{ errStyle }}">{{ t.form.errors.email }}</div></sc-if>
+              </div>
+              <div>
+                <label style="{{ labelStyle }}">{{ t.form.fields.phone }}</label>
+                <input type="tel" aria-label="{{ t.form.fields.phone }}" autocomplete="tel" required placeholder="{{ t.form.fields.phone }}" value="{{ formPhone }}" onChange="{{ onPhoneChange }}" style="{{ inputStyle }}"/>
+                <sc-if value="{{ errPhoneShow }}" hint-placeholder-val="{{ false }}"><div role="alert" style="{{ errStyle }}">{{ t.form.errors.phone }}</div></sc-if>
+              </div>
+              <button type="submit" style="{{ submitBtnStyle }}">
+                <sc-if value="{{ submitting }}" hint-placeholder-val="{{ false }}">
+                  <span style="{{ spinnerStyle }}"></span>
+                </sc-if>
+                <span>{{ submitLabel }}</span>
+              </button>
+              <div style="font-family:{{ fontBody }};font-size:12px;color:#5A5A68;text-align:center;">{{ t.form.disclaimer }}</div>
+            </form>
+          </sc-if>
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+            <div role="status" aria-live="polite" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:20px 0;">
+              <div style="{{ successCheckStyle }}">✓</div>
+              <div style="font-family:{{ fontHead }};font-weight:800;font-size:20px;color:#E8E8EC;">{{ t.form.successTitle }}</div>
+              <div style="font-family:{{ fontBody }};font-size:14.5px;color:#9AA3B2;line-height:1.7;max-width:320px;">{{ t.form.successBody }}</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="{{ footerStyle }}">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(150deg,#16213d,#0b1120);border:1px solid rgba(139,92,246,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+          <rect x="5" y="3" width="14" height="18" rx="2" stroke="#8B5CF6" stroke-width="1.8"></rect>
+          <line x1="8" y1="8" x2="16" y2="8" stroke="#8B5CF6" stroke-width="1.6" stroke-linecap="round"></line>
+          <line x1="8" y1="12" x2="16" y2="12" stroke="#8B5CF6" stroke-width="1.6" stroke-linecap="round"></line>
+        </svg>
+      </div>
+      <span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:15px;color:#E8E8EC;">Falaq <span style="color:#8B5CF6;">AI</span></span>
+    </div>
+    <div style="font-family:{{ fontBody }};font-size:13px;color:#5C6577;">{{ t.footer.tagline }}</div>
+    <div style="font-family:{{ fontBody }};font-size:12px;color:#454E5F;">{{ t.footer.copyright }}</div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const COPY = {
+  ar: {
+    nav: { langToggle: 'EN', cta: 'احصل على الخدمة' },
+    hero: {
+      eyebrow: 'وكيل ذكاء اصطناعي لمعالجة المستندات والفواتير الواردة',
+      headline: 'مستند يصل يدويًا يعني وقتًا ضائعًا وخطأ محتملًا. فلق يستقبله، يقرأه، ويتحقق منه قبل أن يلمسه أحد.',
+      brief: 'فلق AI ببساطة: يستقبل المستندات من البريد أو المجلدات أو النماذج، يستخرج بياناتها، يتحقق منها وفق قواعدك، ثم يسجّلها في النظام المناسب أو يرسلها للمراجعة البشرية.',
+      sub: 'فواتير الموردين وعروض الأسعار وأوامر الشراء وغيرها تصل يوميًا من قنوات متعددة، وكل واحدة تحتاج تصنيفًا واستخراجًا وتحققًا يدويًا يستهلك وقت المحاسبة. فلق AI يصنّف كل مستند فور وصوله، يستخرج حقوله، يتحقق من صحته ويكتشف تكراره، ولا يعتمد أي حقل منخفض الثقة دون مراجعة بشرية.',
+      ctaPrimary: 'احصل على هذه الخدمة الآن',
+      ctaSecondary: 'شاهد كيف يعمل النظام',
+      scrollHint: 'مرر للأسفل',
+    },
+    ticker: {
+      items: ['فواتير الموردين', 'عروض الأسعار', 'أوامر الشراء', 'إيصالات', 'عقود', 'طلبات عملاء', 'نماذج تسجيل', 'كشوف حساب', 'تقارير', 'شهادات', 'مستندات شحن', 'نماذج تأمين', 'ملفات PDF وصور ممسوحة'],
+    },
+    trust: {
+      kicker: 'لماذا فلق',
+      headline: 'معالجة مستندات تتحقق قبل أن تعتمد، لا مجرد قراءة آلية',
+      sub: 'ضوابط واضحة على كل حقل مستخرج، وعلى كل قرار اعتماد أو تصعيد.',
+      pillars: [
+        { num: '01', title: 'لا يعتمد حقلاً منخفض الثقة', desc: 'أي حقل مستخرج بثقة منخفضة يُطلب إدخاله يدويًا بدل اعتماده تلقائيًا.' },
+        { num: '02', title: 'يحفظ المستند الأصلي دائمًا', desc: 'الملف الأصلي يبقى محفوظًا ومؤرشفًا مهما جرى عليه من معالجة أو تصحيح.' },
+        { num: '03', title: 'يكتشف التكرار قبل الترحيل', desc: 'يتحقق من رقم المستند وقيمته قبل تسجيله، فلا تُرحَّل فاتورة مكررة مرتين.' },
+        { num: '04', title: 'يتوقف فورًا عند أي تعارض', desc: 'بيانات متضاربة أو حقول غير مكتملة توقف العملية وتُرسلها لموظف مباشرة.' },
+      ],
+    },
+    workflow: {
+      kicker: 'رحلة المستند',
+      headline: 'من وصول المستند إلى ترحيل موثّق',
+      sub: 'شرح تفصيلي لكل خطوة تعمل تلقائيًا من لحظة استقبال المستند حتى تسجيله.',
+      steps: [
+        { revealId: 'wf-0', tag: '01', mock: 'sent', title: 'الاستقبال من أي قناة', desc: 'يستقبل فلق المستند من البريد الإلكتروني، Google Drive، OneDrive، SharePoint، نموذج رفع، واتساب، نظام ERP، أو ماسح ضوئي مرتبط بمجلد — دون الحاجة لتوحيد قناة الاستقبال.' },
+        { revealId: 'wf-1', tag: '02', mock: 'track', title: 'التصنيف', desc: 'يحدد فلق نوع المستند والمورد أو الجهة واللغة وعدد الصفحات وجودة الملف، ويتحقق إن كان مكررًا أو يحتاج معالجة خاصة قبل الانتقال للاستخراج.' },
+        { revealId: 'wf-2', tag: '03', mock: 'sequence', title: 'استخراج البيانات', desc: 'يستخرج فلق كل حقل ذي صلة — اسم المورد، رقم الفاتورة، التواريخ، رقم أمر الشراء، البنود، الضريبة، الإجمالي — ويمنح كل حقل درجة ثقة مستقلة.' },
+        { revealId: 'wf-3', tag: '04', mock: 'classify', title: 'التحقق', desc: 'يطبّق فلق قواعد التحقق: هل المورد مسجل؟ هل الإجمالي يطابق البنود؟ هل أمر الشراء موجود؟ هل توجد حقول ناقصة؟ — ويعلّم كل حالة بوضوح.' },
+        { revealId: 'wf-4', tag: '05', mock: 'alert', title: 'التنفيذ', desc: 'بحسب نتيجة التحقق، يسجّل فلق المستند تلقائيًا، أو ينشئ مسودة مراجعة، أو يرسل طلب موافقة، أو يحوّله للمحاسب — ثم يحفظه في المجلد الصحيح ويربطه بسجل المورد.' },
+      ],
+      mockLabels: { sent: 'نموذج توضيحي', track: 'نموذج توضيحي', sequence: 'نموذج توضيحي', classify: 'نموذج توضيحي', alert: 'نموذج توضيحي' },
+      mockSent: { title: 'مستند جديد مستلم', time: 'اليوم — 08:42 صباحًا', status: '✓ تم الاستلام' },
+      mockTrack: { count: '3', opens: 'صفحات، فاتورة مورد', firstOpen: 'الحالة: جاهز للاستخراج' },
+      mockSequence: [
+        { label: 'اسم المورد ورقمه', state: 'done' },
+        { label: 'الإجمالي والضريبة', state: 'active' },
+        { label: 'بنود الفاتورة', state: 'pending' },
+      ],
+      mockTags: [
+        { label: 'مورد مسجل' }, { label: 'يطابق أمر الشراء', active: true }, { label: 'رقم مكرر؟' }, { label: 'حقول مكتملة' },
+      ],
+      mockAlert: { title: 'مُرحّلة لنظام ERP', sub: 'مرتبطة بسجل المورد', status: '✓ تمت الأرشفة' },
+    },
+    confidence: {
+      kicker: 'مستويات الثقة',
+      headline: 'كل حقل مستخرج له درجة ثقة، وقرار مختلف بحسبها',
+      sub: 'لا يُعامل فلق كل الحقول بنفس الطريقة — الثقة المرتفعة تُعتمد، والمنخفضة تُراجع، والمتعارضة تتوقف.',
+      levels: {
+        high: { title: 'ثقة مرتفعة', desc: 'يُعتمد الحقل آليًا إذا سمحت السياسة، دون أي تدخل بشري.' },
+        medium: { title: 'ثقة متوسطة', desc: 'يُعرض الحقل على المراجع المختص للتأكيد السريع قبل الاعتماد.' },
+        low: { title: 'ثقة منخفضة', desc: 'يُطلب إدخال الحقل يدويًا من الموظف المسؤول قبل المتابعة.' },
+        conflict: { title: 'تعارض', desc: 'تتوقف العملية بالكامل وتُرسل الحالة لموظف المحاسبة فورًا.' },
+      },
+    },
+    compare: {
+      kicker: 'الفرق الحقيقي',
+      headline: 'ماذا يحدث لذلك المستند الوارد، في كلتا الحالتين؟',
+      sub: 'نفس المستند، نفس المورد — لكن مصيرين مختلفين تمامًا.',
+      withoutLabel: 'بدون فلق AI',
+      withLabel: 'مع فلق AI',
+      withoutSteps: ['مستند يصل عبر البريد', 'إدخال يدوي لكل حقل', 'خطأ أو تكرار غير مكتشف', 'تأخير في الترحيل والمراجعة'],
+      withoutPopup: 'لا أحد تحقق من التكرار أو صحة البيانات — والخطأ يظهر لاحقًا في نظامك المحاسبي.',
+      withSteps: ['مستند يصل من أي قناة', 'تصنيف واستخراج تلقائي للحقول', 'تحقق فوري وكشف تكرار', 'تصعيد الحالات منخفضة الثقة فقط', 'ترحيل موثّق أو تحويل للمراجعة'],
+      withPopup: 'مستند مُرحّل بدقة أو حالة موثّقة بوضوح — وسجل كامل قابل للمراجعة في نظامك.',
+    },
+    dashboard: {
+      kicker: 'الرؤية الكاملة',
+      headline: 'لوحة متابعة تكشف أداء معالجة المستندات فعليًا',
+      sub: 'كل مستند، كل استثناء، كل خطأ متكرر — في مكان واحد يحدَّث لحظيًا.',
+      cardTitle: 'لوحة متابعة المعالجة',
+      demoTag: 'نموذج توضيحي',
+    },
+    deliverables: {
+      kicker: 'ما تحصل عليه',
+      headline: 'نظام معالجة جاهز، لا مجرد قارئ مستندات',
+      sub: 'كل ما تحتاجه لتحويل المستندات الواردة إلى بيانات موثّقة وجاهزة للترحيل.',
+      items: [
+        { text: 'قناة استقبال مركزية لكل المستندات' },
+        { text: 'مصنف مستندات حسب النوع والمورد' },
+        { text: 'استخراج حقول بدرجة ثقة لكل حقل' },
+        { text: 'قواعد تحقق مخصصة لنوع المستند' },
+        { text: 'كشف تكرار قبل الترحيل' },
+        { text: 'Workflow موافقات حسب حدود الصلاحية' },
+        { text: 'ربط مباشر مع ERP أو النظام المحاسبي' },
+        { text: 'أرشفة آلية وشاشة مراجعة الاستثناءات' },
+      ],
+    },
+    faq: {
+      kicker: 'أسئلة شائعة',
+      headline: 'كل ما تحتاج معرفته قبل البدء',
+      items: [
+        { q: 'ما أنواع المستندات التي يتعامل معها؟', a: 'فواتير الموردين، عروض الأسعار، أوامر الشراء، الإيصالات، العقود، طلبات العملاء، كشوف الحساب، وغيرها من ملفات PDF أو الصور الممسوحة — وفق ما يتفق عليه معك.' },
+        { q: 'ماذا يحدث لحقل مستخرج بثقة منخفضة؟', a: 'لا يُعتمد أبدًا تلقائيًا. يُطلب إدخاله يدويًا من الموظف المختص قبل أي ترحيل.' },
+        { q: 'ماذا لو تعارضت بيانات المستند مع النظام؟', a: 'تتوقف العملية بالكامل فورًا، وتُرسل الحالة مع كل التفاصيل لموظف المحاسبة للمراجعة والبت فيها.' },
+        { q: 'هل يقرأ المستندات ذات الخط اليدوي؟', a: 'يحاول ذلك، لكن دقة القراءة اليدوية غير مضمونة بالكامل — الحقول غير الواضحة تُصنَّف بثقة منخفضة وتُحال للمراجعة.' },
+        { q: 'هل يحتفظ بالملف الأصلي دائمًا؟', a: 'نعم، الملف الأصلي يُحفظ ويُؤرشف دون أي تعديل، بصرف النظر عن أي تصحيح يجري على البيانات المستخرجة.' },
+        { q: 'ماذا لو وصل تنسيق مستند جديد لم يسبق تدريب النظام عليه؟', a: 'يُصنَّف كحالة خاصة تحتاج معالجة إضافية، ويُحال لموظف المحاسبة لحين اعتماد نمط استخراج له.' },
+      ],
+    },
+    form: {
+      kicker: 'ابدأ الآن',
+      headline: 'جاهز توقف المعالجة اليدوية للمستندات الواردة؟',
+      sub: 'عبّئ النموذج وسيتواصل معك فريقنا خلال وقت قصير لبدء تركيب نظام المعالجة على مستنداتك الحالية.',
+      trustPoints: ['يعمل على قنوات الاستقبال الحالية لديك', 'قواعد تحقق مخصصة لكل نوع مستند', 'لوحة متابعة ودقة استخراج من اليوم الأول'],
+      fields: { name: 'الاسم الكامل', email: 'البريد الإلكتروني', phone: 'رقم الجوال / واتساب' },
+      errors: { name: 'الرجاء إدخال الاسم', email: 'بريد إلكتروني غير صالح', phone: 'رقم جوال غير صالح' },
+      submit: 'احصل على هذه الخدمة الآن',
+      submitting: 'جارٍ الإرسال…',
+      disclaimer: 'بياناتك تُستخدم فقط للتواصل بخصوص هذه الخدمة.',
+      successTitle: 'تم فتح واتساب',
+      successBody: 'أرسل الرسالة الجاهزة لإكمال طلبك، وسيتواصل معك فريق فلق AI بعد استلامها.',
+    },
+    footer: { tagline: 'وكلاء ذكاء اصطناعي يعالجون مستنداتك، لا يكتفون بأرشفتها', copyright: '© Falaq AI — جميع الحقوق محفوظة' },
+  },
+  en: {
+    nav: { langToggle: 'AR', cta: 'Get This Service' },
+    hero: {
+      eyebrow: 'AI Agent for Incoming Document & Invoice Processing',
+      headline: 'A document that arrives manually means lost time and possible error. Falaq receives it, reads it, and verifies it before anyone touches it.',
+      brief: 'In plain terms: Falaq AI receives documents from email, folders, or forms, extracts their data, verifies it against your rules, then logs it in the right system or routes it for human review.',
+      sub: 'Supplier invoices, quotes, purchase orders and more arrive daily from multiple channels, each needing manual classification, extraction, and verification that drains your accounting team\u2019s time. Falaq AI classifies every document on arrival, extracts its fields, verifies accuracy, catches duplicates, and never approves a low-confidence field without human review.',
+      ctaPrimary: 'Get This Service Now',
+      ctaSecondary: 'See how it works',
+      scrollHint: 'Scroll down',
+    },
+    ticker: {
+      items: ['Supplier invoices', 'Quotes', 'Purchase orders', 'Receipts', 'Contracts', 'Customer requests', 'Registration forms', 'Account statements', 'Reports', 'Certificates', 'Shipping documents', 'Insurance forms', 'PDFs & scanned images'],
+    },
+    trust: {
+      kicker: 'Why Falaq',
+      headline: 'Document processing that verifies before it approves',
+      sub: 'Clear controls on every extracted field, and on every approval or escalation decision.',
+      pillars: [
+        { num: '01', title: 'Never approves a low-confidence field', desc: 'Any field extracted with low confidence requires manual entry instead of automatic approval.' },
+        { num: '02', title: 'Always keeps the original document', desc: 'The source file stays preserved and archived no matter what processing or correction happens.' },
+        { num: '03', title: 'Catches duplicates before posting', desc: 'It checks the document number and value before logging it, so an invoice is never posted twice.' },
+        { num: '04', title: 'Stops instantly on any conflict', desc: 'Conflicting data or incomplete fields halt the process and route it straight to a staff member.' },
+      ],
+    },
+    workflow: {
+      kicker: 'The document journey',
+      headline: 'From arrival to documented posting',
+      sub: 'A detailed look at every step that runs automatically from the moment a document arrives to its logging.',
+      steps: [
+        { revealId: 'wf-0', tag: '01', mock: 'sent', title: 'Receive from any channel', desc: 'Falaq receives the document from email, Google Drive, OneDrive, SharePoint, an upload form, WhatsApp, an ERP system, or a scanner linked to a folder — no need to unify the intake channel.' },
+        { revealId: 'wf-1', tag: '02', mock: 'track', title: 'Classify', desc: 'Falaq determines the document type, the supplier or party, language, page count, and file quality, and checks whether it\u2019s a duplicate or needs special handling before extraction.' },
+        { revealId: 'wf-2', tag: '03', mock: 'sequence', title: 'Extract the data', desc: 'Falaq extracts every relevant field — supplier name, invoice number, dates, PO number, line items, tax, total — and assigns each field its own confidence score.' },
+        { revealId: 'wf-3', tag: '04', mock: 'classify', title: 'Verify', desc: 'Falaq applies verification rules: is the supplier registered? Does the total match the line items? Does the purchase order exist? Are any fields missing? — flagging each case clearly.' },
+        { revealId: 'wf-4', tag: '05', mock: 'alert', title: 'Execute', desc: 'Depending on the verification result, Falaq logs the document automatically, creates a review draft, sends an approval request, or routes it to the accountant — then files it correctly and links it to the supplier record.' },
+      ],
+      mockLabels: { sent: 'Illustrative demo', track: 'Illustrative demo', sequence: 'Illustrative demo', classify: 'Illustrative demo', alert: 'Illustrative demo' },
+      mockSent: { title: 'New document received', time: 'Today — 8:42 AM', status: '✓ Received' },
+      mockTrack: { count: '3', opens: 'pages, supplier invoice', firstOpen: 'Status: ready for extraction' },
+      mockSequence: [
+        { label: 'Supplier name & number', state: 'done' },
+        { label: 'Total & tax', state: 'active' },
+        { label: 'Invoice line items', state: 'pending' },
+      ],
+      mockTags: [
+        { label: 'Supplier registered' }, { label: 'Matches PO', active: true }, { label: 'Duplicate number?' }, { label: 'Fields complete' },
+      ],
+      mockAlert: { title: 'Posted to ERP', sub: 'Linked to supplier record', status: '✓ Archived' },
+    },
+    confidence: {
+      kicker: 'Confidence levels',
+      headline: 'Every extracted field carries a confidence score — and a different decision follows',
+      sub: 'Falaq doesn\u2019t treat every field the same — high confidence is approved, low confidence is reviewed, and conflicts stop the process.',
+      levels: {
+        high: { title: 'High confidence', desc: 'The field is approved automatically if policy allows, with zero human intervention.' },
+        medium: { title: 'Medium confidence', desc: 'The field is shown to the reviewer for a quick confirmation before approval.' },
+        low: { title: 'Low confidence', desc: 'Manual entry is required from the responsible staff member before proceeding.' },
+        conflict: { title: 'Conflict', desc: 'The process halts entirely and the case is sent to the accounting staff instantly.' },
+      },
+    },
+    compare: {
+      kicker: 'The real difference',
+      headline: 'What happens to that incoming document, either way?',
+      sub: 'Same document, same supplier — two completely different outcomes.',
+      withoutLabel: 'Without Falaq AI',
+      withLabel: 'With Falaq AI',
+      withoutSteps: ['Document arrives by email', 'Manual entry for every field', 'Undetected error or duplicate', 'Delayed posting and review'],
+      withoutPopup: 'No one checked for duplicates or data accuracy — the error surfaces later in your accounting system.',
+      withSteps: ['Document arrives from any channel', 'Instant classification and field extraction', 'Immediate verification and duplicate detection', 'Only low-confidence cases escalated', 'Documented posting or routed for review'],
+      withPopup: 'The document is accurately posted, or the case is clearly documented — with a full, reviewable record in your system.',
+    },
+    dashboard: {
+      kicker: 'Full visibility',
+      headline: 'A dashboard that shows how document processing is really performing',
+      sub: 'Every document, every exception, every recurring error — in one place, updated live.',
+      cardTitle: 'Processing Dashboard',
+      demoTag: 'Illustrative demo',
+    },
+    deliverables: {
+      kicker: 'What you get',
+      headline: 'A ready processing system, not just a document reader',
+      sub: 'Everything you need to turn incoming documents into documented, posting-ready data.',
+      items: [
+        { text: 'A central intake channel for every document' },
+        { text: 'A classifier by document type and supplier' },
+        { text: 'Field extraction with a confidence score per field' },
+        { text: 'Verification rules tailored to each document type' },
+        { text: 'Duplicate detection before posting' },
+        { text: 'An approval workflow by authority limits' },
+        { text: 'Direct integration with your ERP or accounting system' },
+        { text: 'Automatic archiving and an exception review screen' },
+      ],
+    },
+    faq: {
+      kicker: 'FAQ',
+      headline: 'Everything you need to know before you start',
+      items: [
+        { q: 'What document types does it handle?', a: 'Supplier invoices, quotes, purchase orders, receipts, contracts, customer requests, account statements, and other PDFs or scanned images — as agreed with you.' },
+        { q: 'What happens to a field extracted with low confidence?', a: 'It is never approved automatically. It requires manual entry from the responsible staff member before any posting.' },
+        { q: 'What if the document data conflicts with the system?', a: 'The process halts entirely and instantly, and the case with full details is sent to accounting staff for review.' },
+        { q: 'Does it read handwritten documents?', a: 'It attempts to, but handwriting accuracy isn\u2019t fully guaranteed — unclear fields are classified as low confidence and routed for review.' },
+        { q: 'Does it always keep the original file?', a: 'Yes, the original file is preserved and archived unmodified, regardless of any correction made to the extracted data.' },
+        { q: 'What if a new document format arrives that the system hasn\u2019t been trained on?', a: 'It\u2019s flagged as a special case needing extra handling, and routed to accounting staff until an extraction pattern is approved for it.' },
+      ],
+    },
+    form: {
+      kicker: 'Start now',
+      headline: 'Ready to stop manually processing incoming documents?',
+      sub: 'Fill in the form and our team will reach out shortly to start setting up the processing system on your current documents.',
+      trustPoints: ['Works on your existing intake channels', 'Custom verification rules per document type', 'A processing dashboard and accuracy reporting from day one'],
+      fields: { name: 'Full name', email: 'Email address', phone: 'Phone / WhatsApp number' },
+      errors: { name: 'Please enter your name', email: 'Invalid email address', phone: 'Invalid phone number' },
+      submit: 'Get This Service Now',
+      submitting: 'Sending…',
+      disclaimer: 'Your info is used only to contact you about this service.',
+      successTitle: 'WhatsApp opened',
+      successBody: 'Send the prepared message to complete your request. The Falaq AI team will follow up after receiving it.',
+    },
+    footer: { tagline: 'AI agents that process your documents, not just archive them', copyright: '© Falaq AI — All rights reserved' },
+  },
+};
+
+class Component extends DCLogic {
+  state = {
+    lang: 'ar',
+    revealed: {},
+    openFaq: 0,
+    formName: '', formEmail: '', formPhone: '',
+    touched: {}, submitting: false, submitted: false,
+    dashProgress: 0,
+    confidenceProgress: 0,
+  };
+
+  constructor(props) {
+    super(props);
+    this._els = {};
+  }
+
+  componentDidMount() {
+    this._observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('data-reveal');
+          if (id && !this.state.revealed[id]) {
+            this.setState((s) => ({ revealed: { ...s.revealed, [id]: true } }));
+            if (id === 'dashboard') this.animateProgress('dashProgress');
+            if (id === 'confidence') this.animateProgress('confidenceProgress');
+          }
+          this._observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.18 });
+    requestAnimationFrame(() => {
+      Object.keys(this._els).forEach((id) => {
+        if (this._els[id]) this._observer.observe(this._els[id]);
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    if (this._observer) this._observer.disconnect();
+    if (this._raf) Object.values(this._raf).forEach((r) => cancelAnimationFrame(r));
+  }
+
+  animateProgress(key) {
+    if (!this._raf) this._raf = {};
+    const dur = 1400;
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      this.setState({ [key]: eased });
+      if (p < 1) this._raf[key] = requestAnimationFrame(tick);
+    };
+    this._raf[key] = requestAnimationFrame(tick);
+  }
+
+  regReveal(id) {
+    return (el) => { this._els[id] = el; };
+  }
+
+  scrollToRef(ref) {
+    if (!ref) return;
+    const top = ref.getBoundingClientRect().top + window.scrollY - 84;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+
+  isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  isValidPhone(v) { return /^[+0-9\s-]{7,}$/.test(v); }
+
+  renderVals() {
+    const lang = this.state.lang;
+    const t = COPY[lang];
+    const isAr = lang === 'ar';
+    const fontHead = isAr ? "'Tajawal',sans-serif" : "'Manrope',sans-serif";
+    const fontBody = isAr ? "'Tajawal',sans-serif" : "'Manrope',sans-serif";
+    const startAlign = isAr ? 'right' : 'left';
+
+    const revealStyle = (id, base) => {
+      const on = !!this.state.revealed[id];
+      return {
+        ...base,
+        opacity: on ? 1 : 0,
+        transform: on ? 'translateY(0)' : 'translateY(28px)',
+        transition: 'opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1)',
+      };
+    };
+
+    const tickerItemsVM = [...t.ticker.items, ...t.ticker.items].map((label, i) => ({
+      label,
+      style: {
+        fontFamily: fontBody, fontSize: '13.5px', fontWeight: 600, color: '#B7BECB', whiteSpace: 'nowrap',
+        background: '#10172A', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '999px', padding: '9px 18px', flexShrink: 0,
+      },
+    }));
+
+    const targets = { received: 412, autoProcessed: 348, needsReview: 51, rejected: 13 };
+    const p = this.state.dashProgress;
+    const cur = (n) => Math.round(n * p);
+    const accuracyTarget = 96;
+    const dashboardStats = [
+      { label: isAr ? 'مستندات مستلمة' : 'Documents received', display: cur(targets.received) },
+      { label: isAr ? 'معالجة آليًا' : 'Auto-processed', display: cur(targets.autoProcessed) },
+      { label: isAr ? 'تحتاج مراجعة' : 'Needs review', display: cur(targets.needsReview) },
+      { label: isAr ? 'دقة الاستخراج' : 'Extraction accuracy', display: cur(accuracyTarget) + '%' },
+    ];
+    const barDef = [
+      { key: 'received', label: isAr ? 'مستندات مستلمة' : 'Documents received', target: targets.received, max: 412, color: '#8B5CF6' },
+      { key: 'autoProcessed', label: isAr ? 'معالجة آليًا' : 'Auto-processed', target: targets.autoProcessed, max: 412, color: '#A855F7' },
+      { key: 'needsReview', label: isAr ? 'تحتاج مراجعة' : 'Needs review', target: targets.needsReview, max: 412, color: '#C896FF' },
+      { key: 'rejected', label: isAr ? 'مرفوضة' : 'Rejected', target: targets.rejected, max: 412, color: '#E85D5D' },
+      { key: 'accuracy', label: isAr ? 'دقة الاستخراج' : 'Extraction accuracy', target: accuracyTarget, max: 100, color: '#7CD992' },
+    ];
+    const dashboardBars = barDef.map((b) => ({
+      label: b.label,
+      displayVal: cur(b.target) + (b.key === 'accuracy' ? '%' : ''),
+      fillStyle: {
+        height: '100%', borderRadius: '5px', background: b.color,
+        width: ((b.target / b.max) * p * 100) + '%',
+        transition: 'width 0.1s linear',
+      },
+    }));
+
+    const confP = this.state.confidenceProgress;
+    const confidenceOn = !!this.state.revealed['confidence'];
+    const C = 2 * Math.PI * 40;
+    const confidenceDefs = [
+      { key: 'high', pct: 95, color: '#A855F7', gauge: true },
+      { key: 'medium', pct: 60, color: '#8B5CF6', gauge: true },
+      { key: 'low', pct: 25, color: '#C896FF', gauge: true },
+      { key: 'conflict', pct: 0, color: '#E85D5D', gauge: false },
+    ];
+    const confidenceVM = confidenceDefs.map((d) => {
+      const meta = t.confidence.levels[d.key];
+      const filled = d.gauge ? (d.pct / 100) * confP : 0;
+      return {
+        title: meta.title,
+        desc: meta.desc,
+        isGauge: d.gauge,
+        isAlert: !d.gauge,
+        pctDisplay: Math.round(d.pct * confP) + '%',
+        cardStyle: {
+          background: '#10172A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '18px',
+          padding: '30px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
+        },
+        circleStyle: {
+          stroke: d.color,
+          strokeDasharray: C,
+          strokeDashoffset: C * (1 - filled),
+          transition: 'stroke-dashoffset 1.1s cubic-bezier(0.16,1,0.3,1)',
+        },
+        pctLabelStyle: {
+          position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: fontHead, fontWeight: 800, fontSize: '20px', color: '#E8E8EC',
+        },
+        alertRingStyle: {
+          width: '96px', height: '96px', borderRadius: '50%', border: '3px solid #E85D5D',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative',
+          animation: confidenceOn ? 'conflictPulse 1.8s ease-in-out infinite' : 'none',
+        },
+        alertMarkStyle: { fontFamily: fontHead, fontWeight: 900, fontSize: '34px', color: '#E85D5D' },
+      };
+    });
+
+    const faqItemsVM = t.faq.items.map((item, i) => {
+      const open = this.state.openFaq === i;
+      return {
+        q: item.q, a: item.a, open,
+        toggle: () => this.setState((s) => ({ openFaq: s.openFaq === i ? -1 : i })),
+        chevronStyle: {
+          display: 'inline-flex', width: '22px', height: '22px', alignItems: 'center', justifyContent: 'center',
+          fontSize: '16px', color: '#8B5CF6', transition: 'transform 0.35s ease',
+          transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
+        },
+        answerWrapStyle: {
+          maxHeight: open ? '260px' : '0px', overflow: 'hidden',
+          transition: 'max-height 0.4s cubic-bezier(0.16,1,0.3,1)',
+        },
+      };
+    });
+
+    const workflowStepsVM = t.workflow.steps.map((step, i) => {
+      const on = !!this.state.revealed[step.revealId];
+      return {
+        ...step,
+        ref: this.regReveal(step.revealId),
+        isSent: step.mock === 'sent',
+        isTrack: step.mock === 'track',
+        isSequence: step.mock === 'sequence',
+        isClassify: step.mock === 'classify',
+        isAlert: step.mock === 'alert',
+        wrapStyle: {
+          position: 'relative', display: 'flex', flexWrap: 'wrap', gap: '24px', paddingBottom: '56px', alignItems: 'flex-start',
+          opacity: on ? 1 : 0,
+          transform: on ? 'translateX(0)' : `translateX(${isAr ? '' : '-'}36px)`,
+          transition: 'opacity 0.55s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1)',
+        },
+        circleStyle: {
+          flexShrink: 0, width: '56px', height: '56px', borderRadius: '16px', background: '#10172A',
+          border: '2px solid #8B5CF6', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1,
+          fontFamily: fontHead, fontWeight: 800, fontSize: '17px', color: '#8B5CF6',
+          transform: on ? 'scale(1)' : 'scale(0.4)',
+          boxShadow: on ? '0 0 0 6px rgba(139,92,246,0.14)' : '0 0 0 0px rgba(139,92,246,0)',
+          transition: 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.15s, box-shadow 0.6s ease 0.25s',
+        },
+        mockWrapStyle: {
+          flex: '1 1 240px', minWidth: '240px', maxWidth: '280px', background: '#10172A',
+          border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px',
+          overflow: 'hidden',
+          opacity: on ? 1 : 0,
+          transition: 'opacity 0.3s ease 0.3s',
+        },
+        mockInnerStyle: {
+          padding: '18px 20px',
+          clipPath: on ? 'inset(0 0% 0 0)' : (isAr ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)'),
+          transition: 'clip-path 0.65s cubic-bezier(0.16,1,0.3,1) 0.3s',
+        },
+      };
+    });
+
+    const mockLabelStyle = {
+      fontFamily: fontBody, fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', color: '#5C6577', textTransform: 'uppercase',
+    };
+    const mockIconCircleStyle = {
+      width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(139,92,246,0.1)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', flexShrink: 0,
+    };
+    const mockLineStrongStyle = { fontFamily: fontBody, fontWeight: 700, fontSize: '13.5px', color: '#E8E8EC' };
+    const mockLineMutedStyle = { fontFamily: fontBody, fontSize: '12px', color: '#8891A0', marginTop: '2px' };
+    const mockPillStyle = {
+      display: 'inline-block', marginTop: '14px', fontFamily: fontBody, fontSize: '11.5px', fontWeight: 700, color: '#7CD992',
+      background: 'rgba(124,217,146,0.1)', border: '1px solid rgba(124,217,146,0.3)', borderRadius: '999px', padding: '4px 12px',
+    };
+    const mockDotBounceStyle = { width: '8px', height: '8px', borderRadius: '50%', background: '#8B5CF6', display: 'inline-block', animation: 'dotBounce 1.1s ease-in-out infinite' };
+    const mockDotBounceStyle2 = { ...mockDotBounceStyle, animation: 'dotBounce 1.1s ease-in-out infinite 0.15s' };
+    const mockDotBounceStyle3 = { ...mockDotBounceStyle, animation: 'dotBounce 1.1s ease-in-out infinite 0.3s' };
+
+    const workflowMockSequenceVM = t.workflow.mockSequence.map((seq) => ({
+      label: seq.label,
+      dotStyle: {
+        width: '9px', height: '9px', borderRadius: '50%', flexShrink: 0,
+        background: seq.state === 'pending' ? '#171121' : '#8B5CF6',
+        border: seq.state === 'active' ? '2px solid #8B5CF6' : 'none',
+        boxShadow: seq.state === 'active' ? '0 0 0 4px rgba(139,92,246,0.18)' : 'none',
+      },
+      textStyle: {
+        fontFamily: fontBody, fontSize: '13px',
+        color: seq.state === 'pending' ? '#5C6577' : '#D5D9E0',
+        fontWeight: seq.state === 'active' ? 700 : 500,
+      },
+    }));
+
+    const workflowMockTagsVM = t.workflow.mockTags.map((chip) => ({
+      label: chip.label,
+      style: {
+        fontFamily: fontBody, fontSize: '12px', fontWeight: 700, borderRadius: '999px', padding: '6px 13px',
+        color: chip.active ? '#03030A' : '#B7BECB',
+        background: chip.active ? '#8B5CF6' : 'rgba(255,255,255,0.05)',
+        border: chip.active ? 'none' : '1px solid rgba(255,255,255,0.12)',
+        animation: chip.active ? 'tagWiggle 1.8s ease-in-out infinite' : 'none',
+      },
+    }));
+
+    const compareOn = !!this.state.revealed['compare'];
+    const buildComparePath = (steps, tone) => {
+      const accent = tone === 'bad' ? '#E85D5D' : '#8B5CF6';
+      const accentBg = tone === 'bad' ? 'rgba(232,93,93,0.09)' : 'rgba(139,92,246,0.09)';
+      const accentBorder = tone === 'bad' ? 'rgba(232,93,93,0.45)' : 'rgba(139,92,246,0.5)';
+      return steps.map((label, i) => {
+        const isEnd = i === steps.length - 1;
+        const delay = i * 0.4;
+        return {
+          label,
+          isEnd,
+          hasLine: !isEnd,
+          boxStyle: {
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            maxWidth: '300px', margin: '0 auto', textAlign: 'center',
+            fontFamily: fontBody, fontWeight: 600, fontSize: '14px', lineHeight: 1.5,
+            padding: '16px 18px', borderRadius: '10px',
+            color: isEnd ? '#E8E8EC' : '#D5D9E0',
+            background: isEnd ? accentBg : '#10172A',
+            border: isEnd ? `1.5px solid ${accentBorder}` : '1px solid rgba(255,255,255,0.08)',
+            opacity: compareOn ? 1 : 0,
+            transform: compareOn ? 'translateY(0) rotate(0deg)' : `translateY(-28px) rotate(${tone === 'bad' ? '-5deg' : '5deg'})`,
+            transition: `opacity 0.5s ease ${delay}s, transform 0.5s cubic-bezier(0.34,1.56,0.64,1) ${delay}s`,
+          },
+          markStyle: {
+            fontSize: '16px', color: accent, fontWeight: 800, flexShrink: 0,
+            display: 'inline-block', position: 'relative',
+            animation: compareOn ? `popIn 0.45s cubic-bezier(0.34,1.56,0.64,1) ${delay + 0.45}s both` : 'none',
+          },
+          lineStyle: {
+            width: '2px', height: '30px', margin: '0 auto', background: tone === 'bad' ? 'rgba(232,93,93,0.4)' : 'rgba(139,92,246,0.4)',
+            transformOrigin: 'top', transform: compareOn ? 'scaleY(1)' : 'scaleY(0)',
+            transition: `transform 0.35s ease ${delay + 0.2}s`,
+          },
+          popupStyle: {
+            marginTop: '16px', maxWidth: '300px', marginInline: 'auto',
+            fontFamily: fontBody, fontSize: '13px', lineHeight: 1.7, textAlign: 'center',
+            color: '#D5D9E0', background: accentBg, border: `1px solid ${accentBorder}`, borderRadius: '12px', padding: '14px 16px',
+            position: 'relative',
+            opacity: compareOn ? 1 : 0,
+            transform: compareOn ? 'translateY(0)' : 'translateY(-10px)',
+            transition: `opacity 0.4s ease ${delay + 0.65}s, transform 0.4s ease ${delay + 0.65}s`,
+          },
+        };
+      });
+    };
+    const compareWithoutVM = buildComparePath(t.compare.withoutSteps, 'bad');
+    const compareWithVM = buildComparePath(t.compare.withSteps, 'good');
+
+    const errNameShow = !!this.state.touched.name && this.state.formName.trim().length === 0;
+    const errEmailShow = !!this.state.touched.email && !this.isValidEmail(this.state.formEmail);
+    const errPhoneShow = !!this.state.touched.phone && !this.isValidPhone(this.state.formPhone);
+
+    return {
+      t, fontHead, fontBody, startAlign,
+      rootStyle: {
+        direction: isAr ? 'rtl' : 'ltr', fontFamily: fontBody, background: '#03030A',
+        minHeight: '100vh', overflowX: 'hidden',
+      },
+      setRootRef: (el) => { this._root = el; },
+      heroOrbSide1: isAr ? 'right' : 'left',
+      heroOrbSide2: isAr ? 'left' : 'right',
+
+      navStyle: {
+        position: 'sticky', top: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '16px 32px', background: 'rgba(7,11,20,0.75)', backdropFilter: 'blur(14px)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+      },
+      langBtnStyle: {
+        fontFamily: fontBody, fontWeight: 600, fontSize: '13px', color: '#D5D9E0', background: 'transparent',
+        border: '1px solid rgba(255,255,255,0.16)', borderRadius: '999px', padding: '8px 16px', cursor: 'pointer',
+      },
+      navCtaStyle: {
+        fontFamily: fontHead, fontWeight: 700, fontSize: '13.5px', color: '#03030A', background: '#8B5CF6',
+        border: 'none', borderRadius: '999px', padding: '10px 20px', cursor: 'pointer',
+      },
+      toggleLang: () => this.setState((s) => ({ lang: s.lang === 'ar' ? 'en' : 'ar' })),
+      scrollToForm: () => this.scrollToRef(this._formRef),
+      scrollToWorkflow: () => this.scrollToRef(this._workflowRef),
+      setWorkflowRef: (el) => { this._workflowRef = el; },
+      setFormRef: (el) => { this._formRef = el; },
+
+      heroSectionStyle: {
+        position: 'relative', padding: '120px 0 60px', overflow: 'hidden',
+      },
+      heroEyebrowStyle: {
+        fontFamily: fontHead, fontWeight: 700, fontSize: '13px', letterSpacing: '0.5px', color: '#8B5CF6',
+        background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.35)', borderRadius: '999px', padding: '8px 18px',
+      },
+      heroHeadlineStyle: {
+        fontFamily: fontHead, fontWeight: 900, fontSize: 'clamp(34px,5.4vw,58px)', lineHeight: 1.25, color: '#E8E8EC', margin: 0,
+      },
+      heroSubStyle: {
+        fontFamily: fontBody, fontWeight: 400, fontSize: '18px', lineHeight: 1.85, color: '#A9B0BE', maxWidth: '680px', margin: 0,
+      },
+      heroBriefStyle: {
+        fontFamily: fontBody, fontWeight: 600, fontSize: '15.5px', lineHeight: 1.7, color: '#8B5CF6',
+        background: 'rgba(139,92,246,0.07)', border: '1px solid rgba(139,92,246,0.22)', borderRadius: '12px',
+        padding: '12px 20px', maxWidth: '620px',
+      },
+      heroPrimaryBtnStyle: {
+        position: 'relative', fontFamily: fontHead, fontWeight: 800, fontSize: '16px', color: '#03030A', background: '#8B5CF6',
+        border: 'none', borderRadius: '999px', padding: '17px 34px', cursor: 'pointer', boxShadow: '0 12px 30px rgba(139,92,246,0.25)',
+      },
+      heroCtaRingStyle: {
+        position: 'absolute', inset: 0, borderRadius: '999px', border: '2px solid #8B5CF6', animation: 'pulseRing 2.2s ease-out infinite',
+      },
+      heroSecondaryBtnStyle: {
+        fontFamily: fontHead, fontWeight: 700, fontSize: '16px', color: '#E8E8EC', background: 'transparent',
+        border: '1px solid rgba(255,255,255,0.2)', borderRadius: '999px', padding: '17px 30px', cursor: 'pointer',
+      },
+      heroScrollCueStyle: {
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', marginTop: '38px',
+      },
+
+      tickerItemsVM,
+      tickerWrapStyle: {
+        overflow: 'hidden', padding: '20px 0', background: '#0A0F1B',
+        borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)',
+      },
+      tickerTrackStyle: {
+        display: 'flex', gap: '14px', width: 'max-content', direction: 'ltr',
+        animation: 'marqueeScroll 34s linear infinite',
+      },
+
+      kickerStyle: {
+        fontFamily: fontHead, fontWeight: 800, fontSize: '12.5px', letterSpacing: '1.2px', color: '#8B5CF6',
+        textTransform: 'uppercase', marginBottom: '14px',
+      },
+      h2Style: {
+        fontFamily: fontHead, fontWeight: 800, fontSize: 'clamp(26px,3.4vw,38px)', color: '#E8E8EC', margin: '0 0 14px',
+      },
+      h2StyleLeft: {
+        fontFamily: fontHead, fontWeight: 800, fontSize: 'clamp(24px,3vw,32px)', color: '#E8E8EC', margin: '10px 0 14px', textAlign: startAlign,
+      },
+      pMutedStyle: { fontFamily: fontBody, fontSize: '16px', lineHeight: 1.8, color: '#8891A0', margin: 0 },
+
+      trustSectionStyle: { padding: '90px 0', background: '#0A0F1B' },
+      pillarCardStyle: {
+        background: '#10172A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '18px', padding: '26px 22px',
+      },
+      pillarIconWrapStyle: {
+        width: '46px', height: '46px', borderRadius: '12px', background: 'rgba(139,92,246,0.1)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: fontHead, fontWeight: 800, fontSize: '15px', color: '#8B5CF6',
+      },
+
+      workflowSectionStyle: { padding: '100px 0', background: '#03030A' },
+      workflowLineTrackStyle: {
+        position: 'absolute', top: 0, bottom: 0, [isAr ? 'right' : 'left']: '27px', width: '2px', background: 'rgba(255,255,255,0.08)',
+      },
+      workflowLineFillStyle: {
+        position: 'absolute', top: 0, [isAr ? 'right' : 'left']: '27px', width: '2px', background: '#8B5CF6',
+        height: (Object.keys(this.state.revealed).filter(k => k.startsWith('wf-')).length / 5 * 100) + '%',
+        transition: 'height 0.6s ease',
+      },
+      workflowStepBodyStyle: { paddingTop: '6px', flex: '1 1 340px', minWidth: '280px' },
+
+      confidenceSectionStyle: { padding: '100px 0', background: '#0A0F1B' },
+
+      dashboardSectionStyle: { padding: '100px 0', background: '#03030A' },
+      dashboardCardStyle: {
+        maxWidth: '720px', margin: '0 auto', width: '100%', background: '#10172A', border: '1px solid rgba(255,255,255,0.07)',
+        borderRadius: '22px', padding: '30px 28px', boxShadow: '0 30px 60px rgba(0,0,0,0.35)',
+      },
+      demoTagStyle: {
+        fontFamily: fontBody, fontSize: '11.5px', fontWeight: 700, color: '#8B5CF6', background: 'rgba(139,92,246,0.1)',
+        border: '1px solid rgba(139,92,246,0.3)', borderRadius: '999px', padding: '4px 12px',
+      },
+      dashboardStatCardStyle: {
+        background: '#0C1220', borderRadius: '14px', padding: '16px', textAlign: 'center',
+      },
+      dashboardStats, dashboardBars,
+
+      deliverablesSectionStyle: { padding: '100px 0', background: '#0A0F1B' },
+      deliverableCardStyle: {
+        display: 'flex', alignItems: 'center', gap: '14px', background: '#10172A', border: '1px solid rgba(255,255,255,0.06)',
+        borderRadius: '14px', padding: '18px 20px',
+      },
+      deliverableIconStyle: {
+        flexShrink: 0, width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(139,92,246,0.12)',
+        border: '1px solid rgba(139,92,246,0.35)', color: '#8B5CF6', fontSize: '14px', fontWeight: 700,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      },
+
+      faqSectionStyle: { padding: '100px 0 180px', background: '#03030A' },
+      faqItemWrapStyle: { background: '#10172A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px', overflow: 'hidden' },
+      faqQuestionStyle: {
+        width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
+        background: 'transparent', border: 'none', cursor: 'pointer', padding: '18px 20px',
+        fontFamily: fontHead, fontWeight: 700, fontSize: '15.5px', color: '#E8E8EC', textAlign: startAlign,
+      },
+      faqAnswerInnerStyle: {
+        fontFamily: fontBody, fontSize: '14.5px', lineHeight: 1.85, color: '#9AA3B2', padding: '0 20px 20px',
+      },
+      faqItemsVM,
+
+      ctaFormSectionStyle: { padding: '180px 0 120px', background: '#0A0F1B' },
+      ctaFormCardStyle: {
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: '0', background: '#10172A',
+        border: '1px solid rgba(255,255,255,0.07)', borderRadius: '26px', overflow: 'hidden',
+      },
+      ctaFormLeftStyle: {
+        padding: '48px 44px', background: 'linear-gradient(160deg, rgba(139,92,246,0.09), transparent)',
+        display: 'flex', flexDirection: 'column', textAlign: startAlign,
+      },
+      ctaFormRightStyle: { padding: '48px 44px', background: '#0C1220', display: 'flex', flexDirection: 'column', justifyContent: 'center' },
+
+      inputStyle: {
+        width: '100%', fontFamily: fontBody, fontSize: '15px', color: '#E8E8EC', background: '#10172A',
+        border: '1px solid rgba(255,255,255,0.12)', borderRadius: '12px', padding: '14px 16px', outline: 'none',
+        boxSizing: 'border-box',
+      },
+      labelStyle: { display: 'block', fontFamily: fontBody, fontSize: '13px', fontWeight: 700, color: '#B7BECB', marginBottom: '7px' },
+      errStyle: { fontFamily: fontBody, fontSize: '12.5px', color: '#F08787', marginTop: '6px' },
+      formName: this.state.formName, formEmail: this.state.formEmail, formPhone: this.state.formPhone,
+      onNameChange: (e) => this.setState({ formName: e.target.value, touched: { ...this.state.touched, name: true } }),
+      onEmailChange: (e) => this.setState({ formEmail: e.target.value, touched: { ...this.state.touched, email: true } }),
+      onPhoneChange: (e) => this.setState({ formPhone: e.target.value, touched: { ...this.state.touched, phone: true } }),
+      errNameShow, errEmailShow, errPhoneShow,
+      submitting: this.state.submitting, submitted: this.state.submitted,
+      submitLabel: this.state.submitting ? t.form.submitting : t.form.submit,
+      submitBtnStyle: {
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+        fontFamily: fontHead, fontWeight: 800, fontSize: '15.5px', color: '#03030A', background: '#8B5CF6',
+        border: 'none', borderRadius: '999px', padding: '16px', cursor: this.state.submitting ? 'default' : 'pointer',
+        opacity: this.state.submitting ? 0.8 : 1,
+      },
+      spinnerStyle: {
+        width: '16px', height: '16px', borderRadius: '50%', border: '2px solid rgba(7,11,20,0.3)',
+        borderTopColor: '#03030A', animation: 'spin 0.7s linear infinite',
+      },
+      successCheckStyle: {
+        width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(139,92,246,0.12)',
+        border: '2px solid #8B5CF6', color: '#8B5CF6', fontSize: '30px', display: 'flex', alignItems: 'center',
+        justifyContent: 'center', animation: 'popIn 0.5s cubic-bezier(0.16,1,0.3,1)',
+      },
+      handleSubmit: (e) => {
+        e.preventDefault();
+        const name = this.state.formName.trim();
+        const emailOk = this.isValidEmail(this.state.formEmail);
+        const phoneOk = this.isValidPhone(this.state.formPhone);
+        if (!name || !emailOk || !phoneOk) {
+          this.setState({ touched: { name: true, email: true, phone: true } });
+          return;
+        }
+        const message = this.state.lang === 'ar'
+          ? `مرحبًا فلق، أرغب في هذه الخدمة: ${t.form.headline}\n\nالاسم: ${name}\nالبريد: ${this.state.formEmail.trim()}\nالجوال: ${this.state.formPhone.trim()}`
+          : `Hello Falaq, I am interested in this service: ${t.form.headline}\n\nName: ${name}\nEmail: ${this.state.formEmail.trim()}\nPhone: ${this.state.formPhone.trim()}`;
+        window.open(`https://wa.me/962792961872?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+        this.setState({ submitting: false, submitted: true });
+      },
+
+      workflowStepsVM, workflowMockSequenceVM, workflowMockTagsVM,
+      mockLabelStyle, mockIconCircleStyle, mockLineStrongStyle, mockLineMutedStyle, mockPillStyle,
+      mockDotBounceStyle, mockDotBounceStyle2, mockDotBounceStyle3,
+      confidenceVM,
+      compareWithoutVM, compareWithVM,
+      compareSectionStyle: { padding: '100px 0', background: '#03030A' },
+      compareGridStyle: {
+        direction: 'ltr', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '48px', alignItems: 'start',
+      },
+      compareBadWithoutLabelStyle: {
+        fontFamily: fontHead, fontWeight: 800, fontSize: '15px', color: '#E85D5D', textAlign: 'center', marginBottom: '26px',
+        background: 'rgba(232,93,93,0.1)', border: '1px solid rgba(232,93,93,0.3)', borderRadius: '999px', padding: '8px 16px',
+        maxWidth: '220px', marginInline: 'auto',
+      },
+      compareGoodWithLabelStyle: {
+        fontFamily: fontHead, fontWeight: 800, fontSize: '15px', color: '#8B5CF6', textAlign: 'center', marginBottom: '26px',
+        background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.3)', borderRadius: '999px', padding: '8px 16px',
+        maxWidth: '220px', marginInline: 'auto',
+      },
+      trustRef: this.regReveal('trust'),
+      confidenceRef: this.regReveal('confidence'),
+      compareRef: this.regReveal('compare'),
+      dashboardRef: this.regReveal('dashboard'),
+      deliverablesRef: this.regReveal('deliverables'),
+      faqRef: this.regReveal('faq'),
+      ctaFormRef: this.regReveal('cta-form'),
+
+      footerStyle: {
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', padding: '40px 24px 50px',
+        background: '#03030A', borderTop: '1px solid rgba(255,255,255,0.06)', textAlign: 'center',
+      },
+    };
+  }
+}
+
+</script>
+<a href="/" data-falaq-home style="position:fixed;bottom:18px;inset-inline-start:18px;z-index:99999;display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border-radius:999px;background:rgba(7,11,20,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(168,85,247,.45);color:#E8E8EC;font:600 13px 'Tajawal','Manrope',system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.45)"><span style="color:#A855F7;font-size:15px">⌂</span><span>فَلَق · الرئيسية</span></a>
+</body>
+</html>

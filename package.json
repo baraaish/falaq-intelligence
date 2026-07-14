@@ -1,0 +1,13 @@
+{
+  "name": "falaq-intelligence-website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node --env-file-if-exists=.env backend/server.js",
+    "check": "node --check backend/server.js && node --check backend/providers.js && node --check backend/proposal.js && node --check backend/pdf.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "puppeteer-core": "^24.16.0"
+  }
+}

@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تأهيل العملاء بالذكاء الاصطناعي | فلق AI</title>
+<meta name="description" content="وكيل ذكاء اصطناعي يستقبل العملاء المحتملين ويؤهلهم ويوجههم إلى الإجراء المناسب تلقائيًا.">
+<script src="./support.js"></script>
+  <link rel="stylesheet" href="../../assets/aether-flow.css">
+  <script defer src="../../assets/aether-flow.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #03030A; }
+    ::selection { background: #A855F7; color: #03030A; }
+    @keyframes pulseRing { 0% { transform: scale(0.9); opacity: 0.6; } 100% { transform: scale(1.6); opacity: 0; } }
+    @keyframes bounceArrow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes popIn { 0% { transform: scale(0.4); opacity: 0; } 70% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes floatOrb1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px,-40px) scale(1.08); } }
+    @keyframes floatOrb2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-40px,30px) scale(1.1); } }
+    @keyframes iconFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes iconScan { 0% { transform: translateY(-14px); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateY(16px); opacity: 0; } }
+    @keyframes badgePulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0.35); } 50% { box-shadow: 0 0 0 8px rgba(168,85,247,0); } }
+    @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    @keyframes hubPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0.4); } 50% { box-shadow: 0 0 0 12px rgba(168,85,247,0); } }
+    @keyframes flowDown { 0% { transform: translateY(-4px); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateY(60px); opacity: 0; } }
+    @keyframes tierPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0.35); } 50% { box-shadow: 0 0 0 9px rgba(168,85,247,0); } }
+    [data-omelette-chrome] { display: none !important; }
+    @keyframes chipPopIn { 0% { opacity: 0; transform: translateY(16px) scale(0.92); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes barFillW { from { width: 0%; } to { width: var(--w); } }
+    @keyframes circleFill { from { stroke-dashoffset: var(--circ); } to { stroke-dashoffset: var(--off); } }
+    @keyframes boxPopIn { 0% { opacity: 0; transform: translateY(-28px) rotate(var(--rot)); } 100% { opacity: 1; transform: translateY(0) rotate(0deg); } }
+    @keyframes lineGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+    @keyframes popupFadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes statCountReveal { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</helmet>
+<div ref="{{ setRootRef }}" style="{{ rootStyle }}">
+
+  <!-- NAV -->
+  <nav style="{{ navStyle }}">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;border-radius:11px;background:linear-gradient(150deg,#1c1230,#0b1120);border:1px solid rgba(168,85,247,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M4 4H20L13 12.5V19L11 20V12.5L4 4Z" stroke="#A855F7" stroke-width="1.6" stroke-linejoin="round"></path>
+          <path d="M9 17.2l1.6 1.6 3.4-3.6" stroke="#A855F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </div>
+      <span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;color:#E8E8EC;letter-spacing:0.3px;">Falaq <span style="color:#A855F7;">AI</span></span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button onClick="{{ toggleLang }}" style="{{ langBtnStyle }}">{{ t.nav.langToggle }}</button>
+      <button onClick="{{ scrollToForm }}" style="{{ navCtaStyle }}">{{ t.nav.cta }}</button>
+    </div>
+  </nav>
+
+  <!-- HERO · Aether Flow -->
+  <section class="aether-flow-hero" style="{{ heroSectionStyle }}">
+    <canvas class="aether-canvas" aria-hidden="true"></canvas>
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+      <div style="position:absolute;top:-10%;{{ heroOrbSide1 }}:-5%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(168,85,247,0.32), rgba(168,85,247,0) 65%);filter:blur(10px);animation:floatOrb1 16s ease-in-out infinite;"></div>
+      <div style="position:absolute;bottom:-15%;{{ heroOrbSide2 }}:-8%;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle at 60% 40%, rgba(168,85,247,0.14), rgba(168,85,247,0) 65%);filter:blur(10px);animation:floatOrb2 18s ease-in-out infinite;"></div>
+    </div>
+    <div style="position:relative;z-index:2;max-width:920px;margin:0 auto;padding:0 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px;">
+      <div style="position:relative;width:84px;height:84px;margin-bottom:4px;display:flex;align-items:center;justify-content:center;">
+        <div style="position:relative;width:76px;height:76px;border-radius:20px;background:linear-gradient(150deg,#1c1230,#0b1120);border:1px solid rgba(168,85,247,0.45);display:flex;align-items:center;justify-content:center;box-shadow:0 16px 34px rgba(0,0,0,0.4);animation:iconFloat 4.6s ease-in-out infinite;overflow:hidden;">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+            <path d="M4 4H20L13 12.5V19L11 20V12.5L4 4Z" stroke="#A855F7" stroke-width="1.5" stroke-linejoin="round"></path>
+            <path d="M9 17.2l1.6 1.6 3.4-3.6" stroke="#A855F7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <div style="position:absolute;left:9px;right:9px;top:5px;height:2px;background:linear-gradient(90deg,rgba(168,85,247,0),rgba(168,85,247,0.9),rgba(168,85,247,0));animation:iconScan 2.6s ease-in-out infinite;"></div>
+          <div style="position:absolute;bottom:-7px;right:-7px;width:28px;height:28px;border-radius:9px;background:#0b1120;border:1.5px solid #A855F7;display:flex;align-items:center;justify-content:center;animation:badgePulse 2.4s ease-in-out infinite;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M5 13l4 4L19 7" stroke="#A855F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="aether-badge" style="{{ heroEyebrowStyle }}">{{ t.hero.eyebrow }}</div>
+      <h1 class="aether-title" style="{{ heroHeadlineStyle }}">{{ t.hero.headline }}</h1>
+      <div class="aether-brief" style="{{ heroBriefStyle }}">{{ t.hero.brief }}</div>
+      <p class="aether-copy" style="{{ heroSubStyle }}">{{ t.hero.sub }}</p>
+      <div class="aether-actions" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:6px;">
+        <button class="aether-primary" onClick="{{ scrollToForm }}" style="{{ heroPrimaryBtnStyle }}">
+          {{ t.hero.ctaPrimary }}
+          <span style="{{ heroCtaRingStyle }}"></span>
+        </button>
+        <button onClick="{{ scrollToWorkflow }}" style="{{ heroSecondaryBtnStyle }}">{{ t.hero.ctaSecondary }}</button>
+      </div>
+      <div class="aether-scroll-cue" style="{{ heroScrollCueStyle }}">
+        <span style="font-size:12px;color:#5A5A68;letter-spacing:1px;">{{ t.hero.scrollHint }}</span>
+        <div style="animation:bounceArrow 1.8s ease-in-out infinite;color:#A855F7;font-size:18px;">↓</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER: PROBLEMS SOLVED -->
+  <div style="{{ tickerWrapStyle }}">
+    <div style="{{ tickerTrackStyle }}">
+      <sc-for list="{{ tickerItemsVM }}" as="tag" hint-placeholder-count="20">
+        <span style="{{ tag.style }}">{{ tag.label }}</span>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- BRAND VIDEO -->
+  <section data-reveal="brandvideo" ref="{{ brandVideoRef }}" style="{{ revealStyle('brandvideo', brandVideoSectionStyle) }}">
+    <div style="max-width:880px;margin:0 auto;padding:0 24px;text-align:center;">
+      <div style="{{ kickerStyle }}">{{ t.brandVideo.kicker }}</div>
+      <h2 style="{{ h2Style }}">{{ t.brandVideo.headline }}</h2>
+      <p style="{{ pMutedStyle }};margin-bottom:36px;">{{ t.brandVideo.sub }}</p>
+      <div style="{{ brandVideoFrameStyle }}">
+        <x-import component-from-global-scope="FalaqScene" from="./animations.jsx ./ui-mocks.jsx ./scenes.jsx" lang="{{ lang }}" hint-size="100%,100%"></x-import>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST / CONTROLS -->
+  <section data-reveal="trust" ref="{{ trustRef }}" style="{{ revealStyle('trust', trustSectionStyle) }}">
+    <div style="max-width:1080px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto 56px;">
+        <div style="{{ kickerStyle }}">{{ t.trust.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.trust.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.trust.sub }}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;">
+        <sc-for list="{{ t.trust.pillars }}" as="item" hint-placeholder-count="4">
+          <div style="{{ pillarCardStyle }}">
+            <div style="{{ pillarIconWrapStyle }}">{{ item.num }}</div>
+            <div style="font-family:{{ fontHead }};font-weight:700;font-size:18px;color:#E8E8EC;margin-top:16px;">{{ item.title }}</div>
+            <div style="font-family:{{ fontBody }};font-size:14.5px;line-height:1.7;color:#9AA3B2;margin-top:8px;">{{ item.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHANNELS: HUB & SPOKE (NEW PATTERN) -->
+  <section data-reveal="channels" ref="{{ channelsRef }}" style="{{ revealStyle('channels', channelsSectionStyle) }}">
+    <div style="max-width:980px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto 52px;">
+        <div style="{{ kickerStyle }}">{{ t.channels.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.channels.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.channels.sub }}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:6px;">
+        <sc-for list="{{ channelsVM }}" as="ch" hint-placeholder-count="9">
+          <div style="{{ ch.cardStyle }}">
+            <div style="{{ ch.badgeStyle }}">{{ ch.tag }}</div>
+            <span style="{{ ch.labelStyle }}">{{ ch.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="{{ connectorLineWrapStyle }}">
+        <div style="{{ connectorLineStyle }}"></div>
+        <div style="{{ connectorDotStyle }}"></div>
+      </div>
+      <div style="{{ hubCardStyle }}">
+        <div style="{{ hubIconStyle }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M4 4H20L13 12.5V19L11 20V12.5L4 4Z" stroke="#A855F7" stroke-width="1.6" stroke-linejoin="round"></path>
+            <path d="M9 17.2l1.6 1.6 3.4-3.6" stroke="#A855F7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div>
+          <div style="{{ hubTitleStyle }}">{{ t.channels.hubTitle }}</div>
+          <div style="{{ hubSubStyle }}">{{ t.channels.hubSub }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW -->
+  <section ref="{{ setWorkflowRef }}" style="{{ workflowSectionStyle }}">
+    <div style="max-width:1120px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:720px;margin:0 auto 64px;">
+        <div style="{{ kickerStyle }}">{{ t.workflow.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.workflow.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.workflow.sub }}</p>
+      </div>
+      <div style="position:relative;">
+        <div style="{{ workflowLineTrackStyle }}"></div>
+        <div style="{{ workflowLineFillStyle }}"></div>
+        <sc-for list="{{ workflowStepsVM }}" as="step" hint-placeholder-count="4">
+          <div data-reveal="{{ step.revealId }}" ref="{{ step.ref }}" style="{{ step.wrapStyle }}">
+            <div style="{{ step.circleStyle }}">{{ step.tag }}</div>
+            <div style="{{ workflowStepBodyStyle }}">
+              <div style="font-family:{{ fontHead }};font-weight:700;font-size:20px;color:#E8E8EC;margin-bottom:10px;">{{ step.title }}</div>
+              <div style="font-family:{{ fontBody }};font-size:15px;line-height:1.9;color:#9AA3B2;max-width:520px;">{{ step.desc }}</div>
+            </div>
+            <div style="{{ step.mockWrapStyle }}">
+              <div style="{{ step.mockInnerStyle }}">
+              <sc-if value="{{ step.isSent }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ mockLabelStyle }}">{{ t.workflow.mockLabels.sent }}</div>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+                  <div style="{{ mockIconCircleStyle }}">💬</div>
+                  <div>
+                    <div style="{{ mockLineStrongStyle }}">{{ t.workflow.mockSent.title }}</div>
+                    <div style="{{ mockLineMutedStyle }}">{{ t.workflow.mockSent.time }}</div>
+                  </div>
+                </div>
+                <div style="{{ mockPillStyle }}">{{ t.workflow.mockSent.status }}</div>
+              </sc-if>
+              <sc-if value="{{ step.isTrack }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ mockLabelStyle }}">{{ t.workflow.mockLabels.track }}</div>
+                <div style="display:flex;align-items:baseline;gap:8px;margin-top:10px;">
+                  <span style="font-family:{{ fontHead }};font-weight:800;font-size:32px;color:#E8E8EC;">{{ t.workflow.mockTrack.count }}</span>
+                  <span style="{{ mockLineMutedStyle }}">{{ t.workflow.mockTrack.opens }}</span>
+                </div>
+                <div style="{{ mockLineMutedStyle }};margin-top:6px;">{{ t.workflow.mockTrack.firstOpen }}</div>
+              </sc-if>
+              <sc-if value="{{ step.isClassify }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ mockLabelStyle }}">{{ t.workflow.mockLabels.classify }}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">
+                  <sc-for list="{{ workflowMockTagsVM }}" as="chip" hint-placeholder-count="4">
+                    <span style="{{ chip.style }}">{{ chip.label }}</span>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ step.isAlert }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ mockLabelStyle }}">{{ t.workflow.mockLabels.alert }}</div>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+                  <div style="{{ mockIconCircleStyle }}">📅</div>
+                  <div>
+                    <div style="{{ mockLineStrongStyle }}">{{ t.workflow.mockAlert.title }}</div>
+                    <div style="{{ mockLineMutedStyle }}">{{ t.workflow.mockAlert.sub }}</div>
+                  </div>
+                </div>
+                <div style="{{ mockPillStyle }}">{{ t.workflow.mockAlert.status }}</div>
+              </sc-if>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAD SCORING (NEW PATTERN) -->
+  <section data-reveal="scoring" ref="{{ scoringRef }}" style="{{ revealStyle('scoring', scoringSectionStyle) }}">
+    <div style="max-width:1080px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:700px;margin:0 auto 52px;">
+        <div style="{{ kickerStyle }}">{{ t.scoring.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.scoring.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.scoring.sub }}</p>
+      </div>
+      <div style="{{ scoringGridStyle }}">
+        <div style="{{ scoreCardStyle }}">
+          <div style="{{ scoreCardHeadStyle }}">
+            <span style="{{ demoTagStyle }}">{{ t.scoring.demoTag }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px;">
+            <sc-for list="{{ scoreFactorsVM }}" as="f" hint-placeholder-count="7">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-family:{{ fontBody }};font-size:13.5px;color:#B7BECB;margin-bottom:6px;">
+                  <span>{{ f.label }}</span>
+                  <span style="color:#E8E8EC;font-weight:700;">{{ f.displayVal }}</span>
+                </div>
+                <div style="height:8px;border-radius:5px;background:#171121;overflow:hidden;">
+                  <div style="{{ f.fillStyle }}"></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="{{ scoreResultCardStyle }}">
+          <div style="{{ scoreCircleWrapStyle }}">
+            <svg width="140" height="140" viewBox="0 0 140 140">
+              <circle cx="70" cy="70" r="60" fill="none" stroke="#171121" stroke-width="12"></circle>
+              <circle cx="70" cy="70" r="60" fill="none" stroke="#A855F7" stroke-width="12" stroke-linecap="round" style="{{ scoreCircleStyle }}"></circle>
+            </svg>
+            <div style="{{ scoreNumWrapStyle }}">
+              <span style="{{ scoreNumStyle }}">{{ scoreDisplay }}</span>
+              <span style="{{ scoreMaxStyle }}">/100</span>
+            </div>
+          </div>
+          <div style="{{ scoreTierPillStyle }}">{{ t.scoring.resultTier }}</div>
+          <div style="{{ scoreResultDescStyle }}">{{ t.scoring.resultDesc }}</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:32px;">
+        <sc-for list="{{ scoreTiersVM }}" as="tier" hint-placeholder-count="5">
+          <div style="{{ tier.cardStyle }}">
+            <div style="{{ tier.dotStyle }}"></div>
+            <div style="{{ tier.nameStyle }}">{{ tier.name }}</div>
+            <div style="{{ tier.actionStyle }}">{{ tier.action }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON: WITH VS WITHOUT -->
+  <section data-reveal="compare" ref="{{ compareRef }}" style="{{ revealStyle('compare', compareSectionStyle) }}">
+    <div style="max-width:1080px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto 56px;">
+        <div style="{{ kickerStyle }}">{{ t.compare.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.compare.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.compare.sub }}</p>
+      </div>
+      <div style="{{ compareGridStyle }}">
+        <div>
+          <div style="{{ compareBadWithoutLabelStyle }}">{{ t.compare.withoutLabel }}</div>
+          <sc-for list="{{ compareWithoutVM }}" as="node" hint-placeholder-count="4">
+            <div>
+              <div style="{{ node.boxStyle }}">
+                <sc-if value="{{ node.isEnd }}" hint-placeholder-val="{{ false }}"><span style="{{ node.markStyle }}">✕</span></sc-if>
+                <span>{{ node.label }}</span>
+              </div>
+              <sc-if value="{{ node.hasLine }}" hint-placeholder-val="{{ true }}"><div style="{{ node.lineStyle }}"></div></sc-if>
+              <sc-if value="{{ node.isEnd }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ node.popupStyle }}">{{ t.compare.withoutPopup }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <div>
+          <div style="{{ compareGoodWithLabelStyle }}">{{ t.compare.withLabel }}</div>
+          <sc-for list="{{ compareWithVM }}" as="node" hint-placeholder-count="5">
+            <div>
+              <div style="{{ node.boxStyle }}">
+                <sc-if value="{{ node.isEnd }}" hint-placeholder-val="{{ false }}"><span style="{{ node.markStyle }}">✓</span></sc-if>
+                <span>{{ node.label }}</span>
+              </div>
+              <sc-if value="{{ node.hasLine }}" hint-placeholder-val="{{ true }}"><div style="{{ node.lineStyle }}"></div></sc-if>
+              <sc-if value="{{ node.isEnd }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ node.popupStyle }}">{{ t.compare.withPopup }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section data-reveal="dashboard" ref="{{ dashboardRef }}" style="{{ revealStyle('dashboard', dashboardSectionStyle) }}">
+    <div style="max-width:1080px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1fr;gap:48px;align-items:center;">
+      <div style="text-align:center;max-width:680px;margin:0 auto;">
+        <div style="{{ kickerStyle }}">{{ t.dashboard.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.dashboard.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.dashboard.sub }}</p>
+      </div>
+      <div style="{{ dashboardCardStyle }}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:10px;">
+          <div style="font-family:{{ fontHead }};font-weight:700;font-size:15px;color:#E8E8EC;">{{ t.dashboard.cardTitle }}</div>
+          <div style="{{ demoTagStyle }}">{{ t.dashboard.demoTag }}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-bottom:28px;">
+          <sc-for list="{{ dashboardStats }}" as="stat" hint-placeholder-count="4">
+            <div style="{{ dashboardStatCardStyle }}">
+              <div style="font-family:{{ fontHead }};font-weight:800;font-size:30px;color:#E8E8EC;">{{ stat.display }}</div>
+              <div style="font-family:{{ fontBody }};font-size:13px;color:#8891A0;margin-top:4px;">{{ stat.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <sc-for list="{{ dashboardBars }}" as="bar" hint-placeholder-count="5">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-family:{{ fontBody }};font-size:13px;color:#B7BECB;margin-bottom:6px;">
+                <span>{{ bar.label }}</span>
+                <span style="color:#E8E8EC;font-weight:600;">{{ bar.displayVal }}</span>
+              </div>
+              <div style="height:8px;border-radius:5px;background:#171121;overflow:hidden;">
+                <div style="{{ bar.fillStyle }}"></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXCEPTION CASES: FLIP CARDS -->
+  <section data-reveal="exceptions" ref="{{ exceptionsRef }}" style="{{ revealStyle('exceptions', exceptionsSectionStyle) }}">
+    <div style="max-width:1080px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto 20px;">
+        <div style="{{ kickerStyle }}">{{ t.exceptions.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.exceptions.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.exceptions.sub }}</p>
+      </div>
+      <div style="{{ exceptionsHintStyle }}">{{ t.exceptions.hint }}</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;">
+        <sc-for list="{{ exceptionCardsVM }}" as="card" hint-placeholder-count="8">
+          <div style="{{ card.outerStyle }}">
+            <div style="{{ card.flipperStyle }}" style-hover="{{ card.flipperHoverStyle }}">
+              <div style="{{ card.frontStyle }}">
+                <div style="{{ card.frontIconStyle }}">?</div>
+                <div style="{{ card.frontTitleStyle }}">{{ card.front }}</div>
+                <div style="{{ card.frontCueStyle }}">{{ t.exceptions.cue }}</div>
+              </div>
+              <div style="{{ card.backStyle }}">
+                <div style="{{ card.backTitleStyle }}">{{ t.exceptions.policyLabel }}</div>
+                <div style="{{ card.backTextStyle }}">{{ card.back }}</div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- DELIVERABLES -->
+  <section data-reveal="deliverables" ref="{{ deliverablesRef }}" style="{{ revealStyle('deliverables', deliverablesSectionStyle) }}">
+    <div style="max-width:1080px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto 56px;">
+        <div style="{{ kickerStyle }}">{{ t.deliverables.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.deliverables.headline }}</h2>
+        <p style="{{ pMutedStyle }}">{{ t.deliverables.sub }}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;">
+        <sc-for list="{{ t.deliverables.items }}" as="item" hint-placeholder-count="8">
+          <div style="{{ deliverableCardStyle }}">
+            <div style="{{ deliverableIconStyle }}">✓</div>
+            <div style="font-family:{{ fontBody }};font-weight:600;font-size:15px;color:#EDEFF3;line-height:1.5;">{{ item.text }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section data-reveal="faq" ref="{{ faqRef }}" style="{{ revealStyle('faq', faqSectionStyle) }}">
+    <div style="max-width:820px;margin:0 auto;padding:0 24px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto 48px;">
+        <div style="{{ kickerStyle }}">{{ t.faq.kicker }}</div>
+        <h2 style="{{ h2Style }}">{{ t.faq.headline }}</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <sc-for list="{{ faqItemsVM }}" as="item" hint-placeholder-count="6">
+          <div style="{{ faqItemWrapStyle }}">
+            <button onClick="{{ item.toggle }}" aria-expanded="{{ item.open }}" style="{{ faqQuestionStyle }}">
+              <span>{{ item.q }}</span>
+              <span style="{{ item.chevronStyle }}">＋</span>
+            </button>
+            <div style="{{ item.answerWrapStyle }}">
+              <div style="{{ faqAnswerInnerStyle }}">{{ item.a }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA + FORM -->
+  <section data-reveal="cta-form" ref="{{ ctaFormRef }}" style="{{ revealStyle('cta-form', ctaFormSectionStyle) }}">
+    <div ref="{{ setFormRef }}" style="max-width:960px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1fr;gap:0;">
+      <div style="{{ ctaFormCardStyle }}">
+        <div style="{{ ctaFormLeftStyle }}">
+          <div style="{{ kickerStyle }}text-align:{{ startAlign }};">{{ t.form.kicker }}</div>
+          <h2 style="{{ h2StyleLeft }}">{{ t.form.headline }}</h2>
+          <p style="font-family:{{ fontBody }};font-size:15.5px;line-height:1.8;color:#B7BECB;margin:0;">{{ t.form.sub }}</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:28px;">
+            <sc-for list="{{ t.form.trustPoints }}" as="pt" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="color:#A855F7;font-size:16px;">✓</span>
+                <span style="font-family:{{ fontBody }};font-size:14px;color:#D5D9E0;">{{ pt }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="{{ ctaFormRightStyle }}">
+          <sc-if value="{{ !submitted }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ handleSubmit }}" style="display:flex;flex-direction:column;gap:16px;">
+              <div>
+                <label style="{{ labelStyle }}">{{ t.form.fields.name }}</label>
+                <input type="text" aria-label="{{ t.form.fields.name }}" autocomplete="name" required placeholder="{{ t.form.fields.name }}" value="{{ formName }}" onChange="{{ onNameChange }}" style="{{ inputStyle }}"/>
+                <sc-if value="{{ errNameShow }}" hint-placeholder-val="{{ false }}"><div role="alert" style="{{ errStyle }}">{{ t.form.errors.name }}</div></sc-if>
+              </div>
+              <div>
+                <label style="{{ labelStyle }}">{{ t.form.fields.email }}</label>
+                <input type="email" aria-label="{{ t.form.fields.email }}" autocomplete="email" required placeholder="{{ t.form.fields.email }}" value="{{ formEmail }}" onChange="{{ onEmailChange }}" style="{{ inputStyle }}"/>
+                <sc-if value="{{ errEmailShow }}" hint-placeholder-val="{{ false }}"><div role="alert" style="{{ errStyle }}">{{ t.form.errors.email }}</div></sc-if>
+              </div>
+              <div>
+                <label style="{{ labelStyle }}">{{ t.form.fields.phone }}</label>
+                <input type="tel" aria-label="{{ t.form.fields.phone }}" autocomplete="tel" required placeholder="{{ t.form.fields.phone }}" value="{{ formPhone }}" onChange="{{ onPhoneChange }}" style="{{ inputStyle }}"/>
+                <sc-if value="{{ errPhoneShow }}" hint-placeholder-val="{{ false }}"><div role="alert" style="{{ errStyle }}">{{ t.form.errors.phone }}</div></sc-if>
+              </div>
+              <button type="submit" style="{{ submitBtnStyle }}">
+                <sc-if value="{{ submitting }}" hint-placeholder-val="{{ false }}">
+                  <span style="{{ spinnerStyle }}"></span>
+                </sc-if>
+                <span>{{ submitLabel }}</span>
+              </button>
+              <div style="font-family:{{ fontBody }};font-size:12px;color:#5A5A68;text-align:center;">{{ t.form.disclaimer }}</div>
+            </form>
+          </sc-if>
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+            <div role="status" aria-live="polite" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:20px 0;">
+              <div style="{{ successCheckStyle }}">✓</div>
+              <div style="font-family:{{ fontHead }};font-weight:800;font-size:20px;color:#E8E8EC;">{{ t.form.successTitle }}</div>
+              <div style="font-family:{{ fontBody }};font-size:14.5px;color:#9AA3B2;line-height:1.7;max-width:320px;">{{ t.form.successBody }}</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="{{ footerStyle }}">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(150deg,#1c1230,#0b1120);border:1px solid rgba(168,85,247,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M4 4H20L13 12.5V19L11 20V12.5L4 4Z" stroke="#A855F7" stroke-width="1.8" stroke-linejoin="round"></path>
+          <path d="M9 17.2l1.6 1.6 3.4-3.6" stroke="#A855F7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </div>
+      <span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:15px;color:#E8E8EC;">Falaq <span style="color:#A855F7;">AI</span></span>
+    </div>
+    <div style="font-family:{{ fontBody }};font-size:13px;color:#5C6577;">{{ t.footer.tagline }}</div>
+    <div style="font-family:{{ fontBody }};font-size:12px;color:#454E5F;">{{ t.footer.copyright }}</div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+
+const COPY = {
+  ar: {
+    nav: { langToggle: 'EN', cta: 'احصل على الخدمة' },
+    hero: {
+      eyebrow: 'وكيل ذكاء اصطناعي لاستقبال وتأهيل العملاء المحتملين',
+      headline: 'عميل محتمل يصل ولا يجد ردًا فوريًا يعني فرصة تنتقل لمنافس. فلق يستقبله، يؤهله، يقيّمه، ويوجّهه للإجراء الصحيح خلال ثوانٍ.',
+      brief: 'فلق AI ببساطة: يستقبل كل عميل من واتساب أو الموقع أو الإعلانات، يجمع بياناته، يمنحه درجة تأهيل، ويوجهه فورًا لموظف المبيعات أو حملة المتابعة المناسبة.',
+      sub: 'تأخر الرد، أسئلة تأهيل غير موحدة، عملاء مكررون، Leads بلا تصنيف واضح — كلها تكلف فريق المبيعات وقتًا وتُفقد فرصًا حقيقية. فلق AI يستقبل كل عميل فور وصوله، يطرح أسئلة التأهيل المناسبة، يمنحه درجة وفق قواعدك، ويحوله للإجراء الصحيح دون انتظار.',
+      ctaPrimary: 'احصل على هذه الخدمة الآن',
+      ctaSecondary: 'شاهد كيف يعمل النظام',
+      scrollHint: 'مرر للأسفل',
+    },
+    ticker: {
+      items: ['رد متأخر على العميل', 'أسئلة تأهيل غير موحدة', 'عملاء مكررون في الأنظمة', 'Leads بلا تصنيف واضح', 'مصدر العميل غير معروف', 'عملاء ساخنون بلا متابعة فورية', 'مواعيد تُفوَّت', 'معلومات ناقصة عن العميل', 'عملاء غير مؤهلين يستهلكون وقت المبيعات', 'قنوات متعددة بلا نظام موحد'],
+    },
+    brandVideo: {
+      kicker: 'شاهد النظام',
+      headline: 'من رسائل متراكمة إلى عملاء مؤهلين جاهزين للإغلاق',
+      sub: 'قصة أحمد، قبل فلق AI وبعده — العرض الكامل من أول رسالة حتى الموعد المحجوز في التقويم.',
+    },
+    trust: {
+      kicker: 'لماذا فلق',
+      headline: 'تأهيل بقواعد واضحة، لا تصنيف تقديري',
+      sub: 'كل درجة، كل تصنيف، وكل إجراء يمر بضوابط محددة مسبقًا توافق عليها.',
+      pillars: [
+        { num: '01', title: 'لا ينتقل بلا حقول إلزامية', desc: 'لا يُصنَّف أي عميل قبل جمع الحقول الإلزامية المتفق عليها، مهما بدا مهتمًا.' },
+        { num: '02', title: 'لا يترك عميلاً ساخنًا بلا رد فوري', desc: 'العميل المصنف "ساخن" يُحوَّل أو يُحجز له موعد مباشرة، دون انتظار دوره في الطابور.' },
+        { num: '03', title: 'لا يقرر بمفرده عند التعارض', desc: 'عند وجود معلومات متناقضة أو غير واضحة يُحوَّل الملف لمراجعة موظف بدل تصنيف تلقائي خاطئ.' },
+        { num: '04', title: 'يسجل كل محادثة ومصدر', desc: 'كل تفاعل، مصدره، ودرجته يُحفظ في سجل كامل قابل للمراجعة داخل CRM.' },
+      ],
+    },
+    channels: {
+      kicker: 'القنوات المدعومة',
+      headline: 'يستقبل العميل من أي قناة يتواصل منها',
+      sub: 'نقطة استقبال وتأهيل واحدة موحدة، أيًا كان مصدر العميل.',
+      items: [
+        { tag: 'WA', label: 'WhatsApp Business' },
+        { tag: 'وب', label: 'نماذج الموقع' },
+        { tag: '💬', label: 'الدردشة داخل الموقع' },
+        { tag: 'FB', label: 'Facebook Lead Ads' },
+        { tag: 'IG', label: 'Instagram Lead Ads' },
+        { tag: '@', label: 'البريد الإلكتروني' },
+        { tag: 'LP', label: 'صفحات الهبوط' },
+        { tag: 'CRM', label: 'CRM الحالي' },
+        { tag: 'GS', label: 'Google Sheets' },
+      ],
+      hubTitle: 'نقطة تأهيل واحدة',
+      hubSub: 'كل عميل، من أي قناة، يدخل نفس مسار الاستقبال والتقييم.',
+    },
+    workflow: {
+      kicker: 'رحلة العميل',
+      headline: 'من أول رسالة إلى الإجراء المناسب',
+      sub: 'أربع مراحل تعمل تلقائيًا على مدار اليوم لكل عميل جديد.',
+      steps: [
+        { revealId: 'wf-0', tag: '01', mock: 'sent', title: 'الاستقبال', desc: 'يسجل وقت الوصول، يحدد المصدر والحملة، يتحقق إن كان عميلاً جديدًا أو موجودًا سابقًا، ويرسل ترحيبًا مناسبًا للمصدر والخدمة.' },
+        { revealId: 'wf-1', tag: '02', mock: 'track', title: 'جمع المعلومات', desc: 'يطرح أسئلة تأهيل مخصصة لنشاطك، ولا ينتقل للمرحلة التالية قبل التحقق من اكتمال الحقول الإلزامية.' },
+        { revealId: 'wf-2', tag: '03', mock: 'classify', title: 'التقييم', desc: 'يمنح العميل درجة وفق معايير متفق عليها، ويصنفه إلى ساخن، دافئ، بارد، غير مؤهل، أو يحتاج مراجعة.' },
+        { revealId: 'wf-3', tag: '04', mock: 'alert', title: 'تنفيذ الإجراء', desc: 'يحجز موعدًا، يحوّل العميل لموظف، يبدأ سلسلة متابعة، أو يغلق الملف مع تسجيل السبب — بحسب التصنيف.' },
+      ],
+      mockLabels: { sent: 'نموذج توضيحي', track: 'نموذج توضيحي', classify: 'نموذج توضيحي', alert: 'نموذج توضيحي' },
+      mockSent: { title: 'رسالة ترحيب أُرسلت', time: 'اليوم — 09:15 صباحًا', status: '✓ عميل جديد مسجَّل' },
+      mockTrack: { count: '7/9', opens: 'حقول مكتملة', firstOpen: 'باقٍ: الميزانية، التوقيت' },
+      mockTags: [
+        { label: 'ساخن', active: true }, { label: 'دافئ' }, { label: 'بارد' }, { label: 'يحتاج مراجعة' },
+      ],
+      mockAlert: { title: 'تم حجز الموعد', sub: 'مع موظف المبيعات المناوب', status: '✓ تم التنفيذ' },
+    },
+    scoring: {
+      kicker: 'نظام تقييم العملاء',
+      headline: 'كل عميل يحصل على درجة تأهيل واضحة',
+      sub: 'المعايير والنسب قابلة للتخصيص الكامل حسب نشاطك — هذا مثال توضيحي على عميل حقيقي.',
+      demoTag: 'نموذج توضيحي',
+      resultTier: 'ساخن',
+      resultDesc: 'جاهز للتواصل الفوري أو الحجز — يُحوَّل مباشرة لموظف المبيعات المناوب.',
+      factors: [
+        { label: 'ملاءمة الميزانية', max: 25, achieved: 22 },
+        { label: 'قرب موعد الشراء', max: 20, achieved: 18 },
+        { label: 'ملاءمة الخدمة', max: 20, achieved: 20 },
+        { label: 'الموقع الجغرافي', max: 10, achieved: 8 },
+        { label: 'كون الشخص صاحب القرار', max: 10, achieved: 10 },
+        { label: 'اكتمال المعلومات', max: 10, achieved: 4 },
+        { label: 'التفاعل والاستجابة', max: 5, achieved: 0 },
+      ],
+      tiers: [
+        { name: 'ساخن', color: '#A855F7', action: 'تحويل فوري لموظف المبيعات أو حجز موعد مباشر', active: true },
+        { name: 'دافئ', color: '#C896FF', action: 'إضافة لسلسلة متابعة مجدولة' },
+        { name: 'بارد', color: '#8B5CF6', action: 'وضعه في حملة رعاية طويلة' },
+        { name: 'غير مؤهل', color: '#5A5A68', action: 'إغلاق الملف مع تسجيل السبب' },
+        { name: 'يحتاج مراجعة', color: '#C084FC', action: 'تحويل لموظف للتحقق من التناقض' },
+      ],
+    },
+    compare: {
+      kicker: 'الفرق الحقيقي',
+      headline: 'ماذا يحدث لذلك العميل الجديد، في كلتا الحالتين؟',
+      sub: 'نفس العميل، نفس الفرصة — لكن مصيرين مختلفين تمامًا.',
+      withoutLabel: 'بدون فلق AI',
+      withLabel: 'مع فلق AI',
+      withoutSteps: ['عميل جديد يرسل رسالة', 'يبقى بلا رد لساعات', 'يتواصل مع منافس أسرع', 'الفرصة تُفقد دون تسجيل السبب'],
+      withoutPopup: 'لا أحد رد بسرعة كافية — والعميل انتقل لمنافس بينما الرسالة تنتظر في القائمة.',
+      withSteps: ['عميل جديد يرسل رسالة', 'يُستقبل ويُؤهَّل فورًا', 'يحصل على درجة وتصنيف واضح', 'يُوجَّه للإجراء الصحيح تلقائيًا', 'الفرصة موثقة وقابلة للمتابعة لحظيًا'],
+      withPopup: 'العميل حصل على رد فوري وتوجيه صحيح، والفرصة موثقة بالكامل داخل CRM.',
+    },
+    dashboard: {
+      kicker: 'الرؤية الكاملة',
+      headline: 'لوحة متابعة تكشف صحة قناة استقبال العملاء',
+      sub: 'كل عميل جديد، كل تصنيف، كل موعد محجوز — في مكان واحد يحدَّث لحظيًا.',
+      cardTitle: 'لوحة متابعة العملاء',
+      demoTag: 'نموذج توضيحي',
+    },
+    exceptions: {
+      kicker: 'حالات خاصة',
+      headline: 'حالات لا تُترك لتقدير النظام وحده',
+      sub: 'كل حالة استثنائية لها سياسة تعامل واضحة، لا قرار عشوائي.',
+      hint: 'مرر المؤشر فوق البطاقة لرؤية سياسة التعامل',
+      cue: 'مرر للمزيد ›',
+      policyLabel: 'سياسة التعامل',
+      cases: [
+        { front: 'العميل يرفض الإجابة عن الأسئلة', back: 'يُسجَّل بالحد الأدنى من المعلومات ويُصنَّف "يحتاج مراجعة" دون إجبار العميل على الاستمرار.' },
+        { front: 'العميل يطلب موظفًا مباشرة', back: 'تُحوَّل المحادثة فورًا لموظف مع ملخص لما جرى، دون إكمال بقية الأسئلة.' },
+        { front: 'رسالة صوتية أو صورة', back: 'تُحفظ المرفقات في ملف العميل وتُحوَّل الحالة لموظف إن تعذّر فهم المحتوى تلقائيًا.' },
+        { front: 'العميل غاضب', back: 'تُحوَّل المحادثة فورًا لموظف مع علم بأولوية عالية، دون محاولة تهدئة آلية.' },
+        { front: 'رقم موجود مسبقًا في CRM', back: 'يُسترجع آخر تواصل مع العميل، ولا يُنشأ سجل مكرر.' },
+        { front: 'عميل سابق لديه شكوى', back: 'يُنبَّه الموظف بالسجل السابق قبل بدء أي تأهيل جديد.' },
+        { front: 'عميل خارج أوقات العمل', back: 'يستقبل ترحيبًا يوضح موعد الرد، ويُسجَّل الطلب للمتابعة في أول وقت عمل.' },
+        { front: 'معلومات متناقضة عن العميل', back: 'يُعلَّم الملف "يحتاج مراجعة" بدل تصنيف تلقائي قد يكون خاطئًا.' },
+      ],
+    },
+    deliverables: {
+      kicker: 'ما تحصل عليه',
+      headline: 'نظام استقبال وتأهيل جاهز، لا مجرد رد آلي',
+      sub: 'كل ما تحتاجه لاستقبال كل عميل وتأهيله ومتابعته دون أن يضيع في الطابور.',
+      items: [
+        { text: 'وكيل محادثة مخصص لنشاطك' },
+        { text: 'شجرة أسئلة تأهيل قابلة للتخصيص' },
+        { text: 'نظام Lead Scoring بمعايير واضحة' },
+        { text: 'ربط كامل مع CRM أو قاعدة بيانات' },
+        { text: 'كشف تكرار للعملاء' },
+        { text: 'توزيع تلقائي للعملاء على الموظفين' },
+        { text: 'حجز مواعيد تلقائي' },
+        { text: 'لوحة أداء وتقرير بمصادر العملاء' },
+      ],
+    },
+    faq: {
+      kicker: 'أسئلة شائعة',
+      headline: 'كل ما تحتاج معرفته قبل البدء',
+      items: [
+        { q: 'كيف يحدد النظام إن كان العميل ساخنًا أم باردًا؟', a: 'وفق معايير تقييم توافق عليها معنا مسبقًا: الميزانية، قرب الشراء، ملاءمة الخدمة، الموقع، وصلاحية القرار — ثم يمنح درجة ويصنف العميل تلقائيًا.' },
+        { q: 'ماذا يحدث لو رفض العميل الإجابة عن الأسئلة؟', a: 'يُسجَّل بالمعلومات المتاحة ويُصنَّف "يحتاج مراجعة" دون إجبار العميل على الاستمرار.' },
+        { q: 'هل يمكن تخصيص أسئلة التأهيل حسب نشاطنا؟', a: 'نعم، تُبنى شجرة الأسئلة والمعايير بالكامل وفق خدماتك ونشاطك، ويمكن تعديلها في أي وقت.' },
+        { q: 'ماذا يحدث للعميل المصنف "ساخنًا"؟', a: 'يُحوَّل فورًا للموظف المناوب أو يُحجز له موعد مباشرة دون انتظار الدور.' },
+        { q: 'هل يكتشف النظام العملاء المكررين؟', a: 'نعم، يبحث عن رقم الهاتف أو البريد داخل CRM ويسترجع آخر تواصل قبل إنشاء أي سجل جديد.' },
+        { q: 'هل يمكن ربط النظام بقنواتنا الحالية مثل واتساب والإعلانات؟', a: 'نعم، يدعم واتساب، الموقع، الدردشة، إعلانات فيسبوك وانستغرام، البريد، وصفحات الهبوط، مع ربط بالـCRM الحالي أو Google Sheets.' },
+      ],
+    },
+    form: {
+      kicker: 'ابدأ الآن',
+      headline: 'جاهز تستقبل كل عميل محتمل وتؤهله في ثوانٍ بدل ساعات؟',
+      sub: 'عبّئ النموذج وسيتواصل معك فريقنا خلال وقت قصير لبدء تركيب نظام استقبال وتأهيل العملاء على قنواتك الحالية.',
+      trustPoints: ['يعمل مع القنوات التي تستخدمها فعليًا دون تغييرها', 'معايير تقييم وتصنيف قابلة للتخصيص الكامل', 'ربط مباشر مع CRM الحالي أو Google Sheets'],
+      fields: { name: 'الاسم الكامل', email: 'البريد الإلكتروني', phone: 'رقم الجوال / واتساب' },
+      errors: { name: 'الرجاء إدخال الاسم', email: 'بريد إلكتروني غير صالح', phone: 'رقم جوال غير صالح' },
+      submit: 'احصل على هذه الخدمة الآن',
+      submitting: 'جارٍ الإرسال…',
+      disclaimer: 'بياناتك تُستخدم فقط للتواصل بخصوص هذه الخدمة.',
+      successTitle: 'تم فتح واتساب',
+      successBody: 'أرسل الرسالة الجاهزة لإكمال طلبك، وسيتواصل معك فريق فلق AI بعد استلامها.',
+    },
+    footer: { tagline: 'وكلاء ذكاء اصطناعي يستقبلون كل عميل ويؤهلونه، لا يتركونه في الطابور', copyright: '© Falaq AI — جميع الحقوق محفوظة' },
+  },
+  en: {
+    nav: { langToggle: 'AR', cta: 'Get This Service' },
+    hero: {
+      eyebrow: 'AI Agent for Lead Reception & Qualification',
+      headline: 'A lead who gets no instant reply is a lead heading to a competitor. Falaq greets them, qualifies them, scores them, and routes them to the right action in seconds.',
+      brief: 'In plain terms: Falaq AI receives every customer from WhatsApp, the website, or ads, gathers their info, scores their readiness, and routes them instantly to a sales rep or the right follow-up sequence.',
+      sub: 'Slow replies, inconsistent qualification questions, duplicate customers, leads with no clear tier — all of it drains your sales team\u2019s time and loses real opportunities. Falaq AI greets every lead the moment it arrives, asks the right qualifying questions, scores it against your rules, and routes it to the right action without delay.',
+      ctaPrimary: 'Get This Service Now',
+      ctaSecondary: 'See how it works',
+      scrollHint: 'Scroll down',
+    },
+    ticker: {
+      items: ['Slow customer replies', 'Inconsistent qualification questions', 'Duplicate customers across systems', 'Leads with no clear tier', 'Unknown lead source', 'Hot leads with no instant follow-up', 'Missed appointments', 'Incomplete customer info', 'Unqualified leads eating sales time', 'Multiple channels, no unified system'],
+    },
+    brandVideo: {
+      kicker: 'See it in action',
+      headline: 'From a flooded inbox to qualified, ready-to-close leads',
+      sub: 'Ahmed\u2019s morning, before Falaq AI and after — the full walkthrough from the first message to a booked appointment.',
+    },
+    trust: {
+      kicker: 'Why Falaq',
+      headline: 'Qualification with clear rules, not a guess',
+      sub: 'Every score, every tier, every action passes through controls you approve in advance.',
+      pillars: [
+        { num: '01', title: 'Never skips a mandatory field', desc: 'No customer is scored before the agreed mandatory fields are collected, no matter how interested they seem.' },
+        { num: '02', title: 'Never leaves a hot lead waiting', desc: 'A lead tagged "hot" is transferred or booked instantly, without waiting its turn in the queue.' },
+        { num: '03', title: 'Never decides alone on conflicts', desc: 'When information is contradictory or unclear, the file goes to a rep for review instead of a wrong auto-tier.' },
+        { num: '04', title: 'Logs every conversation and source', desc: 'Every interaction, its source, and its score is saved to a full, reviewable CRM record.' },
+      ],
+    },
+    channels: {
+      kicker: 'Supported channels',
+      headline: 'Receives the customer from whichever channel they use',
+      sub: 'One unified reception and qualification point, whatever the lead\u2019s source.',
+      items: [
+        { tag: 'WA', label: 'WhatsApp Business' },
+        { tag: 'WEB', label: 'Website forms' },
+        { tag: '💬', label: 'On-site live chat' },
+        { tag: 'FB', label: 'Facebook Lead Ads' },
+        { tag: 'IG', label: 'Instagram Lead Ads' },
+        { tag: '@', label: 'Email' },
+        { tag: 'LP', label: 'Landing pages' },
+        { tag: 'CRM', label: 'Existing CRM' },
+        { tag: 'GS', label: 'Google Sheets' },
+      ],
+      hubTitle: 'One qualification point',
+      hubSub: 'Every customer, from any channel, enters the same reception and scoring path.',
+    },
+    workflow: {
+      kicker: 'The customer journey',
+      headline: 'From the first message to the right action',
+      sub: 'Four stages run automatically throughout the day for every new lead.',
+      steps: [
+        { revealId: 'wf-0', tag: '01', mock: 'sent', title: 'Reception', desc: 'Logs the arrival time, identifies the source and campaign, checks whether the customer is new or returning, and sends a welcome fit for the source and service.' },
+        { revealId: 'wf-1', tag: '02', mock: 'track', title: 'Info gathering', desc: 'Asks qualifying questions tailored to your business, and never moves forward before the mandatory fields are complete.' },
+        { revealId: 'wf-2', tag: '03', mock: 'classify', title: 'Scoring', desc: 'Scores the customer against agreed criteria and tiers them as hot, warm, cold, unqualified, or needs review.' },
+        { revealId: 'wf-3', tag: '04', mock: 'alert', title: 'Action', desc: 'Books an appointment, transfers to a rep, starts a follow-up sequence, or closes the file with a logged reason — depending on the tier.' },
+      ],
+      mockLabels: { sent: 'Illustrative demo', track: 'Illustrative demo', classify: 'Illustrative demo', alert: 'Illustrative demo' },
+      mockSent: { title: 'Welcome message sent', time: 'Today — 9:15 AM', status: '✓ New lead logged' },
+      mockTrack: { count: '7/9', opens: 'fields complete', firstOpen: 'Left: budget, timing' },
+      mockTags: [
+        { label: 'Hot', active: true }, { label: 'Warm' }, { label: 'Cold' }, { label: 'Needs review' },
+      ],
+      mockAlert: { title: 'Appointment booked', sub: 'With the on-duty sales rep', status: '✓ Executed' },
+    },
+    scoring: {
+      kicker: 'Lead scoring engine',
+      headline: 'Every customer gets a clear qualification score',
+      sub: 'Criteria and weights are fully customizable to your business — this is a live example on a real lead.',
+      demoTag: 'Illustrative demo',
+      resultTier: 'Hot',
+      resultDesc: 'Ready for immediate contact or booking — routed straight to the on-duty sales rep.',
+      factors: [
+        { label: 'Budget fit', max: 25, achieved: 22 },
+        { label: 'Purchase timing', max: 20, achieved: 18 },
+        { label: 'Service fit', max: 20, achieved: 20 },
+        { label: 'Location', max: 10, achieved: 8 },
+        { label: 'Decision-maker', max: 10, achieved: 10 },
+        { label: 'Info completeness', max: 10, achieved: 4 },
+        { label: 'Engagement', max: 5, achieved: 0 },
+      ],
+      tiers: [
+        { name: 'Hot', color: '#A855F7', action: 'Instant transfer to a sales rep or direct booking', active: true },
+        { name: 'Warm', color: '#C896FF', action: 'Added to a scheduled follow-up sequence' },
+        { name: 'Cold', color: '#8B5CF6', action: 'Placed in a long-term nurture campaign' },
+        { name: 'Unqualified', color: '#5A5A68', action: 'Closed with the reason logged' },
+        { name: 'Needs review', color: '#C084FC', action: 'Sent to a rep to resolve the conflict' },
+      ],
+    },
+    compare: {
+      kicker: 'The real difference',
+      headline: 'What happens to that new lead, either way?',
+      sub: 'Same customer, same opportunity — two completely different outcomes.',
+      withoutLabel: 'Without Falaq AI',
+      withLabel: 'With Falaq AI',
+      withoutSteps: ['New lead sends a message', 'Sits unanswered for hours', 'Reaches out to a faster competitor', 'The opportunity is lost with no logged reason'],
+      withoutPopup: 'No one replied fast enough — the lead moved to a competitor while the message waited in the queue.',
+      withSteps: ['New lead sends a message', 'Greeted and qualified instantly', 'Gets a clear score and tier', 'Routed to the right action automatically', 'Opportunity documented and reviewable in real time'],
+      withPopup: 'The lead got an instant reply and the right routing, fully documented in the CRM.',
+    },
+    dashboard: {
+      kicker: 'Full visibility',
+      headline: 'A dashboard that shows the health of your intake',
+      sub: 'Every new lead, every tier, every booked appointment — in one place, updated live.',
+      cardTitle: 'Lead Dashboard',
+      demoTag: 'Illustrative demo',
+    },
+    exceptions: {
+      kicker: 'Special cases',
+      headline: 'Cases never left to the system\u2019s judgment alone',
+      sub: 'Every exceptional case has a clear handling policy, not a random call.',
+      hint: 'Hover a card to see its handling policy',
+      cue: 'Hover for more ›',
+      policyLabel: 'Handling policy',
+      cases: [
+        { front: 'Customer refuses to answer questions', back: 'Logged with the minimum info available and tagged "needs review" — never forced to continue.' },
+        { front: 'Customer asks for a human directly', back: 'The conversation is transferred instantly to a rep with a summary, without finishing the remaining questions.' },
+        { front: 'A voice note or image message', back: 'Attachments are saved to the customer file, and the case is transferred to a rep if content can\u2019t be parsed automatically.' },
+        { front: 'An angry customer', back: 'The conversation is transferred instantly to a rep flagged high priority, with no automated attempt to de-escalate.' },
+        { front: 'Number already exists in the CRM', back: 'The last contact history is retrieved, and no duplicate record is created.' },
+        { front: 'A past customer with a complaint', back: 'The rep is alerted to the prior record before any new qualification begins.' },
+        { front: 'Customer messages outside working hours', back: 'They get a welcome that states response time, and the request is logged for the next working hour.' },
+        { front: 'Contradictory information', back: 'The file is flagged "needs review" instead of a possibly wrong auto-tier.' },
+      ],
+    },
+    deliverables: {
+      kicker: 'What you get',
+      headline: 'A ready intake & qualification system, not just an auto-reply',
+      sub: 'Everything you need to receive, qualify, and follow up on every lead without losing it in the queue.',
+      items: [
+        { text: 'A chat agent tailored to your business' },
+        { text: 'A customizable qualification question tree' },
+        { text: 'A lead scoring system with clear criteria' },
+        { text: 'Full integration with your CRM or database' },
+        { text: 'Duplicate lead detection' },
+        { text: 'Automatic distribution to reps' },
+        { text: 'Automatic appointment booking' },
+        { text: 'A performance dashboard and source report' },
+      ],
+    },
+    faq: {
+      kicker: 'FAQ',
+      headline: 'Everything you need to know before you start',
+      items: [
+        { q: 'How does the system decide if a lead is hot or cold?', a: 'Against scoring criteria agreed with you in advance: budget, purchase timing, service fit, location, and decision authority — then it scores and tiers the lead automatically.' },
+        { q: 'What happens if a customer refuses to answer?', a: 'They\u2019re logged with the available info and tagged "needs review" — never forced to continue.' },
+        { q: 'Can we customize the qualification questions?', a: 'Yes, the question tree and criteria are built entirely around your services and can be adjusted anytime.' },
+        { q: 'What happens to a lead tagged "hot"?', a: 'They\u2019re transferred instantly to the on-duty rep or booked directly, with no wait in the queue.' },
+        { q: 'Does it detect duplicate customers?', a: 'Yes, it checks the phone or email against the CRM and retrieves the last contact history before creating any new record.' },
+        { q: 'Can it connect to our existing channels like WhatsApp and ads?', a: 'Yes, it supports WhatsApp, the website, live chat, Facebook and Instagram Lead Ads, email, and landing pages, with a link to your existing CRM or Google Sheets.' },
+      ],
+    },
+    form: {
+      kicker: 'Start now',
+      headline: 'Ready to greet and qualify every lead in seconds instead of hours?',
+      sub: 'Fill in the form and our team will reach out shortly to start setting up lead reception and qualification on your existing channels.',
+      trustPoints: ['Works with the channels you already use, unchanged', 'Fully customizable scoring and tiering rules', 'Direct link to your existing CRM or Google Sheets'],
+      fields: { name: 'Full name', email: 'Email address', phone: 'Phone / WhatsApp number' },
+      errors: { name: 'Please enter your name', email: 'Invalid email address', phone: 'Invalid phone number' },
+      submit: 'Get This Service Now',
+      submitting: 'Sending…',
+      disclaimer: 'Your info is used only to contact you about this service.',
+      successTitle: 'WhatsApp opened',
+      successBody: 'Send the prepared message to complete your request. The Falaq AI team will follow up after receiving it.',
+    },
+    footer: { tagline: 'AI agents that greet and qualify every lead, never leaving one in the queue', copyright: '© Falaq AI — All rights reserved' },
+  },
+};
+
+class Component extends DCLogic {
+  state = {
+    lang: 'ar',
+    revealed: {},
+    openFaq: 0,
+    formName: '', formEmail: '', formPhone: '',
+    touched: {}, submitting: false, submitted: false,
+    dashProgress: 0,
+    scoreProgress: 0,
+  };
+
+  constructor(props) {
+    super(props);
+    this._els = {};
+  }
+
+  componentDidMount() {
+    this._observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('data-reveal');
+          if (id && !this.state.revealed[id]) {
+            this.setState((s) => ({ revealed: { ...s.revealed, [id]: true } }));
+          }
+          this._observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.18 });
+    requestAnimationFrame(() => {
+      Object.keys(this._els).forEach((id) => {
+        if (this._els[id]) this._observer.observe(this._els[id]);
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    if (this._observer) this._observer.disconnect();
+    if (this._raf) Object.values(this._raf).forEach((r) => cancelAnimationFrame(r));
+  }
+
+  animateProgress(key) {
+    if (!this._raf) this._raf = {};
+    const dur = 1400;
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      this.setState({ [key]: eased });
+      if (p < 1) this._raf[key] = requestAnimationFrame(tick);
+    };
+    this._raf[key] = requestAnimationFrame(tick);
+  }
+
+  regReveal(id) {
+    return (el) => { this._els[id] = el; };
+  }
+
+  scrollToRef(ref) {
+    if (!ref) return;
+    const top = ref.getBoundingClientRect().top + window.scrollY - 84;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+
+  isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  isValidPhone(v) { return /^[+0-9\s-]{7,}$/.test(v); }
+
+  renderVals() {
+    const lang = this.state.lang;
+    const t = COPY[lang];
+    const isAr = lang === 'ar';
+    const fontHead = isAr ? "'Tajawal',sans-serif" : "'Manrope',sans-serif";
+    const fontBody = isAr ? "'Tajawal',sans-serif" : "'Manrope',sans-serif";
+    const startAlign = isAr ? 'right' : 'left';
+
+    const revealStyle = (id, base) => {
+      const on = !!this.state.revealed[id];
+      return {
+        ...base,
+        opacity: on ? 1 : 0,
+        transform: on ? 'translateY(0)' : 'translateY(28px)',
+        transition: 'opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1)',
+      };
+    };
+
+    const tickerItemsVM = [...t.ticker.items, ...t.ticker.items].map((label) => ({
+      label,
+      style: {
+        fontFamily: fontBody, fontSize: '13.5px', fontWeight: 600, color: '#B7BECB', whiteSpace: 'nowrap',
+        background: '#10172A', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '999px', padding: '9px 18px', flexShrink: 0,
+      },
+    }));
+
+    const channelsVM = t.channels.items.map((ch, i) => ({
+      tag: ch.tag,
+      label: ch.label,
+      cardStyle: {
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', textAlign: 'center',
+        background: '#10172A', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '20px 14px',
+        opacity: 0,
+        animation: `chipPopIn 0.55s cubic-bezier(0.34,1.56,0.64,1) ${i * 0.08}s both`,
+      },
+      badgeStyle: {
+        width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(168,85,247,0.1)',
+        border: '1px solid rgba(168,85,247,0.3)', color: '#A855F7', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: fontHead, fontWeight: 800, fontSize: '13px',
+      },
+      labelStyle: { fontFamily: fontBody, fontSize: '12.5px', fontWeight: 600, color: '#B7BECB' },
+    }));
+
+    const targets = { newLeads: 342, hotLeads: 96, booked: 71, unqualified: 28 };
+    const cur = (n) => n;
+    const dashboardStats = [
+      { label: isAr ? 'عملاء جدد' : 'New leads', display: cur(targets.newLeads) },
+      { label: isAr ? 'عملاء ساخنون' : 'Hot leads', display: cur(targets.hotLeads) },
+      { label: isAr ? 'مواعيد محجوزة' : 'Booked', display: cur(targets.booked) },
+      { label: isAr ? 'نسبة اكتمال التأهيل' : 'Qualification rate', display: cur(88) + '%' },
+    ];
+    const barDef = [
+      { key: 'newLeads', label: isAr ? 'عملاء جدد' : 'New leads', target: targets.newLeads, max: 400, color: '#A855F7' },
+      { key: 'hotLeads', label: isAr ? 'عملاء ساخنون' : 'Hot leads', target: targets.hotLeads, max: 400, color: '#A855F7' },
+      { key: 'booked', label: isAr ? 'مواعيد محجوزة' : 'Booked appointments', target: targets.booked, max: 400, color: '#8B5CF6' },
+      { key: 'unqualified', label: isAr ? 'غير مؤهلين' : 'Unqualified', target: targets.unqualified, max: 400, color: '#E85D5D' },
+      { key: 'completeness', label: isAr ? 'نسبة اكتمال التأهيل' : 'Qualification rate', target: 88, max: 100, color: '#7CD992' },
+    ];
+    const dashboardBars = barDef.map((b, bi) => ({
+      label: b.label,
+      displayVal: cur(b.target) + (b.key === 'completeness' ? '%' : ''),
+      fillStyle: {
+        height: '100%', borderRadius: '5px', background: b.color,
+        '--w': ((b.target / b.max) * 100) + '%',
+        width: ((b.target / b.max) * 100) + '%',
+        animation: `barFillW 1.2s cubic-bezier(0.16,1,0.3,1) ${bi * 0.1}s both`,
+      },
+    }));
+
+    const faqItemsVM = t.faq.items.map((item, i) => {
+      const open = this.state.openFaq === i;
+      return {
+        q: item.q, a: item.a, open,
+        toggle: () => this.setState((s) => ({ openFaq: s.openFaq === i ? -1 : i })),
+        chevronStyle: {
+          display: 'inline-flex', width: '22px', height: '22px', alignItems: 'center', justifyContent: 'center',
+          fontSize: '16px', color: '#A855F7', transition: 'transform 0.35s ease',
+          transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
+        },
+        answerWrapStyle: {
+          maxHeight: open ? '260px' : '0px', overflow: 'hidden',
+          transition: 'max-height 0.4s cubic-bezier(0.16,1,0.3,1)',
+        },
+      };
+    });
+
+    const workflowStepsVM = t.workflow.steps.map((step) => {
+      const on = !!this.state.revealed[step.revealId];
+      return {
+        ...step,
+        ref: this.regReveal(step.revealId),
+        isSent: step.mock === 'sent',
+        isTrack: step.mock === 'track',
+        isClassify: step.mock === 'classify',
+        isAlert: step.mock === 'alert',
+        wrapStyle: {
+          position: 'relative', display: 'flex', flexWrap: 'wrap', gap: '24px', paddingBottom: '56px', alignItems: 'flex-start',
+          opacity: on ? 1 : 0,
+          transform: on ? 'translateX(0)' : `translateX(${isAr ? '' : '-'}36px)`,
+          transition: 'opacity 0.55s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1)',
+        },
+        circleStyle: {
+          flexShrink: 0, width: '56px', height: '56px', borderRadius: '16px', background: '#10172A',
+          border: '2px solid #A855F7', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1,
+          fontFamily: fontHead, fontWeight: 800, fontSize: '17px', color: '#A855F7',
+          transform: on ? 'scale(1)' : 'scale(0.4)',
+          boxShadow: on ? '0 0 0 6px rgba(168,85,247,0.14)' : '0 0 0 0px rgba(168,85,247,0)',
+          transition: 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.15s, box-shadow 0.6s ease 0.25s',
+        },
+        mockWrapStyle: {
+          flex: '1 1 240px', minWidth: '240px', maxWidth: '280px', background: '#10172A',
+          border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px',
+          overflow: 'hidden',
+          opacity: on ? 1 : 0,
+          transition: 'opacity 0.3s ease 0.3s',
+        },
+        mockInnerStyle: {
+          padding: '18px 20px',
+          clipPath: on ? 'inset(0 0% 0 0)' : (isAr ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)'),
+          transition: 'clip-path 0.65s cubic-bezier(0.16,1,0.3,1) 0.3s',
+        },
+      };
+    });
+
+    const mockLabelStyle = {
+      fontFamily: fontBody, fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', color: '#5C6577', textTransform: 'uppercase',
+    };
+    const mockIconCircleStyle = {
+      width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(168,85,247,0.1)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', flexShrink: 0,
+    };
+    const mockLineStrongStyle = { fontFamily: fontBody, fontWeight: 700, fontSize: '13.5px', color: '#E8E8EC' };
+    const mockLineMutedStyle = { fontFamily: fontBody, fontSize: '12px', color: '#8891A0', marginTop: '2px' };
+    const mockPillStyle = {
+      display: 'inline-block', marginTop: '14px', fontFamily: fontBody, fontSize: '11.5px', fontWeight: 700, color: '#7CD992',
+      background: 'rgba(124,217,146,0.1)', border: '1px solid rgba(124,217,146,0.3)', borderRadius: '999px', padding: '4px 12px',
+    };
+
+    const workflowMockTagsVM = t.workflow.mockTags.map((chip) => ({
+      label: chip.label,
+      style: {
+        fontFamily: fontBody, fontSize: '12px', fontWeight: 700, borderRadius: '999px', padding: '6px 13px',
+        color: chip.active ? '#03030A' : '#B7BECB',
+        background: chip.active ? '#A855F7' : 'rgba(255,255,255,0.05)',
+        border: chip.active ? 'none' : '1px solid rgba(255,255,255,0.12)',
+      },
+    }));
+
+    const scoreFactorsVM = t.scoring.factors.map((f, fi) => ({
+      label: f.label,
+      displayVal: f.achieved + '/' + f.max,
+      fillStyle: {
+        height: '100%', borderRadius: '5px', background: '#A855F7',
+        '--w': ((f.achieved / 25) * 100) + '%',
+        width: ((f.achieved / 25) * 100) + '%',
+        animation: `barFillW 1.1s cubic-bezier(0.16,1,0.3,1) ${fi * 0.1}s both`,
+      },
+    }));
+    const totalAchieved = t.scoring.factors.reduce((a, f) => a + f.achieved, 0);
+    const scoreDisplay = totalAchieved;
+    const circumference = 2 * Math.PI * 60;
+    const finalOffset = circumference - (totalAchieved / 100) * circumference;
+    const scoreCircleStyle = {
+      strokeDasharray: circumference,
+      strokeDashoffset: finalOffset,
+      '--circ': circumference, '--off': finalOffset,
+      transform: 'rotate(-90deg)', transformOrigin: '70px 70px',
+      animation: 'circleFill 1.3s cubic-bezier(0.16,1,0.3,1) 0.1s both',
+    };
+    const scoreTiersVM = t.scoring.tiers.map((tier) => ({
+      name: tier.name,
+      action: tier.action,
+      cardStyle: {
+        background: tier.active ? `linear-gradient(160deg, ${tier.color}22, #10172A)` : '#10172A',
+        border: tier.active ? `1.5px solid ${tier.color}88` : '1px solid rgba(255,255,255,0.07)',
+        borderRadius: '14px', padding: '16px', animation: tier.active ? 'tierPulse 2.2s ease-in-out infinite' : 'none',
+      },
+      dotStyle: { width: '10px', height: '10px', borderRadius: '50%', background: tier.color, marginBottom: '10px' },
+      nameStyle: { fontFamily: fontHead, fontWeight: 800, fontSize: '14.5px', color: '#E8E8EC', marginBottom: '6px' },
+      actionStyle: { fontFamily: fontBody, fontSize: '12.5px', lineHeight: 1.6, color: '#9AA3B2' },
+    }));
+
+    const buildComparePath = (steps, tone) => {
+      const accent = tone === 'bad' ? '#E85D5D' : '#A855F7';
+      const accentBg = tone === 'bad' ? 'rgba(232,93,93,0.09)' : 'rgba(168,85,247,0.09)';
+      const accentBorder = tone === 'bad' ? 'rgba(232,93,93,0.45)' : 'rgba(168,85,247,0.5)';
+      return steps.map((label, i) => {
+        const isEnd = i === steps.length - 1;
+        const delay = i * 0.4;
+        return {
+          label,
+          isEnd,
+          hasLine: !isEnd,
+          boxStyle: {
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            maxWidth: '300px', margin: '0 auto', textAlign: 'center',
+            fontFamily: fontBody, fontWeight: 600, fontSize: '14px', lineHeight: 1.5,
+            padding: '16px 18px', borderRadius: '10px',
+            color: isEnd ? '#E8E8EC' : '#D5D9E0',
+            background: isEnd ? accentBg : '#10172A',
+            border: isEnd ? `1.5px solid ${accentBorder}` : '1px solid rgba(255,255,255,0.08)',
+            opacity: 0,
+            '--rot': tone === 'bad' ? '-5deg' : '5deg',
+            animation: `boxPopIn 0.5s cubic-bezier(0.34,1.56,0.64,1) ${delay}s both`,
+          },
+          markStyle: {
+            fontSize: '16px', color: accent, fontWeight: 800, flexShrink: 0,
+            display: 'inline-block', position: 'relative', opacity: 0,
+            animation: `popIn 0.45s cubic-bezier(0.34,1.56,0.64,1) ${delay + 0.45}s both`,
+          },
+          lineStyle: {
+            width: '2px', height: '30px', margin: '0 auto', background: tone === 'bad' ? 'rgba(232,93,93,0.4)' : 'rgba(168,85,247,0.4)',
+            transformOrigin: 'top', transform: 'scaleY(0)',
+            animation: `lineGrow 0.4s ease ${delay + 0.2}s both`,
+          },
+          popupStyle: {
+            marginTop: '16px', maxWidth: '300px', marginInline: 'auto',
+            fontFamily: fontBody, fontSize: '13px', lineHeight: 1.7, textAlign: 'center',
+            color: '#D5D9E0', background: accentBg, border: `1px solid ${accentBorder}`, borderRadius: '12px', padding: '14px 16px',
+            position: 'relative', opacity: 0,
+            animation: `popupFadeIn 0.4s ease ${delay + 0.65}s both`,
+          },
+        };
+      });
+    };
+    const compareWithoutVM = buildComparePath(t.compare.withoutSteps, 'bad');
+    const compareWithVM = buildComparePath(t.compare.withSteps, 'good');
+
+    const exceptionsOn = !!this.state.revealed['exceptions'];
+    const exceptionCardsVM = t.exceptions.cases.map((c, i) => ({
+      front: c.front, back: c.back,
+      outerStyle: {
+        perspective: '1200px', height: '190px',
+        opacity: exceptionsOn ? 1 : 0,
+        transform: exceptionsOn ? 'translateY(0)' : 'translateY(20px)',
+        transition: `opacity 0.5s ease ${i * 0.06}s, transform 0.5s ease ${i * 0.06}s`,
+      },
+      flipperStyle: {
+        position: 'relative', width: '100%', height: '100%', cursor: 'pointer',
+        transformStyle: 'preserve-3d', transition: 'transform 0.6s cubic-bezier(0.4,0.2,0.2,1)',
+      },
+      flipperHoverStyle: { transform: 'rotateY(180deg)' },
+      frontStyle: {
+        position: 'absolute', inset: 0, backfaceVisibility: 'hidden',
+        background: '#10172A', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px',
+        padding: '22px 20px', display: 'flex', flexDirection: 'column', gap: '10px',
+      },
+      backStyle: {
+        position: 'absolute', inset: 0, backfaceVisibility: 'hidden', transform: 'rotateY(180deg)',
+        background: 'linear-gradient(160deg, rgba(168,85,247,0.16), #10172A)', border: '1px solid rgba(168,85,247,0.35)',
+        borderRadius: '16px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '8px', justifyContent: 'center',
+      },
+      frontIconStyle: {
+        width: '32px', height: '32px', borderRadius: '9px', background: 'rgba(168,85,247,0.1)',
+        border: '1px solid rgba(168,85,247,0.3)', color: '#A855F7', fontWeight: 800, fontSize: '15px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      },
+      frontTitleStyle: { fontFamily: fontHead, fontWeight: 700, fontSize: '15px', color: '#E8E8EC', lineHeight: 1.5, flex: 1 },
+      frontCueStyle: { fontFamily: fontBody, fontSize: '11.5px', color: '#5C6577' },
+      backTitleStyle: { fontFamily: fontHead, fontWeight: 800, fontSize: '11.5px', letterSpacing: '0.5px', color: '#A855F7', textTransform: 'uppercase' },
+      backTextStyle: { fontFamily: fontBody, fontSize: '13.5px', lineHeight: 1.7, color: '#D5D9E0' },
+    }));
+
+    const errNameShow = !!this.state.touched.name && this.state.formName.trim().length === 0;
+    const errEmailShow = !!this.state.touched.email && !this.isValidEmail(this.state.formEmail);
+    const errPhoneShow = !!this.state.touched.phone && !this.isValidPhone(this.state.formPhone);
+
+    return {
+      t, fontHead, fontBody, startAlign, lang,
+      rootStyle: {
+        direction: isAr ? 'rtl' : 'ltr', fontFamily: fontBody, background: '#03030A',
+        minHeight: '100vh', overflowX: 'hidden',
+      },
+      setRootRef: (el) => { this._root = el; },
+      heroOrbSide1: isAr ? 'right' : 'left',
+      heroOrbSide2: isAr ? 'left' : 'right',
+
+      navStyle: {
+        position: 'sticky', top: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '16px 32px', background: 'rgba(7,11,20,0.75)', backdropFilter: 'blur(14px)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+      },
+      langBtnStyle: {
+        fontFamily: fontBody, fontWeight: 600, fontSize: '13px', color: '#D5D9E0', background: 'transparent',
+        border: '1px solid rgba(255,255,255,0.16)', borderRadius: '999px', padding: '8px 16px', cursor: 'pointer',
+      },
+      navCtaStyle: {
+        fontFamily: fontHead, fontWeight: 700, fontSize: '13.5px', color: '#03030A', background: '#A855F7',
+        border: 'none', borderRadius: '999px', padding: '10px 20px', cursor: 'pointer',
+      },
+      toggleLang: () => this.setState((s) => ({ lang: s.lang === 'ar' ? 'en' : 'ar' })),
+      scrollToForm: () => this.scrollToRef(this._formRef),
+      scrollToWorkflow: () => this.scrollToRef(this._workflowRef),
+      setWorkflowRef: (el) => { this._workflowRef = el; },
+      setFormRef: (el) => { this._formRef = el; },
+
+      heroSectionStyle: {
+        position: 'relative', padding: '120px 0 60px', overflow: 'hidden',
+      },
+      heroEyebrowStyle: {
+        fontFamily: fontHead, fontWeight: 700, fontSize: '13px', letterSpacing: '0.5px', color: '#A855F7',
+        background: 'rgba(168,85,247,0.1)', border: '1px solid rgba(168,85,247,0.35)', borderRadius: '999px', padding: '8px 18px',
+      },
+      heroHeadlineStyle: {
+        fontFamily: fontHead, fontWeight: 900, fontSize: 'clamp(34px,5.4vw,58px)', lineHeight: 1.25, color: '#E8E8EC', margin: 0,
+      },
+      heroSubStyle: {
+        fontFamily: fontBody, fontWeight: 400, fontSize: '18px', lineHeight: 1.85, color: '#A9B0BE', maxWidth: '680px', margin: 0,
+      },
+      heroBriefStyle: {
+        fontFamily: fontBody, fontWeight: 600, fontSize: '15.5px', lineHeight: 1.7, color: '#A855F7',
+        background: 'rgba(168,85,247,0.07)', border: '1px solid rgba(168,85,247,0.22)', borderRadius: '12px',
+        padding: '12px 20px', maxWidth: '620px',
+      },
+      heroPrimaryBtnStyle: {
+        position: 'relative', fontFamily: fontHead, fontWeight: 800, fontSize: '16px', color: '#03030A', background: '#A855F7',
+        border: 'none', borderRadius: '999px', padding: '17px 34px', cursor: 'pointer', boxShadow: '0 12px 30px rgba(168,85,247,0.25)',
+      },
+      heroCtaRingStyle: {
+        position: 'absolute', inset: 0, borderRadius: '999px', border: '2px solid #A855F7', animation: 'pulseRing 2.2s ease-out infinite',
+      },
+      heroSecondaryBtnStyle: {
+        fontFamily: fontHead, fontWeight: 700, fontSize: '16px', color: '#E8E8EC', background: 'transparent',
+        border: '1px solid rgba(255,255,255,0.2)', borderRadius: '999px', padding: '17px 30px', cursor: 'pointer',
+      },
+      heroScrollCueStyle: {
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', marginTop: '38px',
+      },
+
+      tickerItemsVM,
+      tickerWrapStyle: {
+        overflow: 'hidden', padding: '20px 0', background: '#0A0F1B',
+        borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)',
+      },
+      tickerTrackStyle: {
+        display: 'flex', gap: '14px', width: 'max-content', direction: 'ltr',
+        animation: 'marqueeScroll 30s linear infinite',
+      },
+
+      kickerStyle: {
+        fontFamily: fontHead, fontWeight: 800, fontSize: '12.5px', letterSpacing: '1.2px', color: '#A855F7',
+        textTransform: 'uppercase', marginBottom: '14px',
+      },
+      h2Style: {
+        fontFamily: fontHead, fontWeight: 800, fontSize: 'clamp(26px,3.4vw,38px)', color: '#E8E8EC', margin: '0 0 14px',
+      },
+      h2StyleLeft: {
+        fontFamily: fontHead, fontWeight: 800, fontSize: 'clamp(24px,3vw,32px)', color: '#E8E8EC', margin: '10px 0 14px', textAlign: startAlign,
+      },
+      pMutedStyle: { fontFamily: fontBody, fontSize: '16px', lineHeight: 1.8, color: '#8891A0', margin: 0 },
+
+      trustSectionStyle: { padding: '90px 0', background: '#0A0F1B' },
+      pillarCardStyle: {
+        background: '#10172A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '18px', padding: '26px 22px',
+      },
+      pillarIconWrapStyle: {
+        width: '46px', height: '46px', borderRadius: '12px', background: 'rgba(168,85,247,0.1)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: fontHead, fontWeight: 800, fontSize: '15px', color: '#A855F7',
+      },
+
+      channelsVM,
+      channelsSectionStyle: { padding: '90px 0', background: '#03030A' },
+      connectorLineWrapStyle: {
+        position: 'relative', height: '60px', width: '2px', margin: '0 auto', overflow: 'visible',
+      },
+      connectorLineStyle: {
+        position: 'absolute', top: 0, bottom: 0, left: 0, width: '2px',
+        background: 'linear-gradient(180deg, rgba(168,85,247,0.5), rgba(168,85,247,0.05))',
+      },
+      connectorDotStyle: {
+        position: 'absolute', left: '-3px', top: 0, width: '8px', height: '8px', borderRadius: '50%',
+        background: '#A855F7', animation: 'flowDown 2.2s ease-in-out infinite',
+      },
+      hubCardStyle: {
+        display: 'flex', alignItems: 'center', gap: '16px', maxWidth: '420px', margin: '0 auto',
+        background: '#10172A', border: '1.5px solid rgba(168,85,247,0.4)', borderRadius: '18px', padding: '18px 22px',
+        animation: 'hubPulse 2.6s ease-in-out infinite',
+      },
+      hubIconStyle: {
+        flexShrink: 0, width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(168,85,247,0.12)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      },
+      hubTitleStyle: { fontFamily: fontHead, fontWeight: 700, fontSize: '15.5px', color: '#E8E8EC' },
+      hubSubStyle: { fontFamily: fontBody, fontSize: '13px', color: '#8891A0', marginTop: '4px', lineHeight: 1.6 },
+
+      workflowSectionStyle: { padding: '100px 0', background: '#0A0F1B' },
+      workflowLineTrackStyle: {
+        position: 'absolute', top: 0, bottom: 0, [isAr ? 'right' : 'left']: '27px', width: '2px', background: 'rgba(255,255,255,0.08)',
+      },
+      workflowLineFillStyle: {
+        position: 'absolute', top: 0, [isAr ? 'right' : 'left']: '27px', width: '2px', background: '#A855F7',
+        height: (Object.keys(this.state.revealed).filter(k => k.startsWith('wf-')).length / 4 * 100) + '%',
+        transition: 'height 0.6s ease',
+      },
+      workflowStepBodyStyle: { paddingTop: '6px', flex: '1 1 340px', minWidth: '280px' },
+
+      scoringSectionStyle: { padding: '100px 0', background: '#03030A' },
+      scoringGridStyle: {
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', alignItems: 'stretch',
+      },
+      scoreCardStyle: {
+        background: '#10172A', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '20px', padding: '26px 24px',
+      },
+      scoreCardHeadStyle: { display: 'flex', justifyContent: 'flex-end' },
+      scoreResultCardStyle: {
+        background: '#10172A', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '20px', padding: '30px 24px',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '14px', textAlign: 'center',
+      },
+      scoreCircleWrapStyle: { position: 'relative', width: '140px', height: '140px' },
+      scoreCircleStyle: scoreCircleStyle,
+      scoreNumWrapStyle: {
+        position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+      },
+      scoreNumStyle: { fontFamily: fontHead, fontWeight: 800, fontSize: '34px', color: '#E8E8EC' },
+      scoreMaxStyle: { fontFamily: fontBody, fontSize: '13px', color: '#5C6577' },
+      scoreDisplay,
+      scoreTierPillStyle: {
+        fontFamily: fontHead, fontWeight: 800, fontSize: '15px', color: '#03030A', background: '#A855F7',
+        borderRadius: '999px', padding: '7px 22px',
+      },
+      scoreResultDescStyle: { fontFamily: fontBody, fontSize: '13.5px', lineHeight: 1.7, color: '#9AA3B2', maxWidth: '260px' },
+      scoreFactorsVM, scoreTiersVM,
+      demoTagStyle: {
+        fontFamily: fontBody, fontSize: '11.5px', fontWeight: 700, color: '#A855F7', background: 'rgba(168,85,247,0.1)',
+        border: '1px solid rgba(168,85,247,0.3)', borderRadius: '999px', padding: '4px 12px',
+      },
+
+      compareWithoutVM, compareWithVM,
+      compareSectionStyle: { padding: '100px 0', background: '#0A0F1B' },
+      compareGridStyle: {
+        direction: 'ltr', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '48px', alignItems: 'start',
+      },
+      compareBadWithoutLabelStyle: {
+        fontFamily: fontHead, fontWeight: 800, fontSize: '15px', color: '#E85D5D', textAlign: 'center', marginBottom: '26px',
+        background: 'rgba(232,93,93,0.1)', border: '1px solid rgba(232,93,93,0.3)', borderRadius: '999px', padding: '8px 16px',
+        maxWidth: '220px', marginInline: 'auto',
+      },
+      compareGoodWithLabelStyle: {
+        fontFamily: fontHead, fontWeight: 800, fontSize: '15px', color: '#A855F7', textAlign: 'center', marginBottom: '26px',
+        background: 'rgba(168,85,247,0.1)', border: '1px solid rgba(168,85,247,0.3)', borderRadius: '999px', padding: '8px 16px',
+        maxWidth: '220px', marginInline: 'auto',
+      },
+
+      dashboardSectionStyle: { padding: '100px 0', background: '#03030A' },
+      dashboardCardStyle: {
+        maxWidth: '720px', margin: '0 auto', width: '100%', background: '#10172A', border: '1px solid rgba(255,255,255,0.07)',
+        borderRadius: '22px', padding: '30px 28px', boxShadow: '0 30px 60px rgba(0,0,0,0.35)',
+      },
+      dashboardStatCardStyle: {
+        background: '#0C1220', borderRadius: '14px', padding: '16px', textAlign: 'center',
+      },
+      dashboardStats, dashboardBars,
+
+      exceptionsSectionStyle: { padding: '100px 0', background: '#0A0F1B' },
+      exceptionsHintStyle: {
+        textAlign: 'center', fontFamily: fontBody, fontSize: '12.5px', color: '#5C6577', marginBottom: '28px',
+      },
+      exceptionCardsVM,
+
+      deliverablesSectionStyle: { padding: '100px 0', background: '#03030A' },
+      deliverableCardStyle: {
+        display: 'flex', alignItems: 'center', gap: '14px', background: '#10172A', border: '1px solid rgba(255,255,255,0.06)',
+        borderRadius: '14px', padding: '18px 20px',
+      },
+      deliverableIconStyle: {
+        flexShrink: 0, width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(168,85,247,0.12)',
+        border: '1px solid rgba(168,85,247,0.35)', color: '#A855F7', fontSize: '14px', fontWeight: 700,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      },
+
+      faqSectionStyle: { padding: '100px 0 180px', background: '#0A0F1B' },
+      faqItemWrapStyle: { background: '#10172A', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px', overflow: 'hidden' },
+      faqQuestionStyle: {
+        width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
+        background: 'transparent', border: 'none', cursor: 'pointer', padding: '18px 20px',
+        fontFamily: fontHead, fontWeight: 700, fontSize: '15.5px', color: '#E8E8EC', textAlign: startAlign,
+      },
+      faqAnswerInnerStyle: {
+        fontFamily: fontBody, fontSize: '14.5px', lineHeight: 1.85, color: '#9AA3B2', padding: '0 20px 20px',
+      },
+      faqItemsVM,
+
+      ctaFormSectionStyle: { padding: '180px 0 120px', background: '#03030A' },
+      ctaFormCardStyle: {
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: '0', background: '#10172A',
+        border: '1px solid rgba(255,255,255,0.07)', borderRadius: '26px', overflow: 'hidden',
+      },
+      ctaFormLeftStyle: {
+        padding: '48px 44px', background: 'linear-gradient(160deg, rgba(168,85,247,0.09), transparent)',
+        display: 'flex', flexDirection: 'column', textAlign: startAlign,
+      },
+      ctaFormRightStyle: { padding: '48px 44px', background: '#0C1220', display: 'flex', flexDirection: 'column', justifyContent: 'center' },
+
+      inputStyle: {
+        width: '100%', fontFamily: fontBody, fontSize: '15px', color: '#E8E8EC', background: '#10172A',
+        border: '1px solid rgba(255,255,255,0.12)', borderRadius: '12px', padding: '14px 16px', outline: 'none',
+        boxSizing: 'border-box',
+      },
+      labelStyle: { display: 'block', fontFamily: fontBody, fontSize: '13px', fontWeight: 700, color: '#B7BECB', marginBottom: '7px' },
+      errStyle: { fontFamily: fontBody, fontSize: '12.5px', color: '#F08787', marginTop: '6px' },
+      formName: this.state.formName, formEmail: this.state.formEmail, formPhone: this.state.formPhone,
+      onNameChange: (e) => this.setState({ formName: e.target.value, touched: { ...this.state.touched, name: true } }),
+      onEmailChange: (e) => this.setState({ formEmail: e.target.value, touched: { ...this.state.touched, email: true } }),
+      onPhoneChange: (e) => this.setState({ formPhone: e.target.value, touched: { ...this.state.touched, phone: true } }),
+      errNameShow, errEmailShow, errPhoneShow,
+      submitting: this.state.submitting, submitted: this.state.submitted,
+      submitLabel: this.state.submitting ? t.form.submitting : t.form.submit,
+      submitBtnStyle: {
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+        fontFamily: fontHead, fontWeight: 800, fontSize: '15.5px', color: '#03030A', background: '#A855F7',
+        border: 'none', borderRadius: '999px', padding: '16px', cursor: this.state.submitting ? 'default' : 'pointer',
+        opacity: this.state.submitting ? 0.8 : 1,
+      },
+      spinnerStyle: {
+        width: '16px', height: '16px', borderRadius: '50%', border: '2px solid rgba(7,11,20,0.3)',
+        borderTopColor: '#03030A', animation: 'spin 0.7s linear infinite',
+      },
+      successCheckStyle: {
+        width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(168,85,247,0.12)',
+        border: '2px solid #A855F7', color: '#A855F7', fontSize: '30px', display: 'flex', alignItems: 'center',
+        justifyContent: 'center', animation: 'popIn 0.5s cubic-bezier(0.16,1,0.3,1)',
+      },
+      handleSubmit: (e) => {
+        e.preventDefault();
+        const name = this.state.formName.trim();
+        const emailOk = this.isValidEmail(this.state.formEmail);
+        const phoneOk = this.isValidPhone(this.state.formPhone);
+        if (!name || !emailOk || !phoneOk) {
+          this.setState({ touched: { name: true, email: true, phone: true } });
+          return;
+        }
+        const message = this.state.lang === 'ar'
+          ? `مرحبًا فلق، أرغب في هذه الخدمة: ${t.form.headline}\n\nالاسم: ${name}\nالبريد: ${this.state.formEmail.trim()}\nالجوال: ${this.state.formPhone.trim()}`
+          : `Hello Falaq, I am interested in this service: ${t.form.headline}\n\nName: ${name}\nEmail: ${this.state.formEmail.trim()}\nPhone: ${this.state.formPhone.trim()}`;
+        window.open(`https://wa.me/962792961872?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+        this.setState({ submitting: false, submitted: true });
+      },
+
+      workflowStepsVM, workflowMockTagsVM,
+      mockLabelStyle, mockIconCircleStyle, mockLineStrongStyle, mockLineMutedStyle, mockPillStyle,
+
+      brandVideoRef: this.regReveal('brandvideo'),
+      brandVideoSectionStyle: { padding: '90px 0', background: '#0A0F1B' },
+      brandVideoFrameStyle: {
+        position: 'relative', borderRadius: '22px', overflow: 'hidden', background: '#000',
+        border: '1px solid rgba(168,85,247,0.25)', boxShadow: '0 30px 70px rgba(0,0,0,0.45)',
+        aspectRatio: '16/9', maxWidth: '780px', margin: '0 auto',
+      },
+      trustRef: this.regReveal('trust'),
+      channelsRef: this.regReveal('channels'),
+      scoringRef: this.regReveal('scoring'),
+      compareRef: this.regReveal('compare'),
+      dashboardRef: this.regReveal('dashboard'),
+      exceptionsRef: this.regReveal('exceptions'),
+      deliverablesRef: this.regReveal('deliverables'),
+      faqRef: this.regReveal('faq'),
+      ctaFormRef: this.regReveal('cta-form'),
+
+      footerStyle: {
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', padding: '40px 24px 50px',
+        background: '#03030A', borderTop: '1px solid rgba(255,255,255,0.06)', textAlign: 'center',
+      },
+    };
+  }
+}
+
+</script>
+<a href="/" data-falaq-home style="position:fixed;bottom:18px;inset-inline-start:18px;z-index:99999;display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border-radius:999px;background:rgba(7,11,20,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(168,85,247,.45);color:#E8E8EC;font:600 13px 'Tajawal','Manrope',system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.45)"><span style="color:#A855F7;font-size:15px">⌂</span><span>فَلَق · الرئيسية</span></a>
+</body>
+</html>
