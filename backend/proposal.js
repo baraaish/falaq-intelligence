@@ -37,9 +37,9 @@ function buildQuestions(category, language) {
   return [questions[lang][0], categoryQuestion, ...questions[lang].slice(1)];
 }
 
-async function analyzeRequest(message, language) {
+async function analyzeRequest(message, language, preferredCategory) {
   const lang = language === "en" ? "en" : "ar";
-  let category = classifyLocally(message);
+  let category = capabilities[preferredCategory] ? preferredCategory : classifyLocally(message);
   let provider = "local";
   let acknowledgement = lang === "ar"
     ? "فهمت الفكرة الأولية. سأطرح عليك أسئلة قصيرة حتى أبني تصورًا مناسبًا للعملية."
@@ -55,7 +55,7 @@ async function analyzeRequest(message, language) {
       { role: "user", content: cleanText(message, 1500) }
     ], { maxTokens: 250, temperature: 0.1 });
 
-    if (capabilities[result.data.category]) category = result.data.category;
+    if (!capabilities[preferredCategory] && capabilities[result.data.category]) category = result.data.category;
     if (result.data.acknowledgement) acknowledgement = cleanText(result.data.acknowledgement, 300);
     provider = result.provider;
   } catch (_) {

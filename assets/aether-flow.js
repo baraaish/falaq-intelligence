@@ -442,8 +442,17 @@
     }
   }
 
+  function currentBotLanguage() {
+    var languageToggle = Array.from(document.querySelectorAll("button")).find(function (button) {
+      var text = button.textContent.trim();
+      return text === "AR" || text === "EN";
+    });
+    if (languageToggle) return languageToggle.textContent.trim() === "AR" ? "en" : "ar";
+    return document.documentElement.lang === "en" ? "en" : "ar";
+  }
+
   function getBotCopy() {
-    var ar = document.documentElement.lang !== "en";
+    var ar = currentBotLanguage() === "ar";
     return ar ? {
       kick: "حلّ مصمم لك", title: "لم تجد الوكيل الذي تحتاجه؟", lead: "تحدث مع فلق بوت عن عمليتك أو فكرتك. سنحوّل احتياجك إلى تصور أولي لوكيل مخصص، ثم يراجع فريقنا التفاصيل معك.",
       badge: "مصمم عمليات ذكي · تصور وملف PDF", bot: "فلق بوت", status: "جاهز لبناء تصور خدمتك", wake: "إشارة التفعيل", hello: "مرحباً، أنا فلق بوت. صف لي المهمة التي تريد أتمتتها أو المشكلة التشغيلية التي تريد حلها.",
@@ -550,7 +559,7 @@
     var copy = getBotCopy();
     state.phase = "summary";
     updateBotInput(section, "", false);
-    addChatMessage(section, copy.summary + " «" + state.categoryLabel + "». " + (document.documentElement.lang !== "en" ? "أكد للانتقال إلى ملف العرض." : "Confirm to continue to the proposal file."), false);
+    addChatMessage(section, copy.summary + " «" + state.categoryLabel + "». " + (currentBotLanguage() === "ar" ? "أكد للانتقال إلى ملف العرض." : "Confirm to continue to the proposal file."), false);
     renderBotSuggestions(section, [copy.confirm, copy.restart], function (value) {
       if (value === copy.restart) resetBot(section);
       else showContactGate(section);
@@ -597,7 +606,7 @@
       var typing = showBotTyping(section);
       try {
         var result = await postAgent("/api/agent/finalize", {
-          language: document.documentElement.lang === "en" ? "en" : "ar",
+          language: currentBotLanguage(),
           category: state.category,
           initialRequest: state.initialRequest,
           answers: state.answers,
@@ -641,6 +650,7 @@
   }
 
   function resetBot(section) {
+    if (section.dataset.serviceKey) return resetServiceBot(section);
     var copy = getBotCopy();
     var gate = section.querySelector(".bot-contact-gate");
     if (gate) gate.remove();
@@ -651,7 +661,7 @@
     renderBotSuggestions(section, copy.ideas, function (value) { submitBotValue(section, value); });
   }
 
-  async function startBotAnalysis(section, value) {
+  async function startBotAnalysis(section, value, preferredCategory) {
     var state = getBotState(section);
     var copy = getBotCopy();
     state.initialRequest = value;
@@ -660,7 +670,7 @@
     renderBotSuggestions(section, [], function () {});
     var typing = showBotTyping(section);
     try {
-      var result = await postAgent("/api/agent/analyze", { language: document.documentElement.lang === "en" ? "en" : "ar", message: value });
+      var result = await postAgent("/api/agent/analyze", { language: currentBotLanguage(), message: value, preferredCategory: preferredCategory || "" });
       typing.remove();
       state.category = result.category;
       state.categoryLabel = result.categoryLabel;
@@ -687,11 +697,148 @@
     else if (state.phase === "question") captureBotAnswer(section, value);
   }
 
+  var SERVICE_CONTEXTS = {
+    "lead-qualification": { ar: "استقبال وتأهيل العملاء", en: "Lead intake and qualification" },
+    "quote-follow-up": { ar: "متابعة العروض والفرص", en: "Quote and opportunity follow-up" },
+    "booking-recovery": { ar: "إدارة واستعادة الحجوزات", en: "Booking management and recovery" },
+    "customer-service": { ar: "خدمة العملاء وتوجيه الطلبات", en: "Customer service and request routing" },
+    "accounts-receivable": { ar: "متابعة تحصيل المستحقات", en: "Accounts receivable follow-up" },
+    "document-processing": { ar: "معالجة وتنظيم المستندات", en: "Document processing and organization" },
+    "crm-control": { ar: "تنظيم وتحديث CRM", en: "CRM organization and control" }
+  };
+
+  function getServiceContext() {
+    var match = location.pathname.match(/\/services\/([^/]+)\/?$/);
+    if (!match || !SERVICE_CONTEXTS[match[1]]) return null;
+    return { key: match[1], labels: SERVICE_CONTEXTS[match[1]] };
+  }
+
+  function serviceBotCopy(context) {
+    var ar = currentBotLanguage() === "ar";
+    var title = context.labels[ar ? "ar" : "en"];
+    return ar ? {
+      title: title,
+      hello: "مرحباً، أرى أنك تستكشف خدمة «" + title + "». هل تريد تخصيص هذه الخدمة لعملك، أم تبحث عن خدمة أخرى؟",
+      customize: "تخصيص هذه الخدمة",
+      other: "أبحث عن خدمة أخرى",
+      otherPrompt: "بالتأكيد. صف لي العملية أو المشكلة التي تريد حلها وسأبني التصور المناسب.",
+      request: "أريد تخصيص خدمة " + title + " لتناسب عملية شركتي.",
+      launcher: "ابنِ خدمتك مع فلق بوت",
+      close: "إغلاق المحادثة"
+    } : {
+      title: title,
+      hello: "Hi, I see you’re exploring “" + title + "”. Would you like to customize this service for your business, or explore a different service?",
+      customize: "Customize this service",
+      other: "Explore another service",
+      otherPrompt: "Of course. Describe the process or problem you want to solve and I’ll shape the right concept.",
+      request: "I want to customize the " + title + " service for my company’s workflow.",
+      launcher: "Build your service with Falaq Bot",
+      close: "Close chat"
+    };
+  }
+
+  function bindBotForm(section) {
+    var form = section.querySelector(".bot-input-row");
+    if (!form || form.dataset.bound === "true") return;
+    form.dataset.bound = "true";
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var input = form.querySelector("input");
+      var value = input.value.trim();
+      if (!value) return;
+      input.value = "";
+      submitBotValue(section, value);
+    });
+  }
+
+  function resetServiceBot(section) {
+    var context = { key: section.dataset.serviceKey, labels: SERVICE_CONTEXTS[section.dataset.serviceKey] };
+    var serviceCopy = serviceBotCopy(context);
+    var copy = getBotCopy();
+    var gate = section.querySelector(".bot-contact-gate");
+    if (gate) gate.remove();
+    section._falaqAgentState = { phase: "service-choice", busy: false, questions: [], answers: [], questionIndex: 0 };
+    section.querySelector(".falaq-chat-messages").innerHTML = "";
+    addChatMessage(section, serviceCopy.hello, false);
+    updateBotInput(section, copy.placeholder, false);
+    renderBotSuggestions(section, [serviceCopy.customize, serviceCopy.other], function (value) {
+      var state = getBotState(section);
+      if (state.busy || state.phase !== "service-choice") return;
+      addChatMessage(section, value, true);
+      if (value === serviceCopy.customize) {
+        startBotAnalysis(section, serviceCopy.request, context.key);
+      } else {
+        state.phase = "intro";
+        addChatMessage(section, serviceCopy.otherPrompt, false);
+        updateBotInput(section, copy.placeholder, true);
+        renderBotSuggestions(section, copy.ideas, function (idea) { submitBotValue(section, idea); });
+      }
+    });
+    var launcherLabel = document.querySelector("[data-floating-bot-label]");
+    var closeButton = document.querySelector("[data-floating-bot-close]");
+    if (launcherLabel) launcherLabel.textContent = serviceCopy.launcher;
+    if (closeButton) closeButton.setAttribute("aria-label", serviceCopy.close);
+  }
+
+  function createServiceBotLauncher() {
+    var context = getServiceContext();
+    if (!context || document.getElementById("falaq-floating-launcher")) return;
+
+    var launcher = document.createElement("button");
+    launcher.id = "falaq-floating-launcher";
+    launcher.className = "falaq-floating-launcher";
+    launcher.type = "button";
+    launcher.setAttribute("aria-controls", "falaq-floating-chat");
+    launcher.setAttribute("aria-expanded", "false");
+    launcher.innerHTML = '<span class="floating-bot-robot">' + buildRobotMarkup() + '</span><span class="floating-bot-label" data-floating-bot-label></span>';
+
+    var overlay = document.createElement("div");
+    overlay.id = "falaq-floating-chat";
+    overlay.className = "falaq-floating-overlay";
+    overlay.hidden = true;
+    overlay.innerHTML = [
+      '<div class="falaq-floating-dialog" role="dialog" aria-modal="true" aria-label="Falaq Bot">',
+      '<button type="button" class="floating-bot-close" data-floating-bot-close>×</button>',
+      '<section id="falaq-service-bot" class="falaq-floating-bot is-awake" data-falaq-bot="service" data-service-key="' + context.key + '">',
+      '<div class="falaq-chat-panel">',
+      '<div class="bot-preview-badge" data-bot-copy="badge"></div>',
+      '<div class="chat-top"><span class="chat-avatar">' + buildFalaqLogo() + '</span><span><b data-bot-copy="bot"></b><small><i></i><span data-bot-copy="status"></span></small></span></div>',
+      '<div class="falaq-chat-messages"></div>',
+      '<div class="bot-suggestions"></div>',
+      '<form class="bot-input-row"><input type="text" maxlength="1500" autocomplete="off" data-bot-placeholder aria-label="Message Falaq Bot"><button type="submit" data-bot-copy="send"></button></form>',
+      '</div></section></div>'
+    ].join("");
+
+    document.body.append(launcher, overlay);
+    var section = overlay.querySelector("#falaq-service-bot");
+    bindBotForm(section);
+    updateBotInstanceLanguage(section);
+    resetServiceBot(section);
+
+    function openChat() {
+      overlay.hidden = false;
+      launcher.setAttribute("aria-expanded", "true");
+      document.body.classList.add("bot-modal-open");
+      window.setTimeout(function () { overlay.querySelector(".floating-bot-close").focus(); }, 20);
+    }
+    function closeChat() {
+      overlay.hidden = true;
+      launcher.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("bot-modal-open");
+      launcher.focus();
+    }
+    launcher.addEventListener("click", openChat);
+    overlay.querySelector(".floating-bot-close").addEventListener("click", closeChat);
+    overlay.addEventListener("click", function (event) { if (event.target === overlay) closeChat(); });
+    document.addEventListener("keydown", function (event) { if (event.key === "Escape" && !overlay.hidden) closeChat(); });
+  }
+
   function createCustomBotSection() {
     if (!document.getElementById("agents") || document.getElementById("falaq-custom-bot")) return;
     var section = document.createElement("section");
     section.id = "falaq-custom-bot";
     section.className = "blk falaq-bot-section";
+    section.dataset.falaqBot = "main";
     section.innerHTML = [
       '<div class="wrap">',
       '<div class="sec-head rv in falaq-bot-heading"><span class="kick" data-bot-copy="kick"></span><h2 data-bot-copy="title"></h2><p data-bot-copy="lead"></p></div>',
@@ -714,7 +861,7 @@
           observer.disconnect();
           setTimeout(function () {
             var host = section.querySelector(".seated-falaq-robot");
-            var ar = document.documentElement.lang !== "en";
+            var ar = currentBotLanguage() === "ar";
             if (host) host.dispatchEvent(new CustomEvent("falaq-cheer", {
               detail: ar ? "أهلاً! اكتب لي فكرتك في المحادثة 👋" : "Hi! Type your idea in the chat 👋"
             }));
@@ -726,15 +873,7 @@
 
     attachRobotPersona(section.querySelector(".bot-awakening-stage"), section.querySelector(".seated-falaq-robot"));
 
-    var form = section.querySelector(".bot-input-row");
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      var input = form.querySelector("input");
-      var value = input.value.trim();
-      if (!value) return;
-      input.value = "";
-      submitBotValue(section, value);
-    });
+    bindBotForm(section);
     updateCustomBotLanguage();
   }
 
@@ -750,9 +889,7 @@
     messages.scrollTop = messages.scrollHeight;
   }
 
-  function updateCustomBotLanguage() {
-    var section = document.getElementById("falaq-custom-bot");
-    if (!section) return;
+  function updateBotInstanceLanguage(section) {
     var copy = getBotCopy();
     Object.keys(copy).forEach(function (key) {
       if (key === "ideas") return;
@@ -763,6 +900,13 @@
       section.querySelector("[data-bot-placeholder]").placeholder = copy.placeholder;
       renderBotSuggestions(section, copy.ideas, function (idea) { submitBotValue(section, idea); });
     }
+  }
+
+  function updateCustomBotLanguage() {
+    document.querySelectorAll("[data-falaq-bot]").forEach(function (section) {
+      updateBotInstanceLanguage(section);
+      if (section.dataset.serviceKey && getBotState(section).phase === "service-choice") resetServiceBot(section);
+    });
   }
 
   function enhanceLandingMotion() {
@@ -790,8 +934,9 @@
     applyBrandLogo();
     enhanceAgentConstellation();
     createCustomBotSection();
+    createServiceBotLauncher();
     enhanceLandingMotion();
-    var language = document.documentElement.lang || "ar";
+    var language = currentBotLanguage();
     if (language !== lastLanguage) {
       lastLanguage = language;
       updateCustomBotLanguage();
@@ -801,5 +946,5 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", scan);
   else scan();
 
-  new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+  new MutationObserver(scan).observe(document.documentElement, { childList: true, characterData: true, subtree: true });
 })();

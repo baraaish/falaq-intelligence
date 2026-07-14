@@ -65,7 +65,7 @@ app.post("/api/agent/analyze", async (request, response) => {
   if (message.length < 3) return response.status(400).json({ error: language === "ar" ? "اكتب وصفًا أوضح قليلًا." : "Please add a little more detail." });
 
   try {
-    response.json({ ok: true, ...(await analyzeRequest(message, language)) });
+    response.json({ ok: true, ...(await analyzeRequest(message, language, request.body?.preferredCategory)) });
   } catch (error) {
     console.error(error);
     response.status(500).json({ error: language === "ar" ? "تعذر تحليل الطلب الآن." : "The request could not be analyzed right now." });
