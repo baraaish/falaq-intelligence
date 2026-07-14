@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("node:path");
 const fs = require("node:fs/promises");
 const crypto = require("node:crypto");
-const { analyzeRequest, validateAnswer, generateProposal, cleanText } = require("./proposal");
+const { analyzeRequest, validateAnswer, continueConversation, generateProposal, cleanText } = require("./proposal");
 const { renderPdf } = require("./pdf");
 const capabilities = require("./capabilities.json");
 const { configuredProviders } = require("./providers");
@@ -93,6 +93,21 @@ app.post("/api/agent/analyze", async (request, response) => {
   }
 });
 
+app.post("/api/agent/turn", async (request, response) => {
+  const language = request.body?.language === "en" ? "en" : "ar";
+  const messages = Array.isArray(request.body?.messages) ? request.body.messages : [];
+  if (!messages.some((message) => message?.role === "user" && cleanText(message.content, 1600))) {
+    return response.status(400).json({ error: language === "ar" ? "اكتب رسالتك أولًا." : "Write your message first." });
+  }
+
+  try {
+    response.json({ ok: true, ...(await continueConversation({ ...request.body, language, messages })) });
+  } catch (error) {
+    console.error(error);
+    response.status(503).json({ error: language === "ar" ? "تعذر الوصول إلى المستشار الذكي الآن. حاول بعد قليل." : "The AI advisor is temporarily unavailable. Please try again shortly." });
+  }
+});
+
 app.post("/api/agent/validate-answer", async (request, response) => {
   const language = request.body?.language === "en" ? "en" : "ar";
   const answer = cleanText(request.body?.answer, 1600);
@@ -120,7 +135,8 @@ app.post("/api/agent/finalize", async (request, response) => {
   if (!isValidEmail(contact.email) || !isValidPhone(contact.phone)) {
     return response.status(400).json({ error: language === "ar" ? "تحقق من البريد أو رقم واتساب." : "Check the email or WhatsApp number." });
   }
-  if (!initialRequest || answers.length < 4) {
+  const usefulContext = answers.map((answer) => cleanText(answer?.value, 1200)).join(" ");
+  if (!initialRequest || answers.length < 2 || usefulContext.length < 60) {
     return response.status(400).json({ error: language === "ar" ? "المحادثة غير مكتملة." : "The conversation is incomplete." });
   }
 

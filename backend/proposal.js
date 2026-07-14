@@ -37,6 +37,91 @@ function buildQuestions(category, language) {
   return [questions[lang][0], categoryQuestion, ...questions[lang].slice(1)];
 }
 
+const BRIEF_FIELDS = ["businessContext", "currentProcess", "pain", "channels", "volume", "rules", "handoff", "systems", "success", "desiredOutcome"];
+
+function normalizeBrief(candidate, current = {}) {
+  return Object.fromEntries(BRIEF_FIELDS.map((field) => {
+    const next = cleanText(candidate?.[field], 1200);
+    return [field, next || cleanText(current?.[field], 1200)];
+  }).filter(([, value]) => value));
+}
+
+async function continueConversation(payload) {
+  const lang = payload.language === "en" ? "en" : "ar";
+  const messages = (Array.isArray(payload.messages) ? payload.messages : [])
+    .slice(-16)
+    .map((message) => ({
+      role: message?.role === "assistant" ? "assistant" : "user",
+      content: cleanText(message?.content, 1600)
+    }))
+    .filter((message) => message.content);
+  const latestMessage = [...messages].reverse().find((message) => message.role === "user")?.content || "";
+  const currentBrief = normalizeBrief(payload.brief);
+  let category = capabilities[payload.preferredCategory]
+    ? payload.preferredCategory
+    : (capabilities[payload.category] ? payload.category : classifyLocally(latestMessage));
+  const allowed = Object.entries(capabilities).map(([key, value]) => `${key}: ${value[lang].summary}`).join("\n");
+
+  const result = await generateJson([
+    {
+      role: "system",
+      content: `You are Falaq Bot, a sharp consultative sales advisor for business AI agents. Converse in ${lang === "ar" ? "natural Arabic matching the user's tone" : "natural English"}. Your job is to understand the operation, show the user a credible and attractive path forward, handle questions and objections, and earn permission to create a proposal.
+
+This is a conversation, never a questionnaire. On every turn:
+- First extract every explicit or safely implied fact from the entire conversation and merge it into the brief.
+- Never ask for information already stated, even if it appeared several turns earlier or inside a long message.
+- Answer the user's question or objection before asking anything.
+- Ask at most one short question, and only when its answer materially changes the recommended workflow.
+- Do not require exact volumes, metrics, rules, systems, or technical details when they can be left for later confirmation.
+- If the brief contains six or more useful fields, discovery is complete. Do not ask for another operating detail. Summarize the proposed agent persuasively and ask only whether the user wants a proposal or wants to discuss a concern.
+- Be persuasive by connecting Falaq's value to the user's stated pain. Explain a concrete receive-check-decide-act-handoff flow, not generic AI claims.
+- Keep the reply concise: normally 1 to 3 short sentences. Avoid long lists and exhausting writing requests.
+- Handle concerns about price, trust, control, integrations, replacing staff, data, or failed automation honestly. Never invent prices, integrations, percentages, delivery dates, guarantees, or client results.
+- Interest is explicit only when the user asks to proceed, requests a proposal/PDF/meeting, or clearly agrees to the proposed next step.
+- Set nextAction to contact only after explicit interest and enough context for a useful proposal. Otherwise use chat.
+- Suggestions are optional short replies the user can tap. Return no more than 3 and do not use them to repeat known questions.
+
+Allowed categories:
+${allowed}
+
+Return JSON only with this exact shape:
+{"reply":"","category":"lead-qualification","intent":"explore|provide_context|ask_question|objection|interested|decline","interest":"none|implicit|explicit","brief":{"businessContext":"","currentProcess":"","pain":"","channels":"","volume":"","rules":"","handoff":"","systems":"","success":"","desiredOutcome":""},"suggestions":[""],"nextAction":"chat|contact"}`
+    },
+    {
+      role: "user",
+      content: JSON.stringify({
+        preferredCategory: payload.preferredCategory || "",
+        currentCategory: category,
+        currentBrief,
+        conversation: messages
+      })
+    }
+  ], { maxTokens: 1100, temperature: 0.35 });
+
+  if (!capabilities[payload.preferredCategory] && capabilities[result.data.category]) category = result.data.category;
+  const brief = normalizeBrief(result.data.brief, currentBrief);
+  const interest = ["none", "implicit", "explicit"].includes(result.data.interest) ? result.data.interest : "none";
+  const knownFacts = Object.values(brief).filter(Boolean);
+  const nextAction = result.data.nextAction === "contact" && interest === "explicit" && knownFacts.length >= 2
+    ? "contact"
+    : "chat";
+  const fallbackReply = lang === "ar"
+    ? "فهمت. أستطيع تحويل هذا إلى مسار عملي واضح دون تغيير طريقتكم بالكامل. ما أهم نتيجة تريد رؤيتها أولًا؟"
+    : "Understood. I can turn this into a practical workflow without forcing a complete process change. Which outcome matters most first?";
+
+  return {
+    reply: cleanText(result.data.reply || fallbackReply, 700),
+    category,
+    categoryLabel: capabilities[category][lang].title,
+    intent: ["explore", "provide_context", "ask_question", "objection", "interested", "decline"].includes(result.data.intent) ? result.data.intent : "explore",
+    interest,
+    brief,
+    suggestions: (Array.isArray(result.data.suggestions) ? result.data.suggestions : []).slice(0, 3).map((item) => cleanText(item, 80)).filter(Boolean),
+    nextAction,
+    provider: result.provider
+  };
+}
+
 async function analyzeRequest(message, language, preferredCategory) {
   const lang = language === "en" ? "en" : "ar";
   let category = capabilities[preferredCategory] ? preferredCategory : classifyLocally(message);
@@ -326,4 +411,4 @@ The workflow must have 6 to 9 operational steps in strict chronological order fr
   }
 }
 
-module.exports = { analyzeRequest, validateAnswer, generateProposal, cleanText };
+module.exports = { analyzeRequest, validateAnswer, continueConversation, generateProposal, cleanText };

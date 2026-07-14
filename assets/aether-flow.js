@@ -457,14 +457,14 @@
       kick: "حلّ مصمم لك", title: "لم تجد الوكيل الذي تحتاجه؟", lead: "تحدث مع فلق بوت عن عمليتك أو فكرتك. سنحوّل احتياجك إلى تصور أولي لوكيل مخصص، ثم يراجع فريقنا التفاصيل معك.",
       badge: "مصمم عمليات ذكي · تصور وملف PDF", bot: "فلق بوت", status: "جاهز لبناء تصور خدمتك", wake: "إشارة التفعيل", hello: "مرحباً، أنا فلق بوت. صف لي المهمة التي تريد أتمتتها أو المشكلة التشغيلية التي تريد حلها.",
       ideas: ["أريد تنظيم استقبال العملاء", "لدينا متابعة يدوية متعبة", "أريد ربط خطوات العمل الحالية"], placeholder: "اكتب فكرتك أو المشكلة بطريقتك...", send: "إرسال",
-      thinking: "أحلل احتياجك...", confirm: "تأكيد وإنشاء العرض", restart: "البدء من جديد", summary: "ممتاز. اكتملت الصورة الأولية. سأبني العرض حول", contactIntro: "قبل إنشاء الملف، أدخل اسمك وبريدك أو رقم واتساب ليظهر لك خيار التنزيل.",
+      thinking: "أفكر في أفضل خطوة...", confirm: "أريد العرض المقترح", restart: "البدء من جديد", summary: "ممتاز. اكتملت الصورة الأولية. سأبني العرض حول", contactIntro: "ممتاز، أصبح لدينا سياق كافٍ لعرض مفيد. أدخل اسمك وبريدك أو رقم واتساب وسأجهز ملفك.",
       name: "الاسم الكامل *", company: "الشركة (اختياري)", email: "البريد الإلكتروني", phone: "رقم واتساب", create: "إنشاء ملف العرض", contactError: "أدخل الاسم والبريد أو رقم واتساب بشكل صحيح.",
       generating: "أبني التصور وأصمم ملفك الآن...", ready: "تم إعداد تصور خدمتك. يمكنك تنزيل الملف مباشرة:", download: "تنزيل ملف PDF", again: "بناء تصور جديد", failed: "تعذر إكمال الطلب الآن. تأكد أن الباكند يعمل ثم حاول مجددًا."
     } : {
       kick: "BUILT AROUND YOU", title: "Can’t find the agent you need?", lead: "Tell Falaq Bot about your process or idea. We’ll turn it into an initial custom-agent concept, then our team can refine the details with you.",
       badge: "AI workflow designer · concept and PDF", bot: "Falaq Bot", status: "Ready to shape your service", wake: "SCROLL SIGNAL", hello: "Hi, I’m Falaq Bot. Describe the task you want to automate or the operating problem you want to solve.",
       ideas: ["Organize lead intake", "Reduce repetitive follow-up", "Connect our current workflow"], placeholder: "Describe the idea or problem in your own words...", send: "Send",
-      thinking: "Analyzing your requirement...", confirm: "Confirm and create proposal", restart: "Start over", summary: "Great. I have enough context to shape the proposal around", contactIntro: "Before creating the file, enter your name and an email or WhatsApp number to unlock the download.",
+      thinking: "Thinking through the best next step...", confirm: "I want the proposal", restart: "Start over", summary: "Great. I have enough context to shape the proposal around", contactIntro: "Great, we now have enough context for a useful proposal. Enter your name and an email or WhatsApp number and I’ll prepare it.",
       name: "Full name *", company: "Company (optional)", email: "Email address", phone: "WhatsApp number", create: "Create proposal file", contactError: "Enter your name and a valid email or WhatsApp number.",
       generating: "Building the workflow and designing your file...", ready: "Your service concept is ready. Download it here:", download: "Download PDF", again: "Build another concept", failed: "The request could not be completed. Make sure the backend is running and try again."
     };
@@ -472,7 +472,7 @@
 
   function getBotState(section) {
     if (!section._falaqAgentState) {
-      section._falaqAgentState = { phase: "intro", busy: false, questions: [], answers: [], questionIndex: 0 };
+      section._falaqAgentState = { phase: "intro", busy: false, messages: [], brief: {}, interest: "none" };
     }
     return section._falaqAgentState;
   }
@@ -529,91 +529,65 @@
     form.querySelector("input").placeholder = placeholder || getBotCopy().placeholder;
   }
 
-  function askBotQuestion(section) {
-    var state = getBotState(section);
-    var question = state.questions[state.questionIndex];
-    if (!question) return showBotSummary(section);
-    state.phase = "question";
-    addChatMessage(section, question.question, false);
-    updateBotInput(section, question.placeholder, true);
-    renderBotSuggestions(section, question.options, function (value) {
-      if (state.busy) return;
-      addChatMessage(section, value, true);
-      captureBotAnswer(section, value);
+  function briefAnswers(state) {
+    return Object.keys(state.brief || {}).filter(function (key) {
+      return state.brief[key];
+    }).map(function (key) {
+      return { id: key, question: key, value: state.brief[key] };
     });
   }
 
-  async function captureBotAnswer(section, value) {
+  async function continueBotConversation(section, value, preferredCategory) {
     var state = getBotState(section);
-    var question = state.questions[state.questionIndex];
-    if (!question || !value) return;
-    state.phase = "validating";
-    state.pendingAnswers = state.pendingAnswers || {};
-    state.answerAttempts = state.answerAttempts || {};
-    var combinedAnswer = state.pendingAnswers[question.id]
-      ? state.pendingAnswers[question.id] + " | " + value
-      : value;
+    var copy = getBotCopy();
+    if (!value) return;
+    state.initialRequest = state.initialRequest || value;
+    state.preferredCategory = preferredCategory || state.preferredCategory || "";
+    state.messages = state.messages || [];
+    state.messages.push({ role: "user", content: value });
+    state.phase = "chat";
     setBotBusy(section, true);
     renderBotSuggestions(section, [], function () {});
     var typing = showBotTyping(section);
-    var validation;
     try {
-      validation = await postAgent("/api/agent/validate-answer", {
+      var result = await postAgent("/api/agent/turn", {
         language: currentBotLanguage(),
+        preferredCategory: state.preferredCategory,
         category: state.category,
-        initialRequest: state.initialRequest,
-        question: question,
-        answer: combinedAnswer,
-        previousAnswers: state.answers
+        messages: state.messages.slice(-16),
+        brief: state.brief || {}
       });
-    } catch (_) {
-      validation = { sufficient: true, normalizedAnswer: combinedAnswer };
-    }
-    typing.remove();
-
-    var attempts = state.answerAttempts[question.id] || 0;
-    if (!validation.sufficient && attempts < 2) {
-      state.answerAttempts[question.id] = attempts + 1;
-      state.pendingAnswers[question.id] = combinedAnswer;
-      state.phase = "question";
+      typing.remove();
+      state.category = result.category;
+      state.categoryLabel = result.categoryLabel;
+      state.brief = result.brief || state.brief || {};
+      state.interest = result.interest || state.interest;
+      state.messages.push({ role: "assistant", content: result.reply });
+      addChatMessage(section, result.reply, false);
       setBotBusy(section, false);
-      addChatMessage(section, validation.followUp || getBotCopy().failed, false);
-      updateBotInput(section, question.placeholder, true);
-      section.querySelector(".bot-input-row input").focus();
-      return;
+      updateBotInput(section, copy.placeholder, true);
+      renderBotSuggestions(section, result.suggestions, function (suggestion) { submitBotValue(section, suggestion); });
+      if (result.nextAction === "contact") showContactGate(section);
+    } catch (error) {
+      typing.remove();
+      state.messages.pop();
+      addChatMessage(section, error.message || copy.failed, false);
+      setBotBusy(section, false);
+      updateBotInput(section, copy.placeholder, true);
     }
-
-    state.answers.push({ id: question.id, question: question.question, value: validation.normalizedAnswer || combinedAnswer });
-    delete state.pendingAnswers[question.id];
-    delete state.answerAttempts[question.id];
-    state.questionIndex += 1;
-    state.phase = "transition";
-    setBotBusy(section, false);
-    renderBotSuggestions(section, [], function () {});
-    window.setTimeout(function () { askBotQuestion(section); }, 260);
-  }
-
-  function showBotSummary(section) {
-    var state = getBotState(section);
-    var copy = getBotCopy();
-    state.phase = "summary";
-    updateBotInput(section, "", false);
-    addChatMessage(section, copy.summary + " «" + state.categoryLabel + "». " + (currentBotLanguage() === "ar" ? "أكد للانتقال إلى ملف العرض." : "Confirm to continue to the proposal file."), false);
-    renderBotSuggestions(section, [copy.confirm, copy.restart], function (value) {
-      if (value === copy.restart) resetBot(section);
-      else showContactGate(section);
-    });
   }
 
   function showContactGate(section) {
     var copy = getBotCopy();
     var state = getBotState(section);
-    state.phase = "contact";
+    var oldGate = section.querySelector(".bot-contact-gate");
+    if (oldGate) {
+      oldGate.querySelector("input").focus();
+      return;
+    }
+    state.phase = "chat";
     renderBotSuggestions(section, [], function () {});
     addChatMessage(section, copy.contactIntro, false);
-
-    var oldGate = section.querySelector(".bot-contact-gate");
-    if (oldGate) oldGate.remove();
     var gate = document.createElement("form");
     gate.className = "bot-contact-gate";
     gate.innerHTML = [
@@ -648,7 +622,9 @@
           language: currentBotLanguage(),
           category: state.category,
           initialRequest: state.initialRequest,
-          answers: state.answers,
+          answers: briefAnswers(state),
+          conversation: state.messages.slice(-16),
+          interest: state.interest,
           contact: contact
         });
         typing.remove();
@@ -693,47 +669,18 @@
     var copy = getBotCopy();
     var gate = section.querySelector(".bot-contact-gate");
     if (gate) gate.remove();
-    section._falaqAgentState = { phase: "intro", busy: false, questions: [], answers: [], questionIndex: 0 };
+    section._falaqAgentState = { phase: "intro", busy: false, messages: [{ role: "assistant", content: copy.hello }], brief: {}, interest: "none" };
     section.querySelector(".falaq-chat-messages").innerHTML = "";
     addChatMessage(section, copy.hello, false);
     updateBotInput(section, copy.placeholder, true);
     renderBotSuggestions(section, copy.ideas, function (value) { submitBotValue(section, value); });
   }
 
-  async function startBotAnalysis(section, value, preferredCategory) {
-    var state = getBotState(section);
-    var copy = getBotCopy();
-    state.initialRequest = value;
-    state.phase = "analyzing";
-    setBotBusy(section, true);
-    renderBotSuggestions(section, [], function () {});
-    var typing = showBotTyping(section);
-    try {
-      var result = await postAgent("/api/agent/analyze", { language: currentBotLanguage(), message: value, preferredCategory: preferredCategory || "" });
-      typing.remove();
-      state.category = result.category;
-      state.categoryLabel = result.categoryLabel;
-      state.questions = result.questions;
-      state.questionIndex = 0;
-      state.answers = [];
-      addChatMessage(section, result.acknowledgement, false);
-      setBotBusy(section, false);
-      window.setTimeout(function () { askBotQuestion(section); }, 280);
-    } catch (error) {
-      typing.remove();
-      addChatMessage(section, error.message || copy.failed, false);
-      state.phase = "intro";
-      setBotBusy(section, false);
-      renderBotSuggestions(section, copy.ideas, function (idea) { submitBotValue(section, idea); });
-    }
-  }
-
   function submitBotValue(section, value) {
     var state = getBotState(section);
     if (state.busy || !value) return;
     addChatMessage(section, value, true);
-    if (state.phase === "intro") startBotAnalysis(section, value);
-    else if (state.phase === "question") captureBotAnswer(section, value);
+    if (state.phase === "intro" || state.phase === "chat") continueBotConversation(section, value);
   }
 
   var SERVICE_CONTEXTS = {
@@ -760,7 +707,7 @@
       hello: "مرحباً، أرى أنك تستكشف خدمة «" + title + "». هل تريد تخصيص هذه الخدمة لعملك، أم تبحث عن خدمة أخرى؟",
       customize: "تخصيص هذه الخدمة",
       other: "أبحث عن خدمة أخرى",
-      otherPrompt: "بالتأكيد. صف لي العملية أو المشكلة التي تريد حلها وسأبني التصور المناسب.",
+      otherPrompt: "صف لي ما يحدث اليوم والنتيجة التي تريد الوصول إليها بطريقتك، حتى لو كانت كل التفاصيل في رسالة واحدة.",
       request: "أريد تخصيص خدمة " + title + " لتناسب عملية شركتي.",
       launcher: "ابنِ خدمتك مع فلق بوت",
       close: "إغلاق المحادثة"
@@ -769,7 +716,7 @@
       hello: "Hi, I see you’re exploring “" + title + "”. Would you like to customize this service for your business, or explore a different service?",
       customize: "Customize this service",
       other: "Explore another service",
-      otherPrompt: "Of course. Describe the process or problem you want to solve and I’ll shape the right concept.",
+      otherPrompt: "Describe what happens today and the outcome you want in your own words, even if you put every detail in one message.",
       request: "I want to customize the " + title + " service for my company’s workflow.",
       launcher: "Build your service with Falaq Bot",
       close: "Close chat"
@@ -796,7 +743,7 @@
     var copy = getBotCopy();
     var gate = section.querySelector(".bot-contact-gate");
     if (gate) gate.remove();
-    section._falaqAgentState = { phase: "service-choice", busy: false, questions: [], answers: [], questionIndex: 0 };
+    section._falaqAgentState = { phase: "service-choice", busy: false, messages: [{ role: "assistant", content: serviceCopy.hello }], brief: {}, interest: "none" };
     section.querySelector(".falaq-chat-messages").innerHTML = "";
     addChatMessage(section, serviceCopy.hello, false);
     updateBotInput(section, copy.placeholder, false);
@@ -805,9 +752,16 @@
       if (state.busy || state.phase !== "service-choice") return;
       addChatMessage(section, value, true);
       if (value === serviceCopy.customize) {
-        startBotAnalysis(section, serviceCopy.request, context.key);
+        state.phase = "chat";
+        state.category = context.key;
+        state.preferredCategory = context.key;
+        state.messages.push({ role: "user", content: value }, { role: "assistant", content: serviceCopy.otherPrompt });
+        addChatMessage(section, serviceCopy.otherPrompt, false);
+        updateBotInput(section, copy.placeholder, true);
+        renderBotSuggestions(section, [], function () {});
       } else {
         state.phase = "intro";
+        state.messages.push({ role: "user", content: value }, { role: "assistant", content: serviceCopy.otherPrompt });
         addChatMessage(section, serviceCopy.otherPrompt, false);
         updateBotInput(section, copy.placeholder, true);
         renderBotSuggestions(section, copy.ideas, function (idea) { submitBotValue(section, idea); });
