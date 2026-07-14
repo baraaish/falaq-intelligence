@@ -46,6 +46,25 @@ function normalizeBrief(candidate, current = {}) {
   }).filter(([, value]) => value));
 }
 
+function hasExplicitProposalInterest(messages, lang) {
+  const latestIndex = messages.findLastIndex((message) => message.role === "user");
+  if (latestIndex < 0) return false;
+  const latest = messages[latestIndex].content.toLowerCase();
+  const directPattern = lang === "ar"
+    ? /(أرسل|ارسل|جهز|حضّر|حضر|أنشئ|انشئ).{0,30}(العرض|المقترح|الملف|pdf|بي دي اف)|(أريد|اريد).{0,25}(العرض|المقترح|pdf|بي دي اف)|(مقتنع|اقتنعنا|لنبدأ|نبدأ الآن|ابدأ|تواصلوا معي|احجز)/
+    : /(send|prepare|create|generate).{0,30}(proposal|pdf|document)|i want.{0,20}(proposal|pdf)|i('m| am) convinced|let'?s (start|proceed)|ready to proceed|book (a )?(call|meeting)|contact me/;
+  if (directPattern.test(latest)) return true;
+
+  const affirmative = lang === "ar"
+    ? /^(نعم|أجل|تمام|ممتاز|موافق|أكيد|بالتأكيد)[.!، ]*$/i.test(latest)
+    : /^(yes|sure|okay|ok|absolutely|go ahead)[.! ]*$/i.test(latest);
+  const previousAssistant = messages.slice(0, latestIndex).reverse().find((message) => message.role === "assistant")?.content.toLowerCase() || "";
+  const proposalWasOffered = lang === "ar"
+    ? /(عرض|مقترح|pdf|بي دي اف|نبدأ)/.test(previousAssistant)
+    : /(proposal|pdf|proceed|move forward)/.test(previousAssistant);
+  return affirmative && proposalWasOffered;
+}
+
 async function continueConversation(payload) {
   const lang = payload.language === "en" ? "en" : "ar";
   const messages = (Array.isArray(payload.messages) ? payload.messages : [])
@@ -100,9 +119,11 @@ Return JSON only with this exact shape:
 
   if (!capabilities[payload.preferredCategory] && capabilities[result.data.category]) category = result.data.category;
   const brief = normalizeBrief(result.data.brief, currentBrief);
-  const interest = ["none", "implicit", "explicit"].includes(result.data.interest) ? result.data.interest : "none";
+  const modelInterest = ["none", "implicit", "explicit"].includes(result.data.interest) ? result.data.interest : "none";
+  const explicitInterest = hasExplicitProposalInterest(messages, lang);
+  const interest = explicitInterest ? "explicit" : (modelInterest === "explicit" ? "implicit" : modelInterest);
   const knownFacts = Object.values(brief).filter(Boolean);
-  const nextAction = result.data.nextAction === "contact" && interest === "explicit" && knownFacts.length >= 2
+  const nextAction = explicitInterest && knownFacts.length >= 2
     ? "contact"
     : "chat";
   const fallbackReply = lang === "ar"
