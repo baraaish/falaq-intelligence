@@ -954,6 +954,8 @@
         if (element.classList.contains("aether-live-surface")) return;
         var rect = element.getBoundingClientRect();
         var style = getComputedStyle(element);
+        var parentStyle = element.parentElement ? getComputedStyle(element.parentElement) : null;
+        if (style.position === "absolute" || style.backfaceVisibility === "hidden" || parentStyle?.transformStyle === "preserve-3d") return;
         if (rect.width > 170 && rect.width < 620 && rect.height > 82 && rect.height < 520 && parseFloat(style.borderRadius) >= 8 && !element.querySelector("form")) {
           element.classList.add("aether-live-surface");
           element.style.setProperty("--live-delay", (index % 9) * -.47 + "s");
@@ -967,6 +969,29 @@
     });
   }
 
+  function enhanceFlipCards() {
+    document.querySelectorAll("div").forEach(function (element) {
+      if (element.dataset.flipMounted === "true" || element.children.length < 2) return;
+      var firstFace = getComputedStyle(element.children[0]);
+      var secondFace = getComputedStyle(element.children[1]);
+      if (firstFace.backfaceVisibility !== "hidden" || secondFace.backfaceVisibility !== "hidden") return;
+      element.dataset.flipMounted = "true";
+      element.classList.add("aether-flip-card");
+      element.tabIndex = 0;
+      element.setAttribute("role", "button");
+      element.setAttribute("aria-expanded", "false");
+      element.addEventListener("click", function () {
+        var flipped = element.classList.toggle("is-flipped");
+        element.setAttribute("aria-expanded", String(flipped));
+      });
+      element.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        element.click();
+      });
+    });
+  }
+
   var lastLanguage = "";
   function scan() {
     document.querySelectorAll(".aether-flow-hero").forEach(mount);
@@ -975,6 +1000,7 @@
     createCustomBotSection();
     createServiceBotLauncher();
     enhanceLandingMotion();
+    enhanceFlipCards();
     var language = currentBotLanguage();
     if (language !== lastLanguage) {
       lastLanguage = language;

@@ -169,6 +169,14 @@ html[dir="rtl"] .aether-flow-hero .aether-title {
   -webkit-text-fill-color: transparent !important;
 }
 
+/* Service headlines are longer than the homepage headline. */
+.aether-flow-hero .aether-title {
+  max-width: 920px !important;
+  font-size: clamp(2.4rem, 4.2vw, 3.75rem) !important;
+  line-height: 1.14 !important;
+  letter-spacing: -.035em !important;
+}
+
 .aether-flow-hero .lead,
 .aether-flow-hero .aether-copy {
   max-width: 720px !important;
@@ -882,6 +890,9 @@ html[dir="rtl"] .falaq-floating-launcher { padding: 7px 7px 7px 14px; }
 .aether-live-surface { animation: liveSurfaceFloat 7s ease-in-out infinite var(--live-delay) !important; }
 .aether-live-surface:hover { animation-play-state: paused !important; filter: brightness(1.08); }
 .aether-live-icon { transform-box: fill-box; transform-origin: center; animation: liveIconPulse 4.8s ease-in-out infinite var(--icon-delay) !important; }
+.aether-flip-card:hover,
+.aether-flip-card:focus-visible,
+.aether-flip-card.is-flipped { transform: rotateY(180deg) !important; }
 @keyframes liveSurfaceFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 @keyframes liveIconPulse { 0%,100% { transform: translateY(0) rotate(0); filter: drop-shadow(0 0 0 rgba(168,85,247,0)); } 50% { transform: translateY(-3px) rotate(2deg); filter: drop-shadow(0 0 6px rgba(168,85,247,.35)); } }
 
@@ -901,6 +912,11 @@ html[dir="rtl"] .falaq-floating-launcher { padding: 7px 7px 7px 14px; }
   .aether-flow-hero .aether-title {
     font-size: clamp(2.25rem, 12vw, 3.8rem) !important;
     line-height: 1.12 !important;
+  }
+
+  .aether-flow-hero .aether-title {
+    font-size: clamp(2rem, 9vw, 2.8rem) !important;
+    line-height: 1.15 !important;
   }
 
   .aether-flow-hero .lead,
