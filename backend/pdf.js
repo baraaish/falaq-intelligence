@@ -14,11 +14,12 @@ function list(items, className = "check-list") {
   return `<ul class="${className}">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
 }
 
-function workflow(items, language) {
+function workflow(items, language, startIndex = 0) {
+  const outputLabel = language === "ar" ? "الناتج" : "Output";
   return `<div class="workflow">${items.map((step, index) => `
     <div class="workflow-step">
-      <span class="step-number">${String(index + 1).padStart(2, "0")}</span>
-      <div><h3>${escapeHtml(step.title)}</h3><p>${escapeHtml(step.description)}</p></div>
+      <span class="step-number">${String(startIndex + index + 1).padStart(2, "0")}</span>
+      <div><h3>${escapeHtml(step.title)}</h3><p>${escapeHtml(step.description)}</p>${step.result ? `<p class="step-result"><b>${outputLabel}:</b> ${escapeHtml(step.result)}</p>` : ""}</div>
     </div>
     ${index < items.length - 1 ? `<span class="connector">${language === "ar" ? "←" : "→"}</span>` : ""}
   `).join("")}</div>`;
@@ -31,21 +32,36 @@ function proposalHtml({ proposal, contact, language, categoryLabel, reference })
     challenge: "فهمنا للتحدي",
     solution: "الحل المقترح",
     workflow: "مسار العمل المقترح",
+    workflowPartOne: "من الوصول إلى القرار",
+    workflowPartTwo: "من التنفيذ إلى الإغلاق",
     roles: "التوازن بين الوكيل والفريق",
+    decisions: "قواعد القرار والتعامل",
+    deliverables: "ما الذي يتضمنه الحل",
     value: "القيمة المتوقعة للعمل",
     metrics: "كيف نقيس النجاح",
     next: "الخطوة التالية",
+    condition: "عندما",
+    action: "الإجراء",
     confidential: "تصور أولي للنقاش - فلق للذكاء الاصطناعي"
   } : {
     challenge: "Our understanding of the challenge",
     solution: "Proposed solution",
     workflow: "Proposed workflow",
+    workflowPartOne: "From intake to decision",
+    workflowPartTwo: "From execution to closure",
     roles: "The agent and team balance",
+    decisions: "Decision and handling rules",
+    deliverables: "What the solution includes",
     value: "Expected business value",
     metrics: "How success can be measured",
     next: "Recommended next step",
+    condition: "When",
+    action: "Action",
     confidential: "Initial concept for discussion - Falaq Intelligence"
   };
+  const workflowMiddle = Math.ceil(proposal.workflow.length / 2);
+  const workflowPartOne = proposal.workflow.slice(0, workflowMiddle);
+  const workflowPartTwo = proposal.workflow.slice(workflowMiddle);
 
   return `<!doctype html>
   <html lang="${ar ? "ar" : "en"}" dir="${ar ? "rtl" : "ltr"}">
@@ -75,17 +91,23 @@ function proposalHtml({ proposal, contact, language, categoryLabel, reference })
     p { margin: 0; color: #554d5d; font-size: 12px; }
     .opening { margin: 20px 0 24px; padding: 20px 22px; border: 1px solid #eadff5; border-radius: 18px; background: linear-gradient(135deg, #fbf8ff, #fff); color: #32283b; font-size: 14px; font-weight: 600; }
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .card { padding: 18px; border: 1px solid #ece7f0; border-radius: 16px; background: #fff; box-shadow: 0 10px 30px rgba(47,31,62,.04); }
+    .card { padding: 18px; border: 1px solid #ece7f0; border-radius: 16px; background: #fff; box-shadow: 0 10px 30px rgba(47,31,62,.04); break-inside: avoid; }
     .workflow { display: grid; gap: 8px; margin-top: 18px; }
-    .workflow-step { display: grid; grid-template-columns: 35px 1fr; gap: 12px; align-items: start; padding: 12px 14px; border: 1px solid #ece5f2; border-radius: 14px; background: linear-gradient(90deg, #fcfaff, #fff); }
+    .workflow-step { display: grid; grid-template-columns: 35px 1fr; gap: 12px; align-items: start; padding: 12px 14px; border: 1px solid #ece5f2; border-radius: 14px; background: linear-gradient(90deg, #fcfaff, #fff); break-inside: avoid; }
     [dir="rtl"] .workflow-step { grid-template-columns: 35px 1fr; }
     .step-number { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 10px; background: #ede3ff; color: #7136bc; font-size: 10px; font-weight: 800; }
-    .workflow-step p { font-size: 10.5px; line-height: 1.6; }
+    .workflow-step p { font-size: 10.5px; line-height: 1.55; }
+    .workflow-step .step-result { margin-top: 5px; padding-top: 5px; border-top: 1px solid #eee8f2; color: #413649; font-size: 9.5px; }
+    .workflow-step .step-result b { color: #7c3aed; }
     .connector { height: 8px; margin-inline-start: 15px; color: #b79bcf; font-size: 12px; transform: rotate(90deg); transform-origin: center; }
     .check-list { display: grid; gap: 10px; margin: 12px 0 0; padding: 0; list-style: none; }
     .check-list li { position: relative; padding-inline-start: 24px; color: #504858; font-size: 11px; }
     .check-list li::before { content: "✓"; position: absolute; inset-inline-start: 0; top: 1px; display: grid; width: 17px; height: 17px; place-items: center; border-radius: 50%; background: #eee5ff; color: #7c3aed; font-size: 9px; font-weight: 900; }
     .sales-line { margin: 24px 0; padding: 22px; border-radius: 18px; background: #160d20; color: #f5ebff; font-size: 15px; font-weight: 700; line-height: 1.75; }
+    .decision-list { display: grid; gap: 10px; margin-top: 15px; }
+    .decision { display: grid; grid-template-columns: .8fr 1.2fr; gap: 12px; padding: 13px 14px; border: 1px solid #ece5f2; border-radius: 13px; background: #fcfaff; break-inside: avoid; }
+    .decision span { display: block; margin-bottom: 3px; color: #8b5cf6; font-size: 8px; font-weight: 800; text-transform: uppercase; }
+    .decision p { color: #443c4b; font-size: 10px; }
     .next { padding: 22px; border: 1px solid #d9c2ef; border-radius: 18px; background: linear-gradient(135deg, #f7efff, #fff); }
     .footer { position: absolute; right: 18mm; bottom: 9mm; left: 18mm; display: flex; justify-content: space-between; border-top: 1px solid #eee8f2; padding-top: 6px; color: #988fa0; font-size: 8px; }
   </style></head>
@@ -117,17 +139,32 @@ function proposalHtml({ proposal, contact, language, categoryLabel, reference })
 
     <section class="page">
       <div class="brand"><span class="brand-mark">✦</span><span>FALAQ INTELLIGENCE</span></div>
-      <div style="margin-top:24px"><p class="section-label">04</p><h2>${labels.workflow}</h2>${workflow(proposal.workflow, language)}</div>
+      <div style="margin-top:24px"><p class="section-label">04 · ${labels.workflowPartOne}</p><h2>${labels.workflow}</h2>${workflow(workflowPartOne, language, 0)}</div>
+      <div class="footer"><span>${labels.confidential}</span><span>${escapeHtml(reference)}</span></div>
+    </section>
+
+    <section class="page">
+      <div class="brand"><span class="brand-mark">✦</span><span>FALAQ INTELLIGENCE</span></div>
+      <div style="margin-top:24px"><p class="section-label">04 · ${labels.workflowPartTwo}</p><h2>${labels.workflow}</h2>${workflow(workflowPartTwo, language, workflowMiddle)}</div>
       <div class="footer"><span>${labels.confidential}</span><span>${escapeHtml(reference)}</span></div>
     </section>
 
     <section class="page">
       <div class="brand"><span class="brand-mark">✦</span><span>FALAQ INTELLIGENCE</span></div>
       <div style="margin-top:30px" class="two-col">
-        <article class="card"><p class="section-label">05</p><h2>${labels.value}</h2>${list(proposal.businessValue)}</article>
-        <article class="card"><p class="section-label">06</p><h2>${labels.metrics}</h2>${list(proposal.successMetrics)}</article>
+        <article class="card" style="grid-column:1/-1"><p class="section-label">05</p><h2>${labels.decisions}</h2><div class="decision-list">${(proposal.decisionRules || []).map((rule) => `<div class="decision"><div><span>${labels.condition}</span><p>${escapeHtml(rule.condition)}</p></div><div><span>${labels.action}</span><p>${escapeHtml(rule.action)}</p></div></div>`).join("")}</div></article>
+        <article class="card" style="grid-column:1/-1"><p class="section-label">06</p><h2>${labels.deliverables}</h2>${list(proposal.deliverables || [])}</article>
       </div>
-      <article class="next" style="margin-top:28px"><p class="section-label">07</p><h2>${labels.next}</h2><p>${escapeHtml(proposal.nextStep)}</p></article>
+      <div class="footer"><span>${labels.confidential}</span><span>${escapeHtml(reference)}</span></div>
+    </section>
+
+    <section class="page">
+      <div class="brand"><span class="brand-mark">✦</span><span>FALAQ INTELLIGENCE</span></div>
+      <div style="margin-top:30px" class="two-col">
+        <article class="card"><p class="section-label">07</p><h2>${labels.value}</h2>${list(proposal.businessValue)}</article>
+        <article class="card"><p class="section-label">08</p><h2>${labels.metrics}</h2>${list(proposal.successMetrics)}</article>
+      </div>
+      <article class="next" style="margin-top:28px"><p class="section-label">09</p><h2>${labels.next}</h2><p>${escapeHtml(proposal.nextStep)}</p></article>
       <div style="margin-top:35mm;text-align:center"><div class="brand" style="justify-content:center"><span class="brand-mark">✦</span><span>FALAQ INTELLIGENCE</span></div><p style="margin-top:12px">hello@falaqai.com · +962 79 296 1872</p></div>
       <div class="footer"><span>${labels.confidential}</span><span>${escapeHtml(reference)}</span></div>
     </section>

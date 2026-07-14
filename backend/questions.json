@@ -1,104 +1,132 @@
 {
   "ar": [
     {
-      "id": "business",
-      "type": "choice",
-      "question": "ما نوع نشاط الشركة أو القطاع الذي تعملون فيه؟",
+      "id": "businessContext",
+      "type": "text",
+      "question": "ما نشاط الشركة، ماذا تقدمون، ومن هو العميل الذي تخدمونه؟",
       "options": ["خدمات B2B", "رعاية صحية", "عقارات", "لوجستيات", "تجارة إلكترونية"],
-      "placeholder": "أو اكتب نوع النشاط..."
+      "placeholder": "مثال: شركة عقارية تبيع مشاريع سكنية للأفراد في السعودية..."
     },
     {
       "id": "currentProcess",
       "type": "text",
-      "question": "كيف ينفذ فريقك هذه العملية حاليًا؟ اشرحها ببساطة من البداية للنهاية.",
+      "question": "صف العملية الحالية من لحظة وصول الطلب حتى إغلاقه: من يستلمه، ماذا يفعل، وما النتيجة النهائية؟",
       "options": [],
-      "placeholder": "مثال: تصل الطلبات على واتساب ثم يوزعها موظف يدويًا..."
+      "placeholder": "مثال: يصل الطلب على واتساب، يجمع الموظف البيانات، يسجله في CRM ثم يحجز موعدًا..."
     },
     {
       "id": "pain",
-      "type": "choice",
-      "question": "ما المشكلة الأكثر تأثيرًا في العملية الحالية؟",
-      "options": ["بطء الاستجابة", "عمل يدوي متكرر", "ضياع الطلبات", "أخطاء في البيانات", "صعوبة المتابعة"],
-      "placeholder": "أو صف المشكلة بطريقتك..."
+      "type": "text",
+      "question": "أين تتعطل العملية تحديدًا، وما الذي يحدث عندما تتعطل؟",
+      "options": ["تأخر الرد وضياع فرص", "عمل يدوي يستهلك الفريق", "بيانات ناقصة أو خاطئة", "متابعة غير منتظمة"],
+      "placeholder": "اذكر المشكلة وأثرها بمثال واقعي..."
     },
     {
       "id": "channels",
       "type": "choice",
-      "question": "ما القناة الأساسية التي تبدأ منها العملية؟",
-      "options": ["واتساب", "الموقع", "البريد الإلكتروني", "المكالمات", "CRM أو نظام داخلي"],
-      "placeholder": "يمكنك ذكر أكثر من قناة..."
+      "question": "من أين تصل الحالات، وأين يجب أن يتواصل الوكيل مع العميل؟",
+      "options": ["واتساب", "الموقع", "البريد الإلكتروني", "المكالمات", "أكثر من قناة"],
+      "placeholder": "اذكر القنوات المطلوبة..."
     },
     {
       "id": "volume",
       "type": "choice",
-      "question": "ما الحجم التقريبي للطلبات أو الحالات؟",
-      "options": ["أقل من 20 يوميًا", "20–100 يوميًا", "أكثر من 100 يوميًا", "يتغير حسب الموسم"],
-      "placeholder": "اكتب رقمًا تقريبيًا إن أمكن..."
+      "question": "ما الحجم التقريبي للحالات، ومتى تحتاجون الاستجابة؟",
+      "options": ["أقل من 20 يوميًا", "20–100 يوميًا", "أكثر من 100 يوميًا", "موسمي أو غير ثابت"],
+      "placeholder": "مثال: 60 طلبًا يوميًا ونحتاج الرد خلال 5 دقائق..."
+    },
+    {
+      "id": "rules",
+      "type": "text",
+      "question": "ما المعلومات التي يجب جمعها، وما القواعد التي تحدد الإجراء التالي أو أولوية الحالة؟",
+      "options": [],
+      "placeholder": "مثال: الميزانية، المدينة، موعد الشراء؛ العميل الجاهز خلال شهر أولوية عالية..."
     },
     {
       "id": "handoff",
       "type": "text",
-      "question": "متى يجب أن يتوقف الوكيل ويحوّل الحالة إلى موظف؟",
-      "options": ["عند الشكوى", "عند طلب موظف", "قبل الموافقة النهائية", "عند نقص المعلومات"],
-      "placeholder": "اذكر الحالات التي تحتاج قرارًا بشريًا..."
+      "question": "متى يجب تحويل الحالة إلى موظف، وماذا يجب أن يستلم الموظف معها؟",
+      "options": ["عند طلب موظف", "عند شكوى أو حالة حساسة", "قبل الموافقة النهائية", "عند نقص أو تعارض المعلومات"],
+      "placeholder": "حدد حالة التحويل والمعلومات التي يحتاجها الموظف..."
     },
     {
       "id": "systems",
       "type": "text",
-      "question": "ما الأدوات أو الأنظمة التي يجب أن يعمل معها الحل؟",
+      "question": "أين تُحفظ البيانات الآن، وما الأنظمة التي يجب تحديثها بعد كل حالة؟",
       "options": ["Google Sheets", "CRM", "تقويم", "لا يوجد نظام حالي"],
-      "placeholder": "مثال: HubSpot، Zoho، Google Calendar..."
+      "placeholder": "مثال: HubSpot للعملاء وGoogle Calendar للمواعيد..."
+    },
+    {
+      "id": "success",
+      "type": "text",
+      "question": "بعد تشغيل الحل، ما النتيجة التي ستجعلك تعتبره ناجحًا؟",
+      "options": ["رد أسرع", "حالات مكتملة أكثر", "تقليل العمل اليدوي", "متابعة وقياس أوضح"],
+      "placeholder": "مثال: الرد خلال دقائق وعدم بقاء أي طلب دون متابعة..."
     }
   ],
   "en": [
     {
-      "id": "business",
-      "type": "choice",
-      "question": "What type of business or industry do you operate in?",
+      "id": "businessContext",
+      "type": "text",
+      "question": "What does your company do, what do you offer, and who is the customer you serve?",
       "options": ["B2B services", "Healthcare", "Real estate", "Logistics", "E-commerce"],
-      "placeholder": "Or type your industry..."
+      "placeholder": "Example: a real-estate company selling residential projects to individuals in Saudi Arabia..."
     },
     {
       "id": "currentProcess",
       "type": "text",
-      "question": "How does your team handle this process today? Describe it simply from start to finish.",
+      "question": "Describe the current process from request arrival to closure: who receives it, what happens, and what is the final outcome?",
       "options": [],
-      "placeholder": "Example: requests arrive on WhatsApp and a team member distributes them manually..."
+      "placeholder": "Example: the request arrives on WhatsApp, a rep gathers details, updates the CRM, then books a meeting..."
     },
     {
       "id": "pain",
-      "type": "choice",
-      "question": "What has the biggest impact on the current process?",
-      "options": ["Slow response", "Repeated manual work", "Lost requests", "Data errors", "Difficult follow-up"],
-      "placeholder": "Or describe the problem in your own words..."
+      "type": "text",
+      "question": "Where exactly does the process break down, and what happens when it does?",
+      "options": ["Slow response and lost opportunities", "Manual work consuming the team", "Missing or incorrect data", "Inconsistent follow-up"],
+      "placeholder": "Describe the problem and its impact with a real example..."
     },
     {
       "id": "channels",
       "type": "choice",
-      "question": "Which channel usually starts the process?",
-      "options": ["WhatsApp", "Website", "Email", "Phone calls", "CRM or internal system"],
-      "placeholder": "You can mention more than one channel..."
+      "question": "Where do cases arrive, and where should the agent communicate with the customer?",
+      "options": ["WhatsApp", "Website", "Email", "Phone calls", "Multiple channels"],
+      "placeholder": "List the required channels..."
     },
     {
       "id": "volume",
       "type": "choice",
-      "question": "What is the approximate request or case volume?",
-      "options": ["Under 20 per day", "20–100 per day", "Over 100 per day", "Seasonal"],
-      "placeholder": "Enter an estimate if possible..."
+      "question": "What is the approximate case volume, and how quickly do you need a response?",
+      "options": ["Under 20 per day", "20–100 per day", "Over 100 per day", "Seasonal or variable"],
+      "placeholder": "Example: 60 requests daily with a five-minute response target..."
+    },
+    {
+      "id": "rules",
+      "type": "text",
+      "question": "Which information must be collected, and which rules determine the next action or case priority?",
+      "options": [],
+      "placeholder": "Example: budget, city, purchase date; customers buying within a month are high priority..."
     },
     {
       "id": "handoff",
       "type": "text",
-      "question": "When should the agent stop and hand the case to a team member?",
-      "options": ["On a complaint", "When a human is requested", "Before final approval", "When information is missing"],
-      "placeholder": "Describe cases that require a human decision..."
+      "question": "When should a case be transferred to a team member, and what should the team member receive with it?",
+      "options": ["When a human is requested", "For complaints or sensitive cases", "Before final approval", "When information conflicts"],
+      "placeholder": "Define the handoff case and the information the team needs..."
     },
     {
       "id": "systems",
       "type": "text",
-      "question": "Which tools or systems should the solution work with?",
+      "question": "Where is information stored today, and which systems should be updated after each case?",
       "options": ["Google Sheets", "CRM", "Calendar", "No current system"],
-      "placeholder": "Example: HubSpot, Zoho, Google Calendar..."
+      "placeholder": "Example: HubSpot for customers and Google Calendar for meetings..."
+    },
+    {
+      "id": "success",
+      "type": "text",
+      "question": "After launch, what outcome would make you consider the solution successful?",
+      "options": ["Faster response", "More complete cases", "Less manual work", "Clearer tracking and measurement"],
+      "placeholder": "Example: respond within minutes and leave no request without follow-up..."
     }
   ]
 }

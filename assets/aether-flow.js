@@ -543,13 +543,52 @@
     });
   }
 
-  function captureBotAnswer(section, value) {
+  async function captureBotAnswer(section, value) {
     var state = getBotState(section);
     var question = state.questions[state.questionIndex];
     if (!question || !value) return;
-    state.phase = "transition";
-    state.answers.push({ id: question.id, question: question.question, value: value });
+    state.phase = "validating";
+    state.pendingAnswers = state.pendingAnswers || {};
+    state.answerAttempts = state.answerAttempts || {};
+    var combinedAnswer = state.pendingAnswers[question.id]
+      ? state.pendingAnswers[question.id] + " | " + value
+      : value;
+    setBotBusy(section, true);
+    renderBotSuggestions(section, [], function () {});
+    var typing = showBotTyping(section);
+    var validation;
+    try {
+      validation = await postAgent("/api/agent/validate-answer", {
+        language: currentBotLanguage(),
+        category: state.category,
+        initialRequest: state.initialRequest,
+        question: question,
+        answer: combinedAnswer,
+        previousAnswers: state.answers
+      });
+    } catch (_) {
+      validation = { sufficient: true, normalizedAnswer: combinedAnswer };
+    }
+    typing.remove();
+
+    var attempts = state.answerAttempts[question.id] || 0;
+    if (!validation.sufficient && attempts < 2) {
+      state.answerAttempts[question.id] = attempts + 1;
+      state.pendingAnswers[question.id] = combinedAnswer;
+      state.phase = "question";
+      setBotBusy(section, false);
+      addChatMessage(section, validation.followUp || getBotCopy().failed, false);
+      updateBotInput(section, question.placeholder, true);
+      section.querySelector(".bot-input-row input").focus();
+      return;
+    }
+
+    state.answers.push({ id: question.id, question: question.question, value: validation.normalizedAnswer || combinedAnswer });
+    delete state.pendingAnswers[question.id];
+    delete state.answerAttempts[question.id];
     state.questionIndex += 1;
+    state.phase = "transition";
+    setBotBusy(section, false);
     renderBotSuggestions(section, [], function () {});
     window.setTimeout(function () { askBotQuestion(section); }, 260);
   }

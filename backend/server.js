@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("node:path");
 const fs = require("node:fs/promises");
 const crypto = require("node:crypto");
-const { analyzeRequest, generateProposal, cleanText } = require("./proposal");
+const { analyzeRequest, validateAnswer, generateProposal, cleanText } = require("./proposal");
 const { renderPdf } = require("./pdf");
 const capabilities = require("./capabilities.json");
 const { configuredProviders } = require("./providers");
@@ -69,6 +69,20 @@ app.post("/api/agent/analyze", async (request, response) => {
   } catch (error) {
     console.error(error);
     response.status(500).json({ error: language === "ar" ? "تعذر تحليل الطلب الآن." : "The request could not be analyzed right now." });
+  }
+});
+
+app.post("/api/agent/validate-answer", async (request, response) => {
+  const language = request.body?.language === "en" ? "en" : "ar";
+  const answer = cleanText(request.body?.answer, 1600);
+  if (!request.body?.question?.id || !answer) {
+    return response.status(400).json({ error: language === "ar" ? "الإجابة غير مكتملة." : "The answer is incomplete." });
+  }
+  try {
+    response.json({ ok: true, ...(await validateAnswer({ ...request.body, language, answer })) });
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ error: language === "ar" ? "تعذر تقييم الإجابة." : "The answer could not be evaluated." });
   }
 });
 
