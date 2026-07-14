@@ -65,18 +65,18 @@
 </head>
 <body>
 <nav class="nav"><div class="wrap nav-in">
-  <a class="brand" href="/"><span class="mark"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gSvc" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gSvc)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gSvc)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg></span><span>فَلَق</span></a>
+  <a class="brand" href="../"><span class="mark"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gSvc" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gSvc)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gSvc)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg></span><span>فَلَق</span></a>
   <div class="nav-act">
     <button class="btn btn-lang" id="langBtn">EN</button>
-    <a class="btn btn-ghost" id="homeBtn" href="/">الرئيسية</a>
-    <a class="btn btn-primary" href="/#contact" id="ctaBtn">تواصل معنا</a>
+    <a class="btn btn-ghost" id="homeBtn" href="../">الرئيسية</a>
+    <a class="btn btn-primary" href="../#contact" id="ctaBtn">تواصل معنا</a>
   </div>
 </div></nav>
 
 <header class="hero">
   <span class="orb"></span>
   <div class="wrap hero-in">
-    <div class="crumb"><a href="/" id="crumbHome">الرئيسية</a> / <span id="crumbHere">الوكلاء</span></div>
+    <div class="crumb"><a href="../" id="crumbHome">الرئيسية</a> / <span id="crumbHere">الوكلاء</span></div>
     <span class="kick" id="kick">مكتبة الوكلاء</span>
     <h1 id="title">وكيل ذكاء اصطناعي لكل عملية</h1>
     <p class="lead" id="lead">سبعة وكلاء جاهزين، كل منها مصمّم لعملية تجارية محددة. اختر وكيلًا لمشاهدة صفحته التفاعلية الكاملة.</p>
@@ -138,7 +138,7 @@
     document.getElementById('title').textContent=d.title;
     document.getElementById('lead').textContent=d.lead;
     document.getElementById('grid').innerHTML=d.list.map(function(a,i){
-      return '<a class="agent" style="--ac:'+a.c+'" href="/services/'+a.s+'/"><span class="glow"></span>'
+      return '<a class="agent" style="--ac:'+a.c+'" href="./'+a.s+'/"><span class="glow"></span>'
         +'<span class="ic" style="border-color:'+a.c+'55">'+svg(a.k,a.c)+'</span>'
         +'<div class="body"><div class="row"><span class="num">0'+(i+1)+'</span><h3>'+a.t+'</h3></div>'
         +'<p>'+a.d+'</p><span class="go">'+d.view+' <span class="ar">'+d.arrow+'</span></span></div></a>';

@@ -253,7 +253,7 @@
 <!-- NAV -->
 <nav class="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="/" aria-label="Falaq">
+    <a class="brand" href="./" aria-label="Falaq">
       <span class="mark">
         <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gNav" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gNav)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gNav)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg>
       </span>
@@ -420,22 +420,22 @@
   <div class="wrap">
     <div class="foot">
       <div class="foot-brand">
-        <a class="brand" href="/"><span class="mark"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gFoot" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gFoot)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gFoot)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg></span><span data-i18n="brandName">فَلَق</span></a>
+        <a class="brand" href="./"><span class="mark"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gFoot" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gFoot)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gFoot)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg></span><span data-i18n="brandName">فَلَق</span></a>
         <p data-i18n="footBlurb">وكلاء ذكاء اصطناعي ينفذون العمل داخل عمليات الشركات في الأردن والخليج.</p>
       </div>
       <div class="col">
         <h5 data-i18n="footAgents">الوكلاء</h5>
-        <a href="/services/lead-qualification/" data-i18n="ag_lead">تأهيل العملاء</a>
-        <a href="/services/quote-follow-up/" data-i18n="ag_quote">متابعة العروض</a>
-        <a href="/services/booking-recovery/" data-i18n="ag_booking">الحجز والمكالمات</a>
-        <a href="/services/customer-service/" data-i18n="ag_cs">خدمة العملاء</a>
+        <a href="services/lead-qualification/" data-i18n="ag_lead">تأهيل العملاء</a>
+        <a href="services/quote-follow-up/" data-i18n="ag_quote">متابعة العروض</a>
+        <a href="services/booking-recovery/" data-i18n="ag_booking">الحجز والمكالمات</a>
+        <a href="services/customer-service/" data-i18n="ag_cs">خدمة العملاء</a>
       </div>
       <div class="col">
         <h5>&nbsp;</h5>
-        <a href="/services/accounts-receivable/" data-i18n="ag_ar">تحصيل المستحقات</a>
-        <a href="/services/document-processing/" data-i18n="ag_doc">معالجة المستندات</a>
-        <a href="/services/crm-control/" data-i18n="ag_crm">التحكم في CRM</a>
-        <a href="/services/" data-i18n="footAll">كل الخدمات</a>
+        <a href="services/accounts-receivable/" data-i18n="ag_ar">تحصيل المستحقات</a>
+        <a href="services/document-processing/" data-i18n="ag_doc">معالجة المستندات</a>
+        <a href="services/crm-control/" data-i18n="ag_crm">التحكم في CRM</a>
+        <a href="services/" data-i18n="footAll">كل الخدمات</a>
       </div>
       <div class="col">
         <h5 data-i18n="footCompany">الشركة</h5>
@@ -608,7 +608,7 @@
 
     // agents
     document.getElementById('agentGrid').innerHTML = d.agents.map(function(a,i){
-      return '<a class="agent" style="--ac:'+a.c+'" href="/services/'+a.slug+'/">'
+      return '<a class="agent" style="--ac:'+a.c+'" href="services/'+a.slug+'/">'
         +'<span class="glow"></span>'
         +'<span class="num">0'+(i+1)+'</span>'
         +'<span class="ic" style="border-color:'+a.c+'55">'+svg(a.k,a.c)+'</span>'
