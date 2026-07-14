@@ -1,0 +1,12 @@
+.git
+.github
+.claude
+.env
+node_modules
+backend/data
+*.log
+New Falaq Logo Animation AR.mp4
+New Falaq Logo Animation ENG.mp4
+OLD Arabic Logo.png
+OLD Logo without writing.png
+old Main logo.png
