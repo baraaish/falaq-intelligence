@@ -1,22 +1,677 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Falaq Intelligence</title>
-    <meta name="description" content="AI agents that perform real work inside business operations.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles.css">
-    <link rel="stylesheet" href="assets/animations.css">
-  </head>
-  <body>
-    <div id="app" class="site-shell"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="assets/config.js"></script>
-    <script src="assets/app.js"></script>
-    <script src="assets/animations.js"></script>
-  </body>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>فَلَق للذكاء الاصطناعي — وكلاء ذكاء اصطناعي ينفذون العمل داخل عملياتك</title>
+<meta name="description" content="فَلَق تبني وكلاء ذكاء اصطناعي يستقبلون العملاء، يؤهلونهم، يتابعونهم، ويحدّثون أنظمتك — عمل حقيقي داخل عملياتك، لا مجرد شات بوت.">
+<meta property="og:title" content="فَلَق للذكاء الاصطناعي">
+<meta property="og:description" content="وكلاء ذكاء اصطناعي ينفذون العمل داخل عمليات الشركات.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#03030A; --bg2:#05050D; --panel:#0B0B13; --panel2:#11111B; --card:#080810;
+    --line:#21182B; --line-hi:#382646;
+    --ink:#E8E8EC; --dim:#9C9CA8; --mute:#5A5A68;
+    --coral:#A855F7; --amber:#C896FF; --violet:#C084FC; --teal:#A855F7; --blue:#8B5CF6;
+    --accent:#A855F7;
+    --fen:'Manrope',system-ui,-apple-system,sans-serif;
+    --far:'Tajawal',system-ui,sans-serif;
+    --font:var(--far);
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--font);
+    line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased;
+  }
+  html[dir="ltr"] body{font-family:var(--fen)}
+  ::selection{background:var(--coral);color:#03030A}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{width:min(var(--maxw),calc(100% - 44px));margin:0 auto}
+  .skip-link{position:fixed;top:10px;inset-inline-start:10px;z-index:100;padding:10px 14px;border-radius:8px;background:#fff;color:#03030A;font-weight:800;transform:translateY(-150%)}
+  .skip-link:focus{transform:translateY(0)}
+  :is(a,button,input,select,textarea):focus-visible{outline:3px solid #C084FC!important;outline-offset:3px}
+
+  /* keyframes lifted from the Falaq design system */
+  @keyframes floatOrb1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-40px) scale(1.08)}}
+  @keyframes floatOrb2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-40px,30px) scale(1.1)}}
+  @keyframes iconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  @keyframes iconScan{0%{transform:translateY(-14px);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(16px);opacity:0}}
+  @keyframes bounceArrow{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+  @keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,.35)}50%{box-shadow:0 0 0 10px rgba(168,85,247,0)}}
+  @keyframes gridPan{0%{background-position:0 0}100%{background-position:56px 56px}}
+  @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(18px);
+    background:rgba(7,11,20,.72);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:70px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.15rem;letter-spacing:.2px}
+  .brand .mark{width:34px;height:34px;border-radius:10px;
+    background:radial-gradient(circle at 35% 30%,#1c1230,#0b1120);
+    border:1px solid rgba(168,85,247,.5);display:grid;place-items:center;
+    box-shadow:0 8px 22px rgba(0,0,0,.4);animation:iconFloat 5s ease-in-out infinite}
+  .brand .mark svg{width:19px;height:19px}
+  .brand small{color:var(--mute);font-weight:500;font-size:.7rem;display:block;margin-top:-4px}
+  .nav-links{display:flex;align-items:center;gap:26px;color:var(--dim);font-size:.94rem;font-weight:500}
+  .nav-links a{transition:color .18s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-act{display:flex;align-items:center;gap:10px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    min-height:44px;padding:0 20px;border-radius:10px;font-weight:700;font-size:.92rem;
+    cursor:pointer;border:1px solid transparent;transition:transform .16s,box-shadow .16s,background .16s,border-color .16s;font-family:inherit}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{background:linear-gradient(180deg,#C896FF,var(--coral));color:#14081f;
+    box-shadow:0 10px 30px rgba(168,85,247,.32)}
+  .btn-ghost{background:rgba(244,247,255,.04);border-color:var(--line-hi);color:var(--ink)}
+  .btn-lang{min-height:38px;padding:0 12px;background:transparent;border-color:var(--line-hi);color:var(--dim);font-weight:600}
+  .nav-toggle{display:none;background:none;border:1px solid var(--line-hi);border-radius:9px;width:42px;height:42px;color:var(--ink);cursor:pointer}
+
+  /* HERO */
+  .hero{position:relative;overflow:hidden;padding:96px 0 84px;text-align:center}
+  .hero .orbs{position:absolute;inset:0;pointer-events:none}
+  .orb{position:absolute;border-radius:50%;filter:blur(14px)}
+  .orb.a{top:-8%;inset-inline-end:-6%;width:520px;height:520px;
+    background:radial-gradient(circle at 30% 30%,rgba(168,85,247,.30),transparent 65%);animation:floatOrb1 17s ease-in-out infinite}
+  .orb.b{bottom:-16%;inset-inline-start:-8%;width:560px;height:560px;
+    background:radial-gradient(circle at 60% 40%,rgba(139,92,246,.20),transparent 65%);animation:floatOrb2 19s ease-in-out infinite}
+  .orb.c{top:24%;inset-inline-start:36%;width:360px;height:360px;
+    background:radial-gradient(circle at 50% 50%,rgba(192,132,252,.14),transparent 65%);animation:floatOrb1 21s ease-in-out infinite}
+  .hero .grid-bg{position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background-image:linear-gradient(rgba(42,51,80,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(42,51,80,.16) 1px,transparent 1px);
+    background-size:56px 56px;mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000,transparent 75%);animation:gridPan 24s linear infinite}
+  .hero-in{position:relative;z-index:2;max-width:920px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:22px}
+  .hero-mark{position:relative;width:88px;height:88px;display:grid;place-items:center}
+  .hero-mark .box{width:78px;height:78px;border-radius:22px;
+    background:linear-gradient(150deg,#1c1230,#0b1120);border:1px solid rgba(168,85,247,.45);
+    display:grid;place-items:center;box-shadow:0 18px 40px rgba(0,0,0,.45);animation:iconFloat 4.6s ease-in-out infinite;overflow:hidden;position:relative}
+  .hero-mark .box svg{width:36px;height:36px}
+  .hero-mark .scan{position:absolute;left:10px;right:10px;top:6px;height:2px;
+    background:linear-gradient(90deg,rgba(168,85,247,0),rgba(168,85,247,.9),rgba(168,85,247,0));animation:iconScan 2.6s ease-in-out infinite}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;padding:7px 15px;border-radius:999px;
+    background:rgba(168,85,247,.09);border:1px solid rgba(168,85,247,.3);color:#d8b4fe;
+    font-size:.82rem;font-weight:600}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--coral);animation:badgePulse 2.4s infinite}
+  h1{font-size:clamp(2rem,5.2vw,3.5rem);line-height:1.18;font-weight:800;letter-spacing:-.5px}
+  html[dir="ltr"] h1{letter-spacing:-1.5px}
+  .grad{background:linear-gradient(120deg,#fff 20%,#d8b4fe 60%,#c084fc);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lead{font-size:clamp(1rem,2vw,1.18rem);color:var(--dim);max-width:720px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .scroll-cue{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:24px;color:var(--mute);font-size:.78rem;letter-spacing:1px}
+  .scroll-cue .arr{color:var(--coral);font-size:18px;animation:bounceArrow 1.8s ease-in-out infinite}
+
+  /* AI MODELS marquee strip */
+  .ai-strip{position:relative;overflow:hidden;border-block:1px solid var(--line);background:rgba(8,6,16,.65);padding:13px 0}
+  .ai-strip-track{display:flex;width:max-content;animation:aiMarquee 38s linear infinite}
+  .ai-strip:hover .ai-strip-track{animation-play-state:paused}
+  @keyframes aiMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .ai-set{display:flex;gap:12px;padding-inline-end:12px}
+  .ai-badge{display:inline-flex;align-items:center;gap:9px;white-space:nowrap;padding:8px 18px;border-radius:999px;
+    border:1px solid var(--line);background:rgba(255,255,255,.028);color:var(--dim);
+    font-family:var(--fen);font-size:.84rem;font-weight:600}
+  .ai-badge i{width:7px;height:7px;border-radius:50%;font-style:normal;flex-shrink:0}
+  .ai-badge svg{width:18px;height:18px;flex-shrink:0}
+  .ai-badge-brand{border-color:rgba(192,132,252,.42);background:rgba(168,85,247,.10);color:#e9d5ff}
+  .ai-fade{position:absolute;top:0;bottom:0;width:90px;pointer-events:none;z-index:2}
+  .ai-fade-l{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+  .ai-fade-r{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
+
+  /* MARKETS strip */
+  .markets{border-block:1px solid var(--line);background:rgba(10,15,30,.5)}
+  .markets-in{display:flex;align-items:center;gap:14px 30px;flex-wrap:wrap;justify-content:center;padding:20px 0;color:var(--mute);font-size:.9rem}
+  .markets b{color:var(--dim);font-weight:700}
+  .markets .pill{display:inline-flex;align-items:center;gap:7px}
+  .markets .pill i{width:6px;height:6px;border-radius:50%;background:var(--teal);font-style:normal}
+
+  /* generic section */
+  section.blk{padding:84px 0;position:relative}
+  .sec-head{max-width:680px;margin:0 auto 48px;text-align:center}
+  .kick{display:inline-block;color:var(--coral);font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+  html[dir="rtl"] .kick{letter-spacing:0;text-transform:none}
+  h2{font-size:clamp(1.6rem,3.4vw,2.4rem);font-weight:800;line-height:1.25;letter-spacing:-.4px}
+  .sec-head p{color:var(--dim);margin-top:14px;font-size:1.05rem}
+
+  /* AGENTS grid */
+  .agents{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .agent{position:relative;display:flex;flex-direction:column;gap:14px;padding:26px 24px;border-radius:18px;
+    background:linear-gradient(180deg,var(--panel),var(--card));border:1px solid var(--line);
+    overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s}
+  .agent:hover{transform:translateY(-6px);border-color:var(--ac);box-shadow:0 24px 50px rgba(0,0,0,.4)}
+  .agent .glow{position:absolute;top:-40px;inset-inline-end:-40px;width:150px;height:150px;border-radius:50%;
+    background:radial-gradient(circle,var(--ac),transparent 68%);opacity:.16;filter:blur(6px)}
+  .agent .ic{position:relative;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+    background:rgba(255,255,255,.03);border:1px solid var(--line-hi)}
+  .agent .ic svg{width:26px;height:26px}
+  .agent .num{position:absolute;top:22px;inset-inline-end:24px;font-family:var(--fen);font-weight:800;font-size:.8rem;color:var(--mute)}
+  .agent h3{font-size:1.16rem;font-weight:800;position:relative}
+  .agent p{color:var(--dim);font-size:.95rem;position:relative;flex:1}
+  .agent .go{display:inline-flex;align-items:center;gap:7px;color:var(--ac);font-weight:700;font-size:.9rem;position:relative}
+  .agent .go .ar{transition:transform .2s}
+  .agent:hover .go .ar{transform:translateX(-4px)}
+  html[dir="ltr"] .agent:hover .go .ar{transform:translateX(4px)}
+
+  /* INDUSTRIES */
+  .inds{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+  .ind{padding:22px 18px;border-radius:16px;background:var(--panel);border:1px solid var(--line);
+    display:flex;flex-direction:column;gap:12px;transition:transform .2s,border-color .2s}
+  .ind:hover{transform:translateY(-4px);border-color:var(--line-hi)}
+  .ind .ii{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.22)}
+  .ind .ii svg{width:22px;height:22px}
+  .ind h4{font-size:1rem;font-weight:700}
+  .ind p{color:var(--mute);font-size:.85rem}
+
+  /* WHY */
+  .why{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:center}
+  .why-list{display:flex;flex-direction:column;gap:16px}
+  .why-item{display:flex;gap:14px;padding:18px 20px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
+  .why-item .ck{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.4);display:grid;place-items:center;color:var(--teal);font-weight:900;font-size:.8rem}
+  .why-item h4{font-size:1.02rem;font-weight:700;margin-bottom:3px}
+  .why-item p{color:var(--dim);font-size:.9rem}
+  .why-vis{position:relative;border-radius:22px;border:1px solid var(--line);overflow:hidden;
+    background:radial-gradient(ellipse 80% 70% at 50% 30%,#141b30,#080c16);min-height:360px;display:grid;place-items:center}
+  .why-vis .ring{position:absolute;border:1px solid rgba(168,85,247,.16);border-radius:50%}
+  .why-vis .ring.r1{width:150px;height:150px}
+  .why-vis .ring.r2{width:250px;height:250px}
+  .why-vis .ring.r3{width:350px;height:350px}
+  .why-vis .core{width:96px;height:96px;border-radius:26px;display:grid;place-items:center;
+    background:linear-gradient(150deg,#1c1230,#0b1120);border:1px solid rgba(168,85,247,.5);z-index:2;
+    box-shadow:0 0 60px rgba(168,85,247,.3);animation:iconFloat 4.6s ease-in-out infinite}
+  .why-vis .core svg{width:44px;height:44px}
+  .why-vis .chip{position:absolute;padding:8px 13px;border-radius:10px;background:rgba(15,20,33,.9);
+    border:1px solid var(--line-hi);font-size:.78rem;font-weight:600;color:var(--dim);backdrop-filter:blur(6px)}
+
+  /* MODELS */
+  .models{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .model{padding:30px 26px;border-radius:18px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
+  .model.feat{border-color:rgba(168,85,247,.4);background:linear-gradient(180deg,rgba(168,85,247,.06),var(--card))}
+  .model .tag{align-self:flex-start;padding:5px 12px;border-radius:999px;font-size:.74rem;font-weight:700;background:rgba(168,85,247,.12);color:#d8b4fe;border:1px solid rgba(168,85,247,.3)}
+  .model h3{font-size:1.25rem;font-weight:800}
+  .model p{color:var(--dim);font-size:.94rem;flex:1}
+  .model ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .model li{display:flex;gap:9px;color:var(--dim);font-size:.9rem}
+  .model li::before{content:"→";color:var(--coral)}
+
+  /* TEAM */
+
+  /* CTA */
+  .cta{position:relative;overflow:hidden;border-radius:26px;padding:64px 40px;text-align:center;
+    background:radial-gradient(ellipse 70% 90% at 50% 0%,#1a1330,#05050D);border:1px solid var(--line-hi)}
+  .cta .orb{position:absolute}
+  .cta h2{max-width:640px;margin:0 auto}
+  .cta p{color:var(--dim);max-width:560px;margin:14px auto 26px;font-size:1.05rem}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .contact-meta{display:flex;gap:12px 26px;justify-content:center;flex-wrap:wrap;margin-top:24px;color:var(--dim);font-size:.95rem}
+  .contact-meta a{display:inline-flex;align-items:center;gap:8px}
+  .contact-meta a:hover{color:var(--ink)}
+  .contact-meta svg{width:17px;height:17px;color:var(--coral)}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:44px 0 40px;margin-top:80px}
+  .foot{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:flex-start}
+  .foot .col h5{font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);margin-bottom:14px}
+  html[dir="rtl"] .foot .col h5{letter-spacing:0;text-transform:none}
+  .foot .col a{display:block;color:var(--dim);font-size:.92rem;margin-bottom:9px;transition:color .16s}
+  .foot .col a:hover{color:var(--ink)}
+  .foot-brand{max-width:280px;color:var(--mute);font-size:.9rem}
+  .foot-brand .brand{margin-bottom:12px}
+  .copy{border-top:1px solid var(--line);margin-top:34px;padding-top:22px;color:var(--mute);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+  .rv.in{opacity:1;transform:none}
+
+  @media(max-width:960px){
+    .agents,.models,.team{grid-template-columns:repeat(2,1fr)}
+    .inds{grid-template-columns:repeat(2,1fr)}
+    .why{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .nav-toggle{display:grid;place-items:center}
+    .nav-links.open{display:flex;position:absolute;top:70px;inset-inline:0;flex-direction:column;background:var(--bg2);
+      padding:20px;border-bottom:1px solid var(--line);gap:18px}
+  }
+  @media(max-width:620px){
+    .agents,.models,.team,.inds{grid-template-columns:1fr}
+    .hero{padding:64px 0 60px}
+    section.blk{padding:60px 0}
+    .cta{padding:48px 22px}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+  <link rel="stylesheet" href="assets/aether-flow.css">
+  <script defer src="assets/aether-flow.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">تجاوز إلى المحتوى</a>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/" aria-label="Falaq">
+      <span class="mark">
+        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gNav" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gNav)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gNav)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg>
+      </span>
+      <span><span data-i18n="brandName">فَلَق</span><small data-i18n="brandSub">للذكاء الاصطناعي</small></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#agents" data-i18n="navAgents">الوكلاء</a>
+      <a href="#industries" data-i18n="navIndustries">القطاعات</a>
+      <a href="#how" data-i18n="navHow">كيف نعمل</a>
+      <a href="#contact" data-i18n="navContact">تواصل</a>
+    </div>
+    <div class="nav-act">
+      <button class="btn btn-lang" id="langBtn" aria-label="Switch language">EN</button>
+      <a class="btn btn-primary" href="#contact" data-i18n="navCta">احجز استشارة</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-controls="navLinks" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero aether-flow-hero" id="main-content" tabindex="-1">
+  <canvas class="aether-canvas" aria-hidden="true"></canvas>
+  <div class="orbs"><span class="orb a"></span><span class="orb b"></span><span class="orb c"></span></div>
+  <div class="grid-bg"></div>
+  <div class="wrap hero-in">
+    <div class="hero-mark">
+      <div class="box">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 4H20L13 12.5V19L11 20V12.5L4 4Z" stroke="#A855F7" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 17.2l1.6 1.6 3.4-3.6" stroke="#A855F7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="scan"></span>
+      </div>
+    </div>
+    <span class="eyebrow"><span class="dot"></span><span data-i18n="heroEyebrow">ذكاء اصطناعي تطبيقي للعمليات</span></span>
+    <h1 data-i18n="heroTitle">وكلاء ذكاء اصطناعي <span class="grad">ينفذون العمل</span> داخل عمليات شركتك</h1>
+    <p class="lead" data-i18n="heroLead">فَلَق تبني أنظمة ووكلاء ذكاء اصطناعي يستقبلون العملاء، يؤهلونهم، يتابعونهم، ويحدّثون أنظمتك تلقائيًا — بالعربية والإنجليزية، داخل قنواتك الحالية. ليست شات بوت، بل نظام ينفّذ مهامًا حقيقية.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#agents" data-i18n="heroCta1">استكشف الوكلاء</a>
+      <a class="btn btn-ghost" href="#contact" data-i18n="heroCta2">تحدث إلى فريقنا</a>
+    </div>
+    <div class="scroll-cue"><span data-i18n="scrollHint">مرر للأسفل</span><span class="arr">↓</span></div>
+  </div>
+</header>
+
+<!-- AI MODELS STRIP (always English) -->
+<div class="ai-strip" dir="ltr" aria-label="AI models we build with">
+  <div class="ai-strip-track">
+    <div class="ai-set">
+      <span class="ai-badge ai-badge-brand"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gStrip" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gStrip)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gStrip)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg>Falaq Intelligence — works with</span>
+      <span class="ai-badge"><i style="background:#10a37f"></i>OpenAI GPT-4o</span>
+      <span class="ai-badge"><i style="background:#d97757"></i>Anthropic Claude</span>
+      <span class="ai-badge"><i style="background:#4285f4"></i>Google Gemini</span>
+      <span class="ai-badge"><i style="background:#0668e1"></i>Meta Llama 3</span>
+      <span class="ai-badge"><i style="background:#fa5c0f"></i>Mistral Large</span>
+      <span class="ai-badge"><i style="background:#4d6bfe"></i>DeepSeek V3</span>
+      <span class="ai-badge"><i style="background:#c084fc"></i>ElevenLabs Voice</span>
+      <span class="ai-badge"><i style="background:#8b5cf6"></i>Whisper Speech</span>
+    </div>
+    <div class="ai-set" aria-hidden="true">
+      <span class="ai-badge ai-badge-brand"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gStrip)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gStrip)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg>Falaq Intelligence — works with</span>
+      <span class="ai-badge"><i style="background:#10a37f"></i>OpenAI GPT-4o</span>
+      <span class="ai-badge"><i style="background:#d97757"></i>Anthropic Claude</span>
+      <span class="ai-badge"><i style="background:#4285f4"></i>Google Gemini</span>
+      <span class="ai-badge"><i style="background:#0668e1"></i>Meta Llama 3</span>
+      <span class="ai-badge"><i style="background:#fa5c0f"></i>Mistral Large</span>
+      <span class="ai-badge"><i style="background:#4d6bfe"></i>DeepSeek V3</span>
+      <span class="ai-badge"><i style="background:#c084fc"></i>ElevenLabs Voice</span>
+      <span class="ai-badge"><i style="background:#8b5cf6"></i>Whisper Speech</span>
+    </div>
+  </div>
+  <span class="ai-fade ai-fade-l" aria-hidden="true"></span>
+  <span class="ai-fade ai-fade-r" aria-hidden="true"></span>
+</div>
+
+<!-- MARKETS -->
+<div class="markets">
+  <div class="wrap markets-in">
+    <b data-i18n="marketsLabel">نخدم الشركات في:</b>
+    <span class="pill"><i></i><span data-i18n="mk1">الأردن</span></span>
+    <span class="pill"><i></i><span data-i18n="mk2">السعودية</span></span>
+    <span class="pill"><i></i><span data-i18n="mk3">الإمارات</span></span>
+    <span class="pill"><i></i><span data-i18n="mk4">عُمان</span></span>
+    <span class="pill"><i></i><span data-i18n="mk5">قطر</span></span>
+    <span class="pill"><i></i><span data-i18n="mk6">الكويت</span></span>
+  </div>
+</div>
+
+<!-- AGENTS -->
+<section class="blk" id="agents">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="kick" data-i18n="agentsKick">الوكلاء</span>
+      <h2 data-i18n="agentsTitle">وكلاء جاهزون لأكثر مهامك تكرارًا</h2>
+      <p data-i18n="agentsSub">كل وكيل مصمّم لعملية تجارية محددة، يعمل ضمن صلاحيات تحددها أنت، ويسلّم للموظف المختص عند الحاجة. اضغط على أي وكيل لمشاهدة صفحته التفاعلية.</p>
+    </div>
+    <div class="agents" id="agentGrid"></div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="blk" id="industries" style="background:linear-gradient(180deg,transparent,rgba(10,15,30,.5),transparent)">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="kick" data-i18n="indKick">القطاعات</span>
+      <h2 data-i18n="indTitle">خبرة عميقة في القطاعات التي نخدمها</h2>
+      <p data-i18n="indSub">نفهم تدفقات العمل الحقيقية في كل قطاع، ونبني الوكلاء حول نتائج تشغيلية واضحة.</p>
+    </div>
+    <div class="inds" id="indGrid"></div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="blk" id="why">
+  <div class="wrap why">
+    <div class="rv">
+      <span class="kick" data-i18n="whyKick">لماذا فَلَق</span>
+      <h2 data-i18n="whyTitle">لسنا شركة شات بوت، ولا استشارات نظرية</h2>
+      <p style="color:var(--dim);margin:14px 0 26px" data-i18n="whyIntro">نصمّم أنظمة تنفّذ عملًا حقيقيًا داخل عملياتك، بإشراف بشري واضح حيث يلزم.</p>
+      <div class="why-list" id="whyList"></div>
+    </div>
+    <div class="why-vis rv">
+      <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
+      <div class="core"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gCore" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gCore)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gCore)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg></div>
+      <span class="chip" style="top:16%;inset-inline-start:10%">WhatsApp</span>
+      <span class="chip" style="top:26%;inset-inline-end:8%">CRM</span>
+      <span class="chip" style="bottom:20%;inset-inline-start:8%" data-i18n="chipCal">التقويم</span>
+      <span class="chip" style="bottom:16%;inset-inline-end:12%" data-i18n="chipMail">البريد</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW / MODELS -->
+<section class="blk" id="how" style="background:linear-gradient(180deg,transparent,rgba(10,15,30,.5),transparent)">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="kick" data-i18n="howKick">كيف نعمل</span>
+      <h2 data-i18n="howTitle">ثلاث طرق للبدء مع فَلَق</h2>
+      <p data-i18n="howSub">نبدأ عادةً بعملية واحدة عالية الأثر، ثم نتوسّع بناءً على نتائج واضحة.</p>
+    </div>
+    <div class="models" id="modelGrid"></div>
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section class="blk" id="contact">
+  <div class="wrap">
+    <div class="cta rv">
+      <span class="orb a" style="top:-30%;inset-inline-end:-10%;width:400px;height:400px"></span>
+      <span class="kick" data-i18n="ctaKick">ابدأ الآن</span>
+      <h2 data-i18n="ctaTitle">جاهز لأتمتة أثقل مهامك التشغيلية؟</h2>
+      <p data-i18n="ctaSub">أخبرنا عن العملية التي تستهلك وقت فريقك، وسنعرض عليك كيف يمكن لوكيل فَلَق أن ينفّذها — بدءًا من تجربة عملية محددة النطاق.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" id="waBtn" target="_blank" rel="noopener" data-i18n="ctaWa">تواصل عبر واتساب</a>
+        <a class="btn btn-ghost" id="mailBtn" data-i18n="ctaMail">راسلنا بالبريد</a>
+      </div>
+      <div class="contact-meta">
+        <a id="waLink" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.2.1.4.1.6-.1l.7-.9c.2-.2.4-.2.6-.1l1.9.9c.2.1.4.2.5.3.1.2.1.9-.1 1.4Z"/></svg><span id="waText">+962 79 296 1872</span></a>
+        <a id="mailLink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span id="mailText">hello@falaqai.com</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot-brand">
+        <a class="brand" href="/"><span class="mark"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gFoot" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gFoot)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gFoot)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg></span><span data-i18n="brandName">فَلَق</span></a>
+        <p data-i18n="footBlurb">وكلاء ذكاء اصطناعي ينفذون العمل داخل عمليات الشركات في الأردن والخليج.</p>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footAgents">الوكلاء</h5>
+        <a href="/services/lead-qualification/" data-i18n="ag_lead">تأهيل العملاء</a>
+        <a href="/services/quote-follow-up/" data-i18n="ag_quote">متابعة العروض</a>
+        <a href="/services/booking-recovery/" data-i18n="ag_booking">الحجز والمكالمات</a>
+        <a href="/services/customer-service/" data-i18n="ag_cs">خدمة العملاء</a>
+      </div>
+      <div class="col">
+        <h5>&nbsp;</h5>
+        <a href="/services/accounts-receivable/" data-i18n="ag_ar">تحصيل المستحقات</a>
+        <a href="/services/document-processing/" data-i18n="ag_doc">معالجة المستندات</a>
+        <a href="/services/crm-control/" data-i18n="ag_crm">التحكم في CRM</a>
+        <a href="/services/" data-i18n="footAll">كل الخدمات</a>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footCompany">الشركة</h5>
+        <a href="#industries" data-i18n="navIndustries">القطاعات</a>
+        <a href="#how" data-i18n="navHow">كيف نعمل</a>
+        <a href="#contact" data-i18n="navContact">تواصل</a>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© <span id="yr"></span> <span data-i18n="copyName">فَلَق للذكاء الاصطناعي — Falaq Intelligence</span></span>
+      <span data-i18n="footRights">جميع الحقوق محفوظة</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script>
+(function(){
+  var cfg = window.FALAQ_CONFIG || {whatsappNumber:"962792961872",whatsappDisplay:"+962 79 296 1872",email:"hello@falaqai.com"};
+
+  // ---- Agent icons ----
+  var ic = {
+    lead:'<path d="M4 4H20L13 12.5V19L11 20V12.5L4 4Z" stroke="CUR" stroke-width="1.5" stroke-linejoin="round"/>',
+    quote:'<rect x="4" y="3" width="14" height="18" rx="2" stroke="CUR" stroke-width="1.5"/><path d="M8 8h6M8 12h6M8 16h4" stroke="CUR" stroke-width="1.5" stroke-linecap="round"/>',
+    booking:'<rect x="3" y="5" width="18" height="16" rx="2" stroke="CUR" stroke-width="1.5"/><path d="M3 9h18M8 3v4M16 3v4" stroke="CUR" stroke-width="1.5" stroke-linecap="round"/><path d="m9 15 2 2 4-4" stroke="CUR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+    cs:'<path d="M4 12a8 8 0 0 1 16 0v5a2 2 0 0 1-2 2h-2v-6h4M4 12v5a2 2 0 0 0 2 2h2v-6H4" stroke="CUR" stroke-width="1.5" stroke-linejoin="round"/>',
+    ar:'<circle cx="12" cy="12" r="8.5" stroke="CUR" stroke-width="1.5"/><path d="M12 7v10M9.5 9.5c0-1 1-1.5 2.5-1.5s2.5.6 2.5 1.7c0 2.3-5 1.3-5 3.6 0 1.1 1 1.7 2.5 1.7s2.5-.5 2.5-1.5" stroke="CUR" stroke-width="1.4" stroke-linecap="round"/>',
+    doc:'<path d="M6 3h8l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="CUR" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 3v4h4M8 13h8M8 17h5" stroke="CUR" stroke-width="1.4" stroke-linecap="round"/>',
+    crm:'<circle cx="7" cy="8" r="2.5" stroke="CUR" stroke-width="1.5"/><circle cx="17" cy="8" r="2.5" stroke="CUR" stroke-width="1.5"/><path d="M3 19c0-2.2 1.8-4 4-4s4 1.8 4 4M13 19c0-2.2 1.8-4 4-4s4 1.8 4 4M9.5 8h5" stroke="CUR" stroke-width="1.5" stroke-linecap="round"/>'
+  };
+  function svg(k,cur){return '<svg viewBox="0 0 24 24" fill="none">'+ic[k].replace(/CUR/g,cur)+'</svg>';}
+
+  var indIc = {
+    health:'<path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10Z" stroke="#A855F7" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v5M9.5 10.5h5" stroke="#A855F7" stroke-width="1.4" stroke-linecap="round"/>',
+    realestate:'<path d="M4 11 12 4l8 7M6 10v9h12v-9" stroke="#8B5CF6" stroke-width="1.5" stroke-linejoin="round"/><rect x="10" y="13" width="4" height="6" stroke="#8B5CF6" stroke-width="1.4"/>',
+    logistics:'<rect x="2" y="7" width="12" height="9" rx="1" stroke="#C896FF" stroke-width="1.5"/><path d="M14 10h4l3 3v3h-7" stroke="#C896FF" stroke-width="1.5" stroke-linejoin="round"/><circle cx="6" cy="18" r="1.8" stroke="#C896FF" stroke-width="1.4"/><circle cx="17" cy="18" r="1.8" stroke="#C896FF" stroke-width="1.4"/>',
+    content:'<rect x="3" y="4" width="18" height="14" rx="2" stroke="#C084FC" stroke-width="1.5"/><path d="m10 9 4 2.5L10 14V9Z" fill="#C084FC"/>',
+    b2b:'<path d="M4 20V9l5-3 5 3v11M14 20V12l3-2 3 2v8" stroke="#A855F7" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 20h20" stroke="#A855F7" stroke-width="1.5" stroke-linecap="round"/>'
+  };
+
+  // ---- i18n content ----
+  var DATA = {
+    ar:{
+      dir:'rtl', langBtn:'EN',
+      docTitle:'فَلَق للذكاء الاصطناعي — وكلاء ذكاء اصطناعي ينفذون العمل داخل عملياتك',
+      brandName:'فَلَق',
+      brandSub:'للذكاء الاصطناعي',
+      mk1:'الأردن', mk2:'السعودية', mk3:'الإمارات', mk4:'عُمان', mk5:'قطر', mk6:'الكويت',
+      copyName:'فَلَق للذكاء الاصطناعي — Falaq Intelligence',
+      navAgents:'الوكلاء', navIndustries:'القطاعات', navHow:'كيف نعمل', navContact:'تواصل', navCta:'احجز استشارة',
+      heroEyebrow:'ذكاء اصطناعي تطبيقي للعمليات',
+      heroTitle:'وكلاء ذكاء اصطناعي <span class="grad">ينفذون العمل</span> داخل عمليات شركتك',
+      heroLead:'فَلَق تبني أنظمة ووكلاء ذكاء اصطناعي يستقبلون العملاء، يؤهلونهم، يتابعونهم، ويحدّثون أنظمتك تلقائيًا — بالعربية والإنجليزية، داخل قنواتك الحالية. ليست شات بوت، بل نظام ينفّذ مهامًا حقيقية.',
+      heroCta1:'استكشف الوكلاء', heroCta2:'تحدث إلى فريقنا', scrollHint:'مرر للأسفل',
+      marketsLabel:'نخدم الشركات في:',
+      agentsKick:'الوكلاء', agentsTitle:'وكلاء جاهزون لأكثر مهامك تكرارًا',
+      agentsSub:'كل وكيل مصمّم لعملية تجارية محددة، يعمل ضمن صلاحيات تحددها أنت، ويسلّم للموظف المختص عند الحاجة. اضغط على أي وكيل لمشاهدة صفحته التفاعلية.',
+      indKick:'القطاعات', indTitle:'خبرة عميقة في القطاعات التي نخدمها',
+      indSub:'نفهم تدفقات العمل الحقيقية في كل قطاع، ونبني الوكلاء حول نتائج تشغيلية واضحة.',
+      whyKick:'لماذا فَلَق', whyTitle:'لسنا شركة شات بوت، ولا استشارات نظرية',
+      whyIntro:'نصمّم أنظمة تنفّذ عملًا حقيقيًا داخل عملياتك، بإشراف بشري واضح حيث يلزم.',
+      chipCal:'التقويم', chipMail:'البريد',
+      howKick:'كيف نعمل', howTitle:'ثلاث طرق للبدء مع فَلَق',
+      howSub:'نبدأ عادةً بعملية واحدة عالية الأثر، ثم نتوسّع بناءً على نتائج واضحة.',
+      ctaKick:'ابدأ الآن', ctaTitle:'جاهز لأتمتة أثقل مهامك التشغيلية؟',
+      ctaSub:'أخبرنا عن العملية التي تستهلك وقت فريقك، وسنعرض عليك كيف يمكن لوكيل فَلَق أن ينفّذها — بدءًا من تجربة عملية محددة النطاق.',
+      ctaWa:'تواصل عبر واتساب', ctaMail:'راسلنا بالبريد',
+      footBlurb:'وكلاء ذكاء اصطناعي ينفذون العمل داخل عمليات الشركات في الأردن والخليج.',
+      footAgents:'الوكلاء', footCompany:'الشركة', footAll:'كل الخدمات', footRights:'جميع الحقوق محفوظة',
+      ag_lead:'تأهيل العملاء', ag_quote:'متابعة العروض', ag_booking:'الحجز والمكالمات', ag_cs:'خدمة العملاء', ag_ar:'تحصيل المستحقات', ag_doc:'معالجة المستندات', ag_crm:'التحكم في CRM',
+      agents:[
+        {k:'lead',slug:'lead-qualification',c:'#A855F7',t:'وكيل تأهيل العملاء',d:'يستقبل كل عميل من واتساب أو الموقع أو الإعلانات، يجمع بياناته، يمنحه درجة تأهيل، ويوجّهه فورًا للإجراء الصحيح.'},
+        {k:'quote',slug:'quote-follow-up',c:'#C896FF',t:'وكيل متابعة العروض',d:'يتابع كل عرض سعر تلقائيًا، يكتشف الاهتمام الحقيقي، وينبّه المبيعات لحظة ظهور نية الشراء.'},
+        {k:'booking',slug:'booking-recovery',c:'#C896FF',t:'الحجز واسترجاع المكالمات',d:'يؤكّد المواعيد، يذكّر بها، ويعيد التواصل مع المكالمات الفائتة قبل أن يذهب العميل لمنافس.'},
+        {k:'cs',slug:'customer-service',c:'#C084FC',t:'وكيل خدمة العملاء',d:'يجيب على الاستفسارات المتكررة وفق قاعدة معرفتك، ويصعّد الحالات الحساسة للموظف المختص.'},
+        {k:'ar',slug:'accounts-receivable',c:'#A855F7',t:'وكيل تحصيل المستحقات',d:'يذكّر العملاء بالفواتير المستحقة برسائل مهذّبة ومنظمة، ويتابع حتى السداد دون إحراج فريقك.'},
+        {k:'doc',slug:'document-processing',c:'#8B5CF6',t:'وكيل معالجة المستندات',d:'يستخرج البيانات من المستندات والفواتير، ينظّمها، ويكتشف النواقص قبل أن تصبح مشكلة.'},
+        {k:'crm',slug:'crm-control',c:'#8B5CF6',t:'وكيل التحكم في CRM',d:'يبقي نظام إدارة العلاقات محدّثًا لحظيًا — كل عميل، كل تفاعل، كل حالة مسجّلة تلقائيًا.'}
+      ],
+      inds:[
+        {k:'health',t:'الرعاية الصحية',d:'حجز المواعيد، تقليل التخلّف، وتنشيط قوائم الانتظار — دعم إداري بإشراف طبي.'},
+        {k:'realestate',t:'العقارات',d:'التقاط العملاء، مطابقة العقارات، إعداد العروض، ومتابعة الصفقات.'},
+        {k:'logistics',t:'اللوجستيات والأساطيل',d:'تجميع المواقع، توجيه الطلبات، ومتابعة الشحنات وإشعار العملاء.'},
+        {k:'content',t:'صنّاع المحتوى',d:'إعادة توظيف المحتوى، تدفقات الموافقة، وتنسيق النشر متعدد المنصات.'},
+        {k:'b2b',t:'مبيعات B2B',d:'تأهيل العملاء، إعداد العروض، تحديث CRM، والتقارير والمتابعة.'}
+      ],
+      why:[
+        {t:'ينفّذ عملًا، لا يتحدث فقط',d:'أنظمة تربط قنواتك وأدواتك وتنفّذ خطوات فعلية داخل عملياتك.'},
+        {t:'يعمل ضمن صلاحياتك',d:'لا يتّخذ قرارًا خارج حدود واضحة توافق عليها، ويسلّم للموظف عند الحاجة.'},
+        {t:'بالعربية والإنجليزية',d:'محادثات طبيعية في كلا اللغتين، مصمّمة لأسواق الأردن والخليج.'},
+        {t:'كل شيء مسجّل ومراجَع',d:'سجل كامل لكل رسالة وقرار داخل نظامك، قابل للمراجعة لحظة بلحظة.'}
+      ],
+      models:[
+        {tag:'الأكثر شيوعًا',feat:true,t:'تجربة عملية مدفوعة',d:'تنفيذ محدود يركّز على عملية واحدة، بنطاق ومدة ومؤشرات واضحة.',li:['نطاق محدد بدقة','مؤشرات نجاح متفق عليها','نتائج قابلة للقياس']},
+        {tag:'إدارة كاملة',feat:false,t:'وكيل ذكاء مُدار',d:'نبني ونستضيف ونراقب ونصون النظام كخدمة مستمرة.',li:['استضافة ومراقبة','تحسين مستمر','دعم متواصل']},
+        {tag:'تسليم مرة واحدة',feat:false,t:'تسليم لمرة واحدة',d:'نبني الحل وننقله إلى بنيتك أو حساباتك مع فترة دعم متفق عليها.',li:['ملكية كاملة لك','نقل إلى أنظمتك','فترة دعم محددة']}
+      ],
+    },
+    en:{
+      dir:'ltr', langBtn:'ع',
+      docTitle:'Falaq Intelligence — AI agents that do the work inside your operations',
+      brandName:'Falaq',
+      brandSub:'Intelligence',
+      mk1:'Jordan', mk2:'Saudi Arabia', mk3:'UAE', mk4:'Oman', mk5:'Qatar', mk6:'Kuwait',
+      copyName:'Falaq Intelligence',
+      navAgents:'Agents', navIndustries:'Industries', navHow:'How we work', navContact:'Contact', navCta:'Book a consult',
+      heroEyebrow:'Applied AI for real operations',
+      heroTitle:'AI agents that <span class="grad">do the work</span> inside your operations',
+      heroLead:'Falaq builds AI agents and automation systems that receive customers, qualify them, follow up, and update your systems automatically — in Arabic and English, inside your existing channels. Not a chatbot. A system that performs real work.',
+      heroCta1:'Explore the agents', heroCta2:'Talk to our team', scrollHint:'Scroll',
+      marketsLabel:'Serving businesses in:',
+      agentsKick:'The agents', agentsTitle:'Agents ready for your most repetitive work',
+      agentsSub:'Each agent is built for a specific business process, works within permissions you define, and hands off to your staff when needed. Click any agent to open its interactive page.',
+      indKick:'Industries', indTitle:'Deep expertise in the sectors we serve',
+      indSub:'We understand the real workflows in each sector and build agents around clear operational outcomes.',
+      whyKick:'Why Falaq', whyTitle:'Not a chatbot reseller, not theoretical consulting',
+      whyIntro:'We design systems that perform real work inside your operations, with clear human oversight where it matters.',
+      chipCal:'Calendar', chipMail:'Email',
+      howKick:'How we work', howTitle:'Three ways to start with Falaq',
+      howSub:'We usually start with one high-impact process, then expand based on clear results.',
+      ctaKick:'Get started', ctaTitle:'Ready to automate your heaviest operational work?',
+      ctaSub:'Tell us about the process eating your team’s time, and we’ll show you how a Falaq agent can run it — starting with a scoped, paid pilot.',
+      ctaWa:'Chat on WhatsApp', ctaMail:'Email us',
+      footBlurb:'AI agents that perform real work inside business operations across Jordan and the Gulf.',
+      footAgents:'Agents', footCompany:'Company', footAll:'All services', footRights:'All rights reserved',
+      ag_lead:'Lead qualification', ag_quote:'Quote follow-up', ag_booking:'Booking & calls', ag_cs:'Customer service', ag_ar:'Accounts receivable', ag_doc:'Document processing', ag_crm:'CRM control',
+      agents:[
+        {k:'lead',slug:'lead-qualification',c:'#A855F7',t:'Lead Qualification Agent',d:'Receives every lead from WhatsApp, your site, or ads, collects their data, scores them, and routes them instantly to the right action.'},
+        {k:'quote',slug:'quote-follow-up',c:'#C896FF',t:'Quote Follow-Up Agent',d:'Follows up on every quote automatically, detects real buying interest, and alerts sales the moment intent appears.'},
+        {k:'booking',slug:'booking-recovery',c:'#C896FF',t:'Booking & Missed-Call Recovery',d:'Confirms and reminds appointments, and re-engages missed calls before the customer goes to a competitor.'},
+        {k:'cs',slug:'customer-service',c:'#C084FC',t:'Customer Service Agent',d:'Answers recurring questions from your knowledge base and escalates sensitive cases to the right staff member.'},
+        {k:'ar',slug:'accounts-receivable',c:'#A855F7',t:'Accounts Receivable Agent',d:'Reminds customers of due invoices with polite, organized messages and follows up to payment — without burdening your team.'},
+        {k:'doc',slug:'document-processing',c:'#8B5CF6',t:'Document Processing Agent',d:'Extracts data from documents and invoices, organizes it, and flags missing information before it becomes a problem.'},
+        {k:'crm',slug:'crm-control',c:'#8B5CF6',t:'CRM Control Agent',d:'Keeps your CRM updated in real time — every lead, every interaction, every status logged automatically.'}
+      ],
+      inds:[
+        {k:'health',t:'Healthcare',d:'Appointment booking, no-show reduction, and waiting-list activation — admin support under clinical oversight.'},
+        {k:'realestate',t:'Real estate',d:'Lead capture, property matching, proposal prep, and deal follow-up.'},
+        {k:'logistics',t:'Logistics & fleet',d:'Location collection, order routing, and shipment follow-up with customer notifications.'},
+        {k:'content',t:'Content teams',d:'Content repurposing, approval workflows, and multi-platform publishing coordination.'},
+        {k:'b2b',t:'B2B sales',d:'Lead qualification, proposal prep, CRM updates, reporting, and follow-up.'}
+      ],
+      why:[
+        {t:'It performs work, not just chat',d:'Systems that connect your channels and tools and take real steps inside your operations.'},
+        {t:'It works within your permissions',d:'Never decides beyond clear boundaries you approve, and hands off to staff when needed.'},
+        {t:'Arabic and English',d:'Natural conversations in both languages, designed for Jordan and Gulf markets.'},
+        {t:'Everything logged and auditable',d:'A full record of every message and decision inside your system, reviewable at any moment.'}
+      ],
+      models:[
+        {tag:'Most common',feat:true,t:'Paid Pilot',d:'A limited implementation focused on one process, with clear scope, duration, and target metrics.',li:['Precisely scoped','Agreed success metrics','Measurable results']},
+        {tag:'Fully managed',feat:false,t:'Managed AI Agent',d:'We build, host, monitor, and maintain the system as an ongoing service.',li:['Hosting & monitoring','Continuous improvement','Ongoing support']},
+        {tag:'One-time',feat:false,t:'One-Time Delivery',d:'We build the solution and transfer it to your infrastructure or accounts with an agreed support period.',li:['Full ownership','Transfer to your systems','Defined support window']}
+      ],
+    }
+  };
+
+  function render(lang){
+    var d = DATA[lang];
+    document.documentElement.lang = lang;
+    document.documentElement.dir = d.dir;
+    document.title = d.docTitle;
+    document.getElementById('langBtn').textContent = d.langBtn;
+    document.querySelector('.skip-link').textContent = lang === 'ar' ? 'تجاوز إلى المحتوى' : 'Skip to content';
+
+    // simple text nodes
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k = el.getAttribute('data-i18n');
+      if(d[k]!=null) el.innerHTML = d[k];
+    });
+
+    // agents
+    document.getElementById('agentGrid').innerHTML = d.agents.map(function(a,i){
+      return '<a class="agent" style="--ac:'+a.c+'" href="/services/'+a.slug+'/">'
+        +'<span class="glow"></span>'
+        +'<span class="num">0'+(i+1)+'</span>'
+        +'<span class="ic" style="border-color:'+a.c+'55">'+svg(a.k,a.c)+'</span>'
+        +'<h3>'+a.t+'</h3><p>'+a.d+'</p>'
+        +'<span class="go">'+(lang==='ar'?'شاهد الصفحة':'View page')+' <span class="ar">'+(lang==='ar'?'←':'→')+'</span></span>'
+        +'</a>';
+    }).join('');
+
+    // industries
+    document.getElementById('indGrid').innerHTML = d.inds.map(function(x){
+      return '<div class="ind"><span class="ii">'+'<svg viewBox="0 0 24 24" fill="none">'+indIc[x.k]+'</svg>'+'</span><h4>'+x.t+'</h4><p>'+x.d+'</p></div>';
+    }).join('');
+
+    // why
+    document.getElementById('whyList').innerHTML = d.why.map(function(w){
+      return '<div class="why-item"><span class="ck">✓</span><div><h4>'+w.t+'</h4><p>'+w.d+'</p></div></div>';
+    }).join('');
+
+    // models
+    document.getElementById('modelGrid').innerHTML = d.models.map(function(m){
+      return '<div class="model'+(m.feat?' feat':'')+'"><span class="tag">'+m.tag+'</span><h3>'+m.t+'</h3><p>'+m.d+'</p><ul>'+m.li.map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul></div>';
+    }).join('');
+
+    revealAll();
+  }
+
+  // contact links
+  var waMsg = encodeURIComponent('مرحبًا فَلَق، أرغب في معرفة المزيد عن وكلاء الذكاء الاصطناعي.');
+  var waUrl = 'https://wa.me/'+(cfg.whatsappNumber||'962792961872')+'?text='+waMsg;
+  ['waBtn','waLink'].forEach(function(id){var e=document.getElementById(id);if(e)e.href=waUrl;});
+  document.getElementById('waText').textContent = cfg.whatsappDisplay||'+962 79 296 1872';
+  var mailUrl = 'mailto:'+(cfg.email||'hello@falaqai.com');
+  ['mailBtn','mailLink'].forEach(function(id){var e=document.getElementById(id);if(e)e.href=mailUrl;});
+  document.getElementById('mailText').textContent = cfg.email||'hello@falaqai.com';
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // reveal on scroll
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  function revealAll(){ document.querySelectorAll('.rv:not(.in)').forEach(function(el){ io.observe(el); }); }
+
+  // language toggle (persisted)
+  var stored = localStorage.getItem('falaq_lang') || 'ar';
+  render(stored);
+  document.getElementById('langBtn').addEventListener('click', function(){
+    var next = (document.documentElement.lang==='ar')?'en':'ar';
+    localStorage.setItem('falaq_lang', next);
+    render(next);
+  });
+
+  // mobile nav
+  document.getElementById('navToggle').addEventListener('click', function(){
+    var open = document.getElementById('navLinks').classList.toggle('open');
+    this.setAttribute('aria-expanded', String(open));
+  });
+  document.getElementById('navLinks').addEventListener('click', function(e){
+    if(e.target.tagName==='A') {
+      document.getElementById('navLinks').classList.remove('open');
+      document.getElementById('navToggle').setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+</body>
 </html>

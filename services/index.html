@@ -1,22 +1,156 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Falaq Intelligence</title>
-    <meta name="description" content="AI agents that perform real work inside business operations.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/styles.css">
-    <link rel="stylesheet" href="../assets/animations.css">
-  </head>
-  <body>
-    <div id="app" class="site-shell"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="../assets/config.js"></script>
-    <script src="../assets/app.js"></script>
-    <script src="../assets/animations.js"></script>
-  </body>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>وكلاء فَلَق — كل الخدمات | Falaq Agents</title>
+<meta name="description" content="استعرض وكلاء الذكاء الاصطناعي من فَلَق: تأهيل العملاء، متابعة العروض، الحجز، خدمة العملاء، التحصيل، معالجة المستندات، والتحكم في CRM.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070B14;--bg2:#0A0F1E;--panel:#0F1421;--card:#0C1224;--line:#1C2338;--line-hi:#2A3350;
+    --ink:#F4F7FF;--dim:#AEB6C9;--mute:#6B7688;--coral:#C084FC;
+    --fen:'Manrope',system-ui,sans-serif;--far:'Tajawal',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--far);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  html[dir="ltr"] body{font-family:var(--fen)}
+  ::selection{background:var(--coral);color:#070B14}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:min(1180px,calc(100% - 44px));margin:0 auto}
+  @keyframes floatOrb1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-40px) scale(1.08)}}
+  @keyframes iconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(18px);background:rgba(7,11,20,.72);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:16px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.15rem}
+  .brand .mark{width:34px;height:34px;border-radius:10px;background:radial-gradient(circle at 35% 30%,#1c1230,#0b1120);border:1px solid rgba(168,85,247,.5);display:grid;place-items:center;animation:iconFloat 5s ease-in-out infinite}
+  .brand .mark svg{width:19px;height:19px}
+  .nav-act{display:flex;gap:10px;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 18px;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid transparent;font-family:inherit;transition:transform .16s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{background:linear-gradient(180deg,#ff8f72,var(--coral));color:#14081f}
+  .btn-lang{min-height:38px;padding:0 12px;background:transparent;border:1px solid var(--line-hi);color:var(--dim);font-weight:600}
+  .btn-ghost{background:rgba(244,247,255,.04);border:1px solid var(--line-hi);color:var(--ink)}
+  .hero{position:relative;overflow:hidden;padding:72px 0 40px;text-align:center}
+  .orb{position:absolute;border-radius:50%;filter:blur(14px);pointer-events:none;top:-20%;inset-inline-end:-5%;width:460px;height:460px;background:radial-gradient(circle at 30% 30%,rgba(168,85,247,.22),transparent 65%);animation:floatOrb1 18s ease-in-out infinite}
+  .hero-in{position:relative;z-index:2;max-width:760px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:16px}
+  .kick{color:var(--coral);font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase}
+  html[dir="rtl"] .kick{letter-spacing:0;text-transform:none}
+  h1{font-size:clamp(1.9rem,4.6vw,3rem);font-weight:800;line-height:1.2;letter-spacing:-.4px}
+  .lead{color:var(--dim);font-size:1.08rem;max-width:640px}
+  .crumb{color:var(--mute);font-size:.85rem;margin-bottom:8px}
+  .crumb a:hover{color:var(--ink)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;padding:30px 0 90px}
+  .agent{position:relative;display:flex;gap:18px;padding:26px 24px;border-radius:18px;background:linear-gradient(180deg,var(--panel),var(--card));border:1px solid var(--line);overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s}
+  .agent:hover{transform:translateY(-5px);border-color:var(--ac);box-shadow:0 24px 50px rgba(0,0,0,.4)}
+  .agent .glow{position:absolute;top:-40px;inset-inline-end:-40px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,var(--ac),transparent 68%);opacity:.16;filter:blur(6px)}
+  .agent .ic{position:relative;flex-shrink:0;width:56px;height:56px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.03)}
+  .agent .ic svg{width:28px;height:28px}
+  .agent .body{position:relative;display:flex;flex-direction:column;gap:8px}
+  .agent .row{display:flex;align-items:center;gap:10px}
+  .agent .num{font-family:var(--fen);font-weight:800;font-size:.8rem;color:var(--mute)}
+  .agent h3{font-size:1.2rem;font-weight:800}
+  .agent p{color:var(--dim);font-size:.95rem}
+  .agent .go{display:inline-flex;align-items:center;gap:7px;color:var(--ac);font-weight:700;font-size:.9rem;margin-top:2px}
+  .agent .go .ar{transition:transform .2s}
+  .agent:hover .go .ar{transform:translateX(-4px)}
+  html[dir="ltr"] .agent:hover .go .ar{transform:translateX(4px)}
+  footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--mute);font-size:.85rem}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="wrap nav-in">
+  <a class="brand" href="/"><span class="mark"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gSvc" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gSvc)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gSvc)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg></span><span>فَلَق</span></a>
+  <div class="nav-act">
+    <button class="btn btn-lang" id="langBtn">EN</button>
+    <a class="btn btn-ghost" id="homeBtn" href="/">الرئيسية</a>
+    <a class="btn btn-primary" href="/#contact" id="ctaBtn">تواصل معنا</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="orb"></span>
+  <div class="wrap hero-in">
+    <div class="crumb"><a href="/" id="crumbHome">الرئيسية</a> / <span id="crumbHere">الوكلاء</span></div>
+    <span class="kick" id="kick">مكتبة الوكلاء</span>
+    <h1 id="title">وكيل ذكاء اصطناعي لكل عملية</h1>
+    <p class="lead" id="lead">سبعة وكلاء جاهزين، كل منها مصمّم لعملية تجارية محددة. اختر وكيلًا لمشاهدة صفحته التفاعلية الكاملة.</p>
+  </div>
+</header>
+
+<main class="wrap"><div class="grid" id="grid"></div></main>
+<footer><div class="wrap">© <span id="yr"></span> فَلَق للذكاء الاصطناعي — Falaq Intelligence</div></footer>
+
+<script>
+(function(){
+  var ic={
+    lead:'<path d="M4 4H20L13 12.5V19L11 20V12.5L4 4Z" stroke="CUR" stroke-width="1.5" stroke-linejoin="round"/>',
+    quote:'<rect x="4" y="3" width="14" height="18" rx="2" stroke="CUR" stroke-width="1.5"/><path d="M8 8h6M8 12h6M8 16h4" stroke="CUR" stroke-width="1.5" stroke-linecap="round"/>',
+    booking:'<rect x="3" y="5" width="18" height="16" rx="2" stroke="CUR" stroke-width="1.5"/><path d="M3 9h18M8 3v4M16 3v4" stroke="CUR" stroke-width="1.5" stroke-linecap="round"/><path d="m9 15 2 2 4-4" stroke="CUR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+    cs:'<path d="M4 12a8 8 0 0 1 16 0v5a2 2 0 0 1-2 2h-2v-6h4M4 12v5a2 2 0 0 0 2 2h2v-6H4" stroke="CUR" stroke-width="1.5" stroke-linejoin="round"/>',
+    ar:'<circle cx="12" cy="12" r="8.5" stroke="CUR" stroke-width="1.5"/><path d="M12 7v10M9.5 9.5c0-1 1-1.5 2.5-1.5s2.5.6 2.5 1.7c0 2.3-5 1.3-5 3.6 0 1.1 1 1.7 2.5 1.7s2.5-.5 2.5-1.5" stroke="CUR" stroke-width="1.4" stroke-linecap="round"/>',
+    doc:'<path d="M6 3h8l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="CUR" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 3v4h4M8 13h8M8 17h5" stroke="CUR" stroke-width="1.4" stroke-linecap="round"/>',
+    crm:'<circle cx="7" cy="8" r="2.5" stroke="CUR" stroke-width="1.5"/><circle cx="17" cy="8" r="2.5" stroke="CUR" stroke-width="1.5"/><path d="M3 19c0-2.2 1.8-4 4-4s4 1.8 4 4M13 19c0-2.2 1.8-4 4-4s4 1.8 4 4M9.5 8h5" stroke="CUR" stroke-width="1.5" stroke-linecap="round"/>'
+  };
+  function svg(k,c){return '<svg viewBox="0 0 24 24" fill="none">'+ic[k].replace(/CUR/g,c)+'</svg>';}
+  var T={
+    ar:{lang:'EN',home:'الرئيسية',cta:'تواصل معنا',crumb:'الوكلاء',kick:'مكتبة الوكلاء',
+      title:'وكيل ذكاء اصطناعي لكل عملية',
+      lead:'سبعة وكلاء جاهزين، كل منها مصمّم لعملية تجارية محددة. اختر وكيلًا لمشاهدة صفحته التفاعلية الكاملة.',
+      view:'شاهد الصفحة',arrow:'←',
+      list:[
+        {k:'lead',s:'lead-qualification',c:'#C084FC',t:'وكيل تأهيل العملاء',d:'يستقبل كل عميل، يجمع بياناته، يمنحه درجة تأهيل، ويوجّهه فورًا للإجراء الصحيح.'},
+        {k:'quote',s:'quote-follow-up',c:'#F2B705',t:'وكيل متابعة العروض',d:'يتابع كل عرض سعر تلقائيًا، وينبّه المبيعات لحظة ظهور نية الشراء الحقيقية.'},
+        {k:'booking',s:'booking-recovery',c:'#F2B705',t:'الحجز واسترجاع المكالمات',d:'يؤكّد المواعيد ويذكّر بها، ويعيد التواصل مع المكالمات الفائتة تلقائيًا.'},
+        {k:'cs',s:'customer-service',c:'#8B7CF6',t:'وكيل خدمة العملاء',d:'يجيب على الاستفسارات المتكررة، ويصعّد الحالات الحساسة للموظف المختص.'},
+        {k:'ar',s:'accounts-receivable',c:'#2FD9A8',t:'وكيل تحصيل المستحقات',d:'يذكّر بالفواتير المستحقة برسائل منظمة، ويتابع حتى السداد دون إحراج فريقك.'},
+        {k:'doc',s:'document-processing',c:'#5B8DEF',t:'وكيل معالجة المستندات',d:'يستخرج البيانات من المستندات والفواتير، ينظّمها، ويكتشف النواقص مبكرًا.'},
+        {k:'crm',s:'crm-control',c:'#5B8DEF',t:'وكيل التحكم في CRM',d:'يبقي نظام إدارة العلاقات محدّثًا لحظيًا — كل عميل وكل تفاعل مسجّل تلقائيًا.'}
+      ]},
+    en:{lang:'ع',home:'Home',cta:'Contact us',crumb:'Agents',kick:'Agent library',
+      title:'An AI agent for every process',
+      lead:'Seven ready agents, each built for a specific business process. Pick an agent to open its full interactive page.',
+      view:'View page',arrow:'→',
+      list:[
+        {k:'lead',s:'lead-qualification',c:'#C084FC',t:'Lead Qualification Agent',d:'Receives every lead, collects their data, scores them, and routes them instantly to the right action.'},
+        {k:'quote',s:'quote-follow-up',c:'#F2B705',t:'Quote Follow-Up Agent',d:'Follows up on every quote automatically and alerts sales the moment real buying intent appears.'},
+        {k:'booking',s:'booking-recovery',c:'#F2B705',t:'Booking & Missed-Call Recovery',d:'Confirms and reminds appointments, and re-engages missed calls automatically.'},
+        {k:'cs',s:'customer-service',c:'#8B7CF6',t:'Customer Service Agent',d:'Answers recurring questions and escalates sensitive cases to the right staff member.'},
+        {k:'ar',s:'accounts-receivable',c:'#2FD9A8',t:'Accounts Receivable Agent',d:'Reminds customers of due invoices with organized messages and follows up to payment.'},
+        {k:'doc',s:'document-processing',c:'#5B8DEF',t:'Document Processing Agent',d:'Extracts data from documents and invoices, organizes it, and flags gaps early.'},
+        {k:'crm',s:'crm-control',c:'#5B8DEF',t:'CRM Control Agent',d:'Keeps your CRM updated in real time — every lead and interaction logged automatically.'}
+      ]}
+  };
+  function render(l){
+    var d=T[l];
+    document.documentElement.lang=l;document.documentElement.dir=(l==='ar'?'rtl':'ltr');
+    document.getElementById('langBtn').textContent=d.lang;
+    document.getElementById('homeBtn').textContent=d.home;
+    document.getElementById('ctaBtn').textContent=d.cta;
+    document.getElementById('crumbHome').textContent=d.home;
+    document.getElementById('crumbHere').textContent=d.crumb;
+    document.getElementById('kick').textContent=d.kick;
+    document.getElementById('title').textContent=d.title;
+    document.getElementById('lead').textContent=d.lead;
+    document.getElementById('grid').innerHTML=d.list.map(function(a,i){
+      return '<a class="agent" style="--ac:'+a.c+'" href="/services/'+a.s+'/"><span class="glow"></span>'
+        +'<span class="ic" style="border-color:'+a.c+'55">'+svg(a.k,a.c)+'</span>'
+        +'<div class="body"><div class="row"><span class="num">0'+(i+1)+'</span><h3>'+a.t+'</h3></div>'
+        +'<p>'+a.d+'</p><span class="go">'+d.view+' <span class="ar">'+d.arrow+'</span></span></div></a>';
+    }).join('');
+  }
+  var stored=localStorage.getItem('falaq_lang')||'ar';
+  render(stored);
+  document.getElementById('langBtn').addEventListener('click',function(){
+    var n=(document.documentElement.lang==='ar')?'en':'ar';localStorage.setItem('falaq_lang',n);render(n);
+  });
+  document.getElementById('yr').textContent=new Date().getFullYear();
+})();
+</script>
+</body>
 </html>
