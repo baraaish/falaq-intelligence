@@ -1477,7 +1477,7 @@ class Component extends DCLogic {
       brandVideoFrameStyle: {
         position: 'relative', borderRadius: '22px', overflow: 'hidden', background: '#000',
         border: '1px solid rgba(168,85,247,0.25)', boxShadow: '0 30px 70px rgba(0,0,0,0.45)',
-        aspectRatio: '16/9', maxWidth: '780px', margin: '0 auto',
+        width: '100%', height: 'calc((min(100vw - 48px, 780px) * 0.5625) + 44px)', maxWidth: '780px', margin: '0 auto',
       },
       trustRef: this.regReveal('trust'),
       channelsRef: this.regReveal('channels'),

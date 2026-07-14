@@ -951,6 +951,7 @@
   function enhanceLandingMotion() {
     document.querySelectorAll("#dc-root section:not(.aether-flow-hero)").forEach(function (section) {
       Array.from(section.querySelectorAll("div")).forEach(function (element, index) {
+        if (element.closest("svg[data-om-exportable-video-with-duration-secs]")) return;
         if (element.classList.contains("aether-live-surface")) return;
         var rect = element.getBoundingClientRect();
         var style = getComputedStyle(element);
@@ -962,7 +963,11 @@
         }
       });
       section.querySelectorAll("svg").forEach(function (icon, index) {
-        if (icon.closest(".falaq-robot-svg")) return;
+        if (icon.closest(".falaq-robot-svg") || icon.closest("svg[data-om-exportable-video-with-duration-secs]")) {
+          icon.classList.remove("aether-live-icon");
+          icon.style.removeProperty("--icon-delay");
+          return;
+        }
         icon.classList.add("aether-live-icon");
         icon.style.setProperty("--icon-delay", (index % 7) * -.38 + "s");
       });
