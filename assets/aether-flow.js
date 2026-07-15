@@ -459,14 +459,14 @@
       ideas: ["أريد تنظيم استقبال العملاء", "لدينا متابعة يدوية متعبة", "أريد ربط خطوات العمل الحالية"], placeholder: "اكتب فكرتك أو المشكلة بطريقتك...", send: "إرسال",
       thinking: "أفكر في أفضل خطوة...", confirm: "أريد العرض المقترح", restart: "البدء من جديد", summary: "ممتاز. اكتملت الصورة الأولية. سأبني العرض حول", contactIntro: "ممتاز، أصبح لدينا سياق كافٍ لعرض مفيد. أدخل اسمك وبريدك أو رقم واتساب وسأجهز ملفك.",
       name: "الاسم الكامل *", company: "الشركة (اختياري)", email: "البريد الإلكتروني", phone: "رقم واتساب", create: "إنشاء ملف العرض", contactError: "أدخل الاسم والبريد أو رقم واتساب بشكل صحيح.",
-      generating: "أبني التصور وأصمم ملفك الآن...", ready: "تم إعداد تصور خدمتك. يمكنك تنزيل الملف مباشرة:", download: "تنزيل ملف PDF", again: "بناء تصور جديد", failed: "تعذر إكمال الطلب الآن. تأكد أن الباكند يعمل ثم حاول مجددًا."
+      generating: "أبني التصور وأصمم ملفك الآن...", ready: "تم إعداد تصور خدمتك. يمكنك تنزيل الملف مباشرة:", emailed: "أرسلت نسخة أيضًا إلى بريدك الإلكتروني.", download: "تنزيل ملف PDF", again: "بناء تصور جديد", failed: "تعذر إكمال الطلب الآن. تأكد أن الباكند يعمل ثم حاول مجددًا."
     } : {
       kick: "BUILT AROUND YOU", title: "Can’t find the agent you need?", lead: "Tell Falaq Bot about your process or idea. We’ll turn it into an initial custom-agent concept, then our team can refine the details with you.",
       badge: "AI workflow designer · concept and PDF", bot: "Falaq Bot", status: "Ready to shape your service", wake: "SCROLL SIGNAL", hello: "Hi, I’m Falaq Bot. Describe the task you want to automate or the operating problem you want to solve.",
       ideas: ["Organize lead intake", "Reduce repetitive follow-up", "Connect our current workflow"], placeholder: "Describe the idea or problem in your own words...", send: "Send",
       thinking: "Thinking through the best next step...", confirm: "I want the proposal", restart: "Start over", summary: "Great. I have enough context to shape the proposal around", contactIntro: "Great, we now have enough context for a useful proposal. Enter your name and an email or WhatsApp number and I’ll prepare it.",
       name: "Full name *", company: "Company (optional)", email: "Email address", phone: "WhatsApp number", create: "Create proposal file", contactError: "Enter your name and a valid email or WhatsApp number.",
-      generating: "Building the workflow and designing your file...", ready: "Your service concept is ready. Download it here:", download: "Download PDF", again: "Build another concept", failed: "The request could not be completed. Make sure the backend is running and try again."
+      generating: "Building the workflow and designing your file...", ready: "Your service concept is ready. Download it here:", emailed: "A copy was also sent to your email address.", download: "Download PDF", again: "Build another concept", failed: "The request could not be completed. Make sure the backend is running and try again."
     };
   }
 
@@ -646,6 +646,7 @@
     for (var i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
     var url = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
     addChatMessage(section, copy.ready, false);
+    if (result.emailSent) addChatMessage(section, copy.emailed, false);
 
     var card = document.createElement("div");
     card.className = "bot-download-card";

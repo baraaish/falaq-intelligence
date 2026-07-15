@@ -4,6 +4,7 @@ const fs = require("node:fs/promises");
 const crypto = require("node:crypto");
 const { analyzeRequest, validateAnswer, continueConversation, generateProposal, cleanText } = require("./proposal");
 const { renderPdf } = require("./pdf");
+const { sendProposalEmails } = require("./email");
 const capabilities = require("./capabilities.json");
 const { configuredProviders } = require("./providers");
 
@@ -76,7 +77,8 @@ app.get("/api/agent/status", (_request, response) => {
     ok: true,
     providers: configuredProviders().map((provider) => provider.name),
     mode: configuredProviders().length ? "ai" : "local",
-    googleSheets: Boolean(process.env.GOOGLE_SHEETS_URL)
+    googleSheets: Boolean(process.env.GOOGLE_SHEETS_URL),
+    email: Boolean(process.env.RESEND_API_KEY)
   });
 });
 
@@ -158,16 +160,22 @@ app.post("/api/agent/finalize", async (request, response) => {
       provider: generated.provider,
       source: "falaq-bot"
     };
-    const sheetSynced = await recordLead(record);
     const safeName = contact.name.replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "").slice(0, 50) || "client";
+    const fileName = `Falaq-Proposal-${safeName}.pdf`;
+    const [sheetSynced, email] = await Promise.all([
+      recordLead(record),
+      sendProposalEmails({ contact, language, categoryLabel, reference, proposal: generated.proposal, pdf, fileName })
+    ]);
 
     response.json({
       ok: true,
       proposal: generated.proposal,
       provider: generated.provider,
       sheetSynced,
+      emailSent: email.clientSent,
+      notificationSent: email.notificationSent,
       reference,
-      fileName: `Falaq-Proposal-${safeName}.pdf`,
+      fileName,
       pdfBase64: Buffer.from(pdf).toString("base64")
     });
   } catch (error) {
