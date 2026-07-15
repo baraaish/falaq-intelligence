@@ -209,15 +209,16 @@
       '<rect x="37" y="58" width="9" height="27" rx="4.5" fill="#c9ccd9" stroke="rgba(255,255,255,.45)"/>',
       '<rect x="174" y="58" width="9" height="27" rx="4.5" fill="#c9ccd9" stroke="rgba(255,255,255,.45)"/>',
       '<rect x="60" y="45" width="100" height="60" rx="25" fill="url(#' + id + 'Visor)"/>',
-      '<g class="robot-eyes"><rect class="robot-eye eye-one" x="85" y="59" width="10" height="28" rx="5" fill="#e879f9" filter="url(#' + id + 'Glow)"/><rect class="robot-eye eye-two" x="125" y="59" width="10" height="28" rx="5" fill="#e879f9" filter="url(#' + id + 'Glow)"/></g>',
-      '<path class="robot-mouth" d="M101 94q9 6 18 0" fill="none" stroke="#e879f9" stroke-width="2.6" stroke-linecap="round" opacity=".5"/>',
+      '<g class="robot-eyes"><rect class="robot-eye eye-one" x="78" y="65" width="22" height="14" rx="7" fill="#d8b4fe" filter="url(#' + id + 'Glow)"/><circle cx="92" cy="69" r="2.2" fill="#fff" opacity=".8"/><rect class="robot-eye eye-two" x="120" y="65" width="22" height="14" rx="7" fill="#d8b4fe" filter="url(#' + id + 'Glow)"/><circle cx="134" cy="69" r="2.2" fill="#fff" opacity=".8"/></g>',
+      '<path class="robot-mouth" d="M102 91h16" fill="none" stroke="#c084fc" stroke-width="2.4" stroke-linecap="round" opacity=".62"/>',
       '</g>',
       '<rect x="100" y="120" width="20" height="12" rx="3" fill="#b7bac8"/>',
       '<g class="robot-body">',
       '<rect x="52" y="130" width="116" height="88" rx="28" fill="url(#' + id + 'Body)" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>',
       '<circle cx="70" cy="146" r="3.4" fill="rgba(168,85,247,.75)"/>',
       '<circle cx="150" cy="146" r="3.4" fill="rgba(168,85,247,.75)"/>',
-      '<g class="robot-core" filter="url(#' + id + 'Glow)"><circle cx="110" cy="174" r="23" fill="url(#' + id + 'Core)"/><path d="M114 159l-13 18h8.5l-4.5 13 14-18h-8.5l3.5-13z" fill="#fff" opacity=".92"/></g>',
+      '<g class="robot-core" filter="url(#' + id + 'Glow)"><circle cx="110" cy="174" r="23" fill="url(#' + id + 'Core)"/><g transform="translate(89 153) scale(.88)"><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="#fff"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".86"/></g></g>',
+      '<rect x="82" y="207" width="56" height="4" rx="2" fill="rgba(124,58,237,.35)"/>',
       '</g>',
       '</g>',
       '</svg>'
@@ -241,41 +242,11 @@
   function getRobotQuips() {
     var ar = document.documentElement.lang !== "en";
     return ar ? {
-      idle: [
-        "أهلاً! أنا فلق بوت 👋",
-        "سبعة وكلاء جاهزون لخدمة أعمالك",
-        "أعمل ٢٤/٧... بدون استراحة قهوة ☕",
-        "جرّب الضغط عليّ ⚡",
-        "أتحدث العربية والإنجليزية بطلاقة",
-        "مهامك المتكررة؟ اتركها لي",
-        "بياناتك تدخل... والنتائج تخرج تلقائياً",
-        "عندك عملية مرهقة؟ حدّثني عنها بالأسفل"
-      ],
-      click: [
-        "هييه! هذا يدغدغ 😄",
-        "جاهز للخدمة!",
-        "الأنظمة تعمل بكامل طاقتها ⚡",
-        "لمسة بشرية! يا للروعة ✨",
-        "هل نبدأ بأتمتة شيء ما؟"
-      ]
+      idle: ["صف لي العملية كما تحدث اليوم", "أستطيع تحويل السياق إلى تصور وPDF", "ابدأ بالمشكلة، لا تحتاج مصطلحات تقنية"],
+      click: ["اختر خدمة أو صف عمليتك في المحادثة", "سأوضح ما ينفذه الوكيل وما يبقى للفريق", "يمكنك كتابة كل التفاصيل في رسالة واحدة"]
     } : {
-      idle: [
-        "Hi! I'm Falaq Bot 👋",
-        "Seven agents, ready to work for you",
-        "I work 24/7 — no coffee breaks ☕",
-        "Try clicking me ⚡",
-        "Fluent in Arabic and English",
-        "Repetitive work? Leave it to me",
-        "Data in… results out, automatically",
-        "Got a draining process? Tell me below"
-      ],
-      click: [
-        "Hey! That tickles 😄",
-        "At your service!",
-        "All systems at full power ⚡",
-        "A human touch! Lovely ✨",
-        "Shall we automate something?"
-      ]
+      idle: ["Describe the process as it works today", "I can turn context into a scoped concept and PDF", "Start with the problem; no technical language needed"],
+      click: ["Choose a service or describe your workflow in chat", "I will clarify what the agent does and what stays human", "You can put every detail in one message"]
     };
   }
 
@@ -341,14 +312,7 @@
       return list[Math.floor(Math.random() * list.length)];
     }
 
-    if (personaMotionOk) {
-      (function cycle(delay) {
-        setTimeout(function () {
-          if (visible && !document.hidden) showQuip(randomQuip("idle"));
-          cycle(7000 + Math.random() * 5000);
-        }, delay);
-      })(2200 + Math.random() * 1500);
-    }
+    // Keep the mascot quiet until the visitor interacts with it.
 
     function cheer(text) {
       robotHost.classList.remove("robot-cheer");
@@ -373,6 +337,7 @@
     var agents = Array.from(grid.querySelectorAll(":scope > a.agent"));
     if (agents.length < 7) return;
     grid.classList.add("agent-constellation");
+    grid.classList.add("is-open");
 
     agents.forEach(function (agent, index) {
       agent.classList.add("agent-node");
@@ -420,23 +385,17 @@
       hint.className = "orchestrator-hint";
       orchestrator.appendChild(hint);
 
-      var setHint = function (open) {
+      var setHint = function () {
         var ar = document.documentElement.lang !== "en";
-        var text = open
-          ? (ar ? "اضغط عليّ لإخفاء الخدمات" : "Click me to hide the services")
-          : (ar ? "اضغط عليّ لأعرض لك خدماتي السبع" : "Click me to reveal my 7 services");
-        hint.innerHTML = "<span>" + text + "</span><span class=\"arr\">" + (open ? "↑" : "↓") + "</span>";
+        var text = ar ? "اختر خدمة، أو صف عمليتك للمستشار بالأسفل" : "Choose a service, or describe your workflow to the advisor below";
+        hint.innerHTML = "<span>" + text + "</span><span class=\"arr\">↓</span>";
       };
-      setHint(grid.classList.contains("is-open"));
+      setHint();
 
       var toggleSvg = orchestrator.querySelector(".falaq-robot-svg");
       if (toggleSvg) toggleSvg.addEventListener("click", function () {
-        var open = grid.classList.toggle("is-open");
-        setHint(open);
         var ar = document.documentElement.lang !== "en";
-        var quip = open
-          ? (ar ? "تفضّل! هذه خدماتي السبع ✨" : "Here you go — my 7 services ✨")
-          : (ar ? "أخفيتها! اضغط عليّ متى احتجتها 😉" : "Tucked away! Click me anytime 😉");
+        var quip = ar ? "الخدمات أمامك، والمستشار يساعدك إن لم تعرف الأنسب" : "The services are visible; the advisor can help you choose";
         orchestrator.dispatchEvent(new CustomEvent("falaq-cheer", { detail: quip }));
       });
     }
@@ -454,16 +413,16 @@
   function getBotCopy() {
     var ar = currentBotLanguage() === "ar";
     return ar ? {
-      kick: "حلّ مصمم لك", title: "لم تجد الوكيل الذي تحتاجه؟", lead: "تحدث مع فلق بوت عن عمليتك أو فكرتك. سنحوّل احتياجك إلى تصور أولي لوكيل مخصص، ثم يراجع فريقنا التفاصيل معك.",
-      badge: "مصمم عمليات ذكي · تصور وملف PDF", bot: "فلق بوت", status: "جاهز لبناء تصور خدمتك", wake: "إشارة التفعيل", hello: "مرحباً، أنا فلق بوت. صف لي المهمة التي تريد أتمتتها أو المشكلة التشغيلية التي تريد حلها.",
-      ideas: ["أريد تنظيم استقبال العملاء", "لدينا متابعة يدوية متعبة", "أريد ربط خطوات العمل الحالية"], placeholder: "اكتب فكرتك أو المشكلة بطريقتك...", send: "إرسال",
+      kick: "مستشار تحديد النطاق", title: "صف العملية التي تريد تحسينها", lead: "اذكر ما يحدث اليوم، أين تتعطل العملية، وما النتيجة المطلوبة. سأرتب السياق، أوضح دور الوكيل والفريق، ثم أجهز تصورًا وملف PDF عند موافقتك.",
+      badge: "يفهم السياق · يقترح مسارًا · ينشئ PDF", bot: "مستشار فلق", status: "يرد حسب سياقك، لا قائمة أسئلة", wake: "جاهز عندما تكون جاهزًا", hello: "صف لي العملية كما تحدث اليوم. يمكنك كتابة كل التفاصيل في رسالة واحدة، وسأسأل فقط عما يغيّر الحل فعلًا.",
+      ideas: ["عملاء يصلون ولا تتم متابعتهم", "خطوات يدوية تستهلك وقت الفريق", "بيانات تتشتت بين أكثر من نظام"], placeholder: "ما الذي يحدث اليوم، وما الذي تريد تغييره؟", send: "إرسال",
       thinking: "أفكر في أفضل خطوة...", confirm: "أريد العرض المقترح", restart: "البدء من جديد", summary: "ممتاز. اكتملت الصورة الأولية. سأبني العرض حول", contactIntro: "ممتاز، أصبح لدينا سياق كافٍ لعرض مفيد. أدخل اسمك وبريدك أو رقم واتساب وسأجهز ملفك.",
       name: "الاسم الكامل *", company: "الشركة (اختياري)", email: "البريد الإلكتروني", phone: "رقم واتساب", create: "إنشاء ملف العرض", contactError: "أدخل الاسم والبريد أو رقم واتساب بشكل صحيح.",
       generating: "أبني التصور وأصمم ملفك الآن...", ready: "تم إعداد تصور خدمتك. يمكنك تنزيل الملف مباشرة:", emailed: "أرسلت نسخة أيضًا إلى بريدك الإلكتروني.", download: "تنزيل ملف PDF", again: "بناء تصور جديد", failed: "تعذر إكمال الطلب الآن. تأكد أن الباكند يعمل ثم حاول مجددًا."
     } : {
-      kick: "BUILT AROUND YOU", title: "Can’t find the agent you need?", lead: "Tell Falaq Bot about your process or idea. We’ll turn it into an initial custom-agent concept, then our team can refine the details with you.",
-      badge: "AI workflow designer · concept and PDF", bot: "Falaq Bot", status: "Ready to shape your service", wake: "SCROLL SIGNAL", hello: "Hi, I’m Falaq Bot. Describe the task you want to automate or the operating problem you want to solve.",
-      ideas: ["Organize lead intake", "Reduce repetitive follow-up", "Connect our current workflow"], placeholder: "Describe the idea or problem in your own words...", send: "Send",
+      kick: "SCOPE ADVISOR", title: "Describe the workflow you want to improve", lead: "Explain what happens today, where it breaks, and the outcome you need. I’ll organize the context, clarify the agent and human roles, then prepare a concept and PDF when you agree.",
+      badge: "Understands context · maps workflow · creates PDF", bot: "Falaq Advisor", status: "Context-led, not a fixed questionnaire", wake: "READY WHEN YOU ARE", hello: "Describe the process as it works today. Put every detail in one message if you prefer; I’ll ask only what materially changes the solution.",
+      ideas: ["Leads arrive but follow-up is missed", "Manual steps consume the team’s time", "Data is scattered across systems"], placeholder: "What happens today, and what should change?", send: "Send",
       thinking: "Thinking through the best next step...", confirm: "I want the proposal", restart: "Start over", summary: "Great. I have enough context to shape the proposal around", contactIntro: "Great, we now have enough context for a useful proposal. Enter your name and an email or WhatsApp number and I’ll prepare it.",
       name: "Full name *", company: "Company (optional)", email: "Email address", phone: "WhatsApp number", create: "Create proposal file", contactError: "Enter your name and a valid email or WhatsApp number.",
       generating: "Building the workflow and designing your file...", ready: "Your service concept is ready. Download it here:", emailed: "A copy was also sent to your email address.", download: "Download PDF", again: "Build another concept", failed: "The request could not be completed. Make sure the backend is running and try again."
@@ -592,10 +551,10 @@
     gate.className = "bot-contact-gate";
     gate.innerHTML = [
       '<div class="bot-contact-grid">',
-      '<input name="name" required maxlength="120" autocomplete="name" placeholder="' + copy.name + '">',
-      '<input name="company" maxlength="160" autocomplete="organization" placeholder="' + copy.company + '">',
-      '<input name="email" type="email" maxlength="180" autocomplete="email" placeholder="' + copy.email + '">',
-      '<input name="phone" type="tel" maxlength="60" autocomplete="tel" placeholder="' + copy.phone + '">',
+      '<label><span>' + copy.name + '</span><input name="name" required maxlength="120" autocomplete="name" placeholder="' + copy.name.replace(" *", "") + '"></label>',
+      '<label><span>' + copy.company + '</span><input name="company" maxlength="160" autocomplete="organization" placeholder="' + copy.company.replace(" (اختياري)", "").replace(" (optional)", "") + '"></label>',
+      '<label><span>' + copy.email + '</span><input name="email" type="email" maxlength="180" autocomplete="email" placeholder="name@company.com"></label>',
+      '<label><span>' + copy.phone + '</span><input name="phone" type="tel" maxlength="60" autocomplete="tel" placeholder="+962 ..."></label>',
       '</div><p class="bot-contact-error" role="alert"></p>',
       '<button type="submit">' + copy.create + '</button>'
     ].join("");
@@ -710,7 +669,8 @@
       other: "أبحث عن خدمة أخرى",
       otherPrompt: "صف لي ما يحدث اليوم والنتيجة التي تريد الوصول إليها بطريقتك، حتى لو كانت كل التفاصيل في رسالة واحدة.",
       request: "أريد تخصيص خدمة " + title + " لتناسب عملية شركتي.",
-      launcher: "ابنِ خدمتك مع فلق بوت",
+      launcher: "ناقش تطبيق الخدمة",
+      launcherSub: "مستشار عمليات فلق",
       close: "إغلاق المحادثة"
     } : {
       title: title,
@@ -719,7 +679,8 @@
       other: "Explore another service",
       otherPrompt: "Describe what happens today and the outcome you want in your own words, even if you put every detail in one message.",
       request: "I want to customize the " + title + " service for my company’s workflow.",
-      launcher: "Build your service with Falaq Bot",
+      launcher: "Discuss this workflow",
+      launcherSub: "Falaq operations advisor",
       close: "Close chat"
     };
   }
@@ -769,8 +730,10 @@
       }
     });
     var launcherLabel = document.querySelector("[data-floating-bot-label]");
+    var launcherSub = document.querySelector("[data-floating-bot-sub]");
     var closeButton = document.querySelector("[data-floating-bot-close]");
     if (launcherLabel) launcherLabel.textContent = serviceCopy.launcher;
+    if (launcherSub) launcherSub.textContent = serviceCopy.launcherSub;
     if (closeButton) closeButton.setAttribute("aria-label", serviceCopy.close);
   }
 
@@ -784,22 +747,22 @@
     launcher.type = "button";
     launcher.setAttribute("aria-controls", "falaq-floating-chat");
     launcher.setAttribute("aria-expanded", "false");
-    launcher.innerHTML = '<span class="floating-bot-robot">' + buildRobotMarkup() + '</span><span class="floating-bot-label" data-floating-bot-label></span>';
+    launcher.innerHTML = '<span class="floating-bot-robot">' + buildRobotMarkup() + '</span><span class="floating-bot-label"><strong data-floating-bot-label></strong><small data-floating-bot-sub></small></span>';
 
     var overlay = document.createElement("div");
     overlay.id = "falaq-floating-chat";
     overlay.className = "falaq-floating-overlay";
     overlay.hidden = true;
     overlay.innerHTML = [
-      '<div class="falaq-floating-dialog" role="dialog" aria-modal="true" aria-label="Falaq Bot">',
+      '<div class="falaq-floating-dialog" role="dialog" aria-modal="true" aria-labelledby="falaq-service-bot-title">',
       '<button type="button" class="floating-bot-close" data-floating-bot-close>×</button>',
       '<section id="falaq-service-bot" class="falaq-floating-bot is-awake" data-falaq-bot="service" data-service-key="' + context.key + '">',
       '<div class="falaq-chat-panel">',
       '<div class="bot-preview-badge" data-bot-copy="badge"></div>',
-      '<div class="chat-top"><span class="chat-avatar">' + buildFalaqLogo() + '</span><span><b data-bot-copy="bot"></b><small><i></i><span data-bot-copy="status"></span></small></span></div>',
-      '<div class="falaq-chat-messages"></div>',
+      '<div class="chat-top"><span class="chat-avatar">' + buildRobotMarkup() + '</span><span><b id="falaq-service-bot-title" data-bot-copy="bot"></b><small><i></i><span data-bot-copy="status"></span></small></span></div>',
+      '<div class="falaq-chat-messages" role="log" aria-live="polite" aria-relevant="additions"></div>',
       '<div class="bot-suggestions"></div>',
-      '<form class="bot-input-row"><input type="text" maxlength="1500" autocomplete="off" data-bot-placeholder aria-label="Message Falaq Bot"><button type="submit" data-bot-copy="send"></button></form>',
+      '<form class="bot-input-row"><input type="text" maxlength="1500" autocomplete="off" data-bot-placeholder><button type="submit" data-bot-copy="send"></button></form>',
       '</div></section></div>'
     ].join("");
 
@@ -813,7 +776,10 @@
       overlay.hidden = false;
       launcher.setAttribute("aria-expanded", "true");
       document.body.classList.add("bot-modal-open");
-      window.setTimeout(function () { overlay.querySelector(".floating-bot-close").focus(); }, 20);
+      window.setTimeout(function () {
+        var firstChoice = overlay.querySelector(".bot-suggestions button");
+        (firstChoice || overlay.querySelector(".bot-input-row input") || overlay.querySelector(".floating-bot-close")).focus();
+      }, 20);
     }
     function closeChat() {
       overlay.hidden = true;
@@ -824,7 +790,17 @@
     launcher.addEventListener("click", openChat);
     overlay.querySelector(".floating-bot-close").addEventListener("click", closeChat);
     overlay.addEventListener("click", function (event) { if (event.target === overlay) closeChat(); });
-    document.addEventListener("keydown", function (event) { if (event.key === "Escape" && !overlay.hidden) closeChat(); });
+    document.addEventListener("keydown", function (event) {
+      if (overlay.hidden) return;
+      if (event.key === "Escape") return closeChat();
+      if (event.key !== "Tab") return;
+      var focusable = Array.from(overlay.querySelectorAll('button:not([disabled]),input:not([disabled]),a[href]'));
+      if (!focusable.length) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    });
   }
 
   function createCustomBotSection() {
@@ -833,17 +809,18 @@
     section.id = "falaq-custom-bot";
     section.className = "blk falaq-bot-section";
     section.dataset.falaqBot = "main";
+    section.setAttribute("aria-labelledby", "falaq-custom-bot-heading");
     section.innerHTML = [
       '<div class="wrap">',
-      '<div class="sec-head rv in falaq-bot-heading"><span class="kick" data-bot-copy="kick"></span><h2 data-bot-copy="title"></h2><p data-bot-copy="lead"></p></div>',
+      '<div class="sec-head rv in falaq-bot-heading"><span class="kick" data-bot-copy="kick"></span><h2 id="falaq-custom-bot-heading" data-bot-copy="title"></h2><p data-bot-copy="lead"></p></div>',
       '<div class="custom-bot-shell">',
       '<div class="bot-awakening-stage"><span class="bot-floor-ring"></span><div class="seated-falaq-robot">' + buildRobotMarkup() + '</div><span class="wake-signal"><span data-bot-copy="wake"></span> <i></i></span></div>',
       '<div class="falaq-chat-panel">',
       '<div class="bot-preview-badge" data-bot-copy="badge"></div>',
-      '<div class="chat-top"><span class="chat-avatar">' + buildFalaqLogo() + '</span><span><b data-bot-copy="bot"></b><small><i></i><span data-bot-copy="status"></span></small></span></div>',
-      '<div class="falaq-chat-messages"><div class="bot-message"><span class="mini-bot">' + buildRobotMarkup() + '</span><p data-bot-copy="hello"></p></div></div>',
+      '<div class="chat-top"><span class="chat-avatar">' + buildRobotMarkup() + '</span><span><b id="falaq-main-bot-title" data-bot-copy="bot"></b><small><i></i><span data-bot-copy="status"></span></small></span></div>',
+      '<div class="falaq-chat-messages" role="log" aria-live="polite" aria-relevant="additions"><div class="bot-message"><span class="mini-bot">' + buildRobotMarkup() + '</span><p data-bot-copy="hello"></p></div></div>',
       '<div class="bot-suggestions"></div>',
-      '<form class="bot-input-row"><input type="text" maxlength="1500" autocomplete="off" data-bot-placeholder aria-label="Message Falaq Bot"><button type="submit" data-bot-copy="send"></button></form>',
+      '<form class="bot-input-row"><input type="text" maxlength="1500" autocomplete="off" data-bot-placeholder><button type="submit" data-bot-copy="send"></button></form>',
       '</div></div></div>'
     ].join("");
     document.getElementById("agents").after(section);
@@ -857,7 +834,7 @@
             var host = section.querySelector(".seated-falaq-robot");
             var ar = currentBotLanguage() === "ar";
             if (host) host.dispatchEvent(new CustomEvent("falaq-cheer", {
-              detail: ar ? "أهلاً! اكتب لي فكرتك في المحادثة 👋" : "Hi! Type your idea in the chat 👋"
+              detail: ar ? "صف العملية كما تحدث اليوم، وسأرتبها معك" : "Describe the process as it works today, and I’ll structure it with you"
             }));
           }, 1300);
         }
@@ -889,6 +866,10 @@
       if (key === "ideas") return;
       section.querySelectorAll('[data-bot-copy="' + key + '"]').forEach(function (element) { element.textContent = copy[key]; });
     });
+    var input = section.querySelector("[data-bot-placeholder]");
+    var sendButton = section.querySelector('[data-bot-copy="send"]');
+    if (input) input.setAttribute("aria-label", copy.placeholder);
+    if (sendButton) sendButton.setAttribute("aria-label", copy.send);
     var state = getBotState(section);
     if (state.phase === "intro") {
       section.querySelector("[data-bot-placeholder]").placeholder = copy.placeholder;

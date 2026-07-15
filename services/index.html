@@ -31,7 +31,7 @@
   .nav-act{display:flex;gap:10px;align-items:center}
   .btn{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 18px;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid transparent;font-family:inherit;transition:transform .16s}
   .btn:hover{transform:translateY(-2px)}
-  .btn-primary{background:linear-gradient(180deg,#ff8f72,var(--coral));color:#14081f}
+  .btn-primary{background:linear-gradient(180deg,#c896ff,var(--coral));color:#14081f}
   .btn-lang{min-height:38px;padding:0 12px;background:transparent;border:1px solid var(--line-hi);color:var(--dim);font-weight:600}
   .btn-ghost{background:rgba(244,247,255,.04);border:1px solid var(--line-hi);color:var(--ink)}
   .hero{position:relative;overflow:hidden;padding:72px 0 40px;text-align:center}
@@ -41,6 +41,12 @@
   html[dir="rtl"] .kick{letter-spacing:0;text-transform:none}
   h1{font-size:clamp(1.9rem,4.6vw,3rem);font-weight:800;line-height:1.2;letter-spacing:-.4px}
   .lead{color:var(--dim);font-size:1.08rem;max-width:640px}
+  .hero-act{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .guide{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:22px 0 4px}
+  .guide-item{padding:18px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);text-align:start}
+  .guide-item b{display:block;margin-bottom:5px;color:var(--coral);font-family:var(--fen);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+  html[dir="rtl"] .guide-item b{font-family:var(--far);letter-spacing:0;text-transform:none}
+  .guide-item span{color:var(--dim);font-size:.9rem}
   .crumb{color:var(--mute);font-size:.85rem;margin-bottom:8px}
   .crumb a:hover{color:var(--ink)}
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;padding:30px 0 90px}
@@ -59,7 +65,7 @@
   .agent:hover .go .ar{transform:translateX(-4px)}
   html[dir="ltr"] .agent:hover .go .ar{transform:translateX(4px)}
   footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--mute);font-size:.85rem}
-  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  @media(max-width:720px){.grid,.guide{grid-template-columns:1fr}.nav-act #homeBtn{display:none}.hero{padding-top:52px}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 </head>
@@ -80,10 +86,18 @@
     <span class="kick" id="kick">مكتبة الوكلاء</span>
     <h1 id="title">وكيل ذكاء اصطناعي لكل عملية</h1>
     <p class="lead" id="lead">سبعة وكلاء جاهزين، كل منها مصمّم لعملية تجارية محددة. اختر وكيلًا لمشاهدة صفحته التفاعلية الكاملة.</p>
+    <div class="hero-act"><a class="btn btn-primary" href="../#falaq-custom-bot" id="chooseBtn">لست متأكدًا؟ ناقش عمليتك</a></div>
   </div>
 </header>
 
-<main class="wrap"><div class="grid" id="grid"></div></main>
+<main class="wrap">
+  <div class="guide" id="serviceGuide" aria-label="طريقة تقييم الخدمة">
+    <div class="guide-item"><b id="guideInputTitle">المدخلات</b><span id="guideInput">القنوات والبيانات التي يبدأ منها الوكيل.</span></div>
+    <div class="guide-item"><b id="guideActionTitle">التنفيذ</b><span id="guideAction">الخطوات التي ينفذها تلقائيًا داخل العملية.</span></div>
+    <div class="guide-item"><b id="guideHandoffTitle">التسليم البشري</b><span id="guideHandoff">الحالات والقرارات التي تبقى مع فريقك.</span></div>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
 <footer><div class="wrap">© <span id="yr"></span> فَلَق للذكاء الاصطناعي — Falaq Intelligence</div></footer>
 
 <script>
@@ -101,7 +115,8 @@
   var T={
     ar:{lang:'EN',home:'الرئيسية',cta:'تواصل معنا',crumb:'الوكلاء',kick:'مكتبة الوكلاء',
       title:'وكيل ذكاء اصطناعي لكل عملية',
-      lead:'سبعة وكلاء جاهزين، كل منها مصمّم لعملية تجارية محددة. اختر وكيلًا لمشاهدة صفحته التفاعلية الكاملة.',
+      lead:'اختر العملية الأقرب لمشكلتك. كل صفحة توضح مصادر البيانات، خطوات التنفيذ، حدود الصلاحية، ومتى تنتقل الحالة إلى موظف.',
+      choose:'لست متأكدًا؟ ناقش عمليتك',guideLabel:'طريقة تقييم الخدمة',guideInputTitle:'المدخلات',guideInput:'القنوات والبيانات التي يبدأ منها الوكيل.',guideActionTitle:'التنفيذ',guideAction:'الخطوات التي ينفذها تلقائيًا داخل العملية.',guideHandoffTitle:'التسليم البشري',guideHandoff:'الحالات والقرارات التي تبقى مع فريقك.',
       view:'شاهد الصفحة',arrow:'←',
       list:[
         {k:'lead',s:'lead-qualification',c:'#C084FC',t:'وكيل تأهيل العملاء',d:'يستقبل كل عميل، يجمع بياناته، يمنحه درجة تأهيل، ويوجّهه فورًا للإجراء الصحيح.'},
@@ -114,7 +129,8 @@
       ]},
     en:{lang:'ع',home:'Home',cta:'Contact us',crumb:'Agents',kick:'Agent library',
       title:'An AI agent for every process',
-      lead:'Seven ready agents, each built for a specific business process. Pick an agent to open its full interactive page.',
+      lead:'Choose the process closest to your problem. Each page shows the data sources, execution steps, permission boundaries, and when a case moves to your team.',
+      choose:'Not sure? Discuss your workflow',guideLabel:'How to evaluate a service',guideInputTitle:'Inputs',guideInput:'The channels and data the agent starts from.',guideActionTitle:'Execution',guideAction:'The steps it performs automatically inside the process.',guideHandoffTitle:'Human handoff',guideHandoff:'The cases and decisions that stay with your team.',
       view:'View page',arrow:'→',
       list:[
         {k:'lead',s:'lead-qualification',c:'#C084FC',t:'Lead Qualification Agent',d:'Receives every lead, collects their data, scores them, and routes them instantly to the right action.'},
@@ -137,6 +153,9 @@
     document.getElementById('kick').textContent=d.kick;
     document.getElementById('title').textContent=d.title;
     document.getElementById('lead').textContent=d.lead;
+    document.getElementById('chooseBtn').textContent=d.choose;
+    document.getElementById('serviceGuide').setAttribute('aria-label',d.guideLabel);
+    ['guideInputTitle','guideInput','guideActionTitle','guideAction','guideHandoffTitle','guideHandoff'].forEach(function(id){document.getElementById(id).textContent=d[id];});
     document.getElementById('grid').innerHTML=d.list.map(function(a,i){
       return '<a class="agent" style="--ac:'+a.c+'" href="./'+a.s+'/"><span class="glow"></span>'
         +'<span class="ic" style="border-color:'+a.c+'55">'+svg(a.k,a.c)+'</span>'
