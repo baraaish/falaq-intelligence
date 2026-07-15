@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node --env-file-if-exists=.env backend/server.js",
-    "check": "node --check backend/server.js && node --check backend/providers.js && node --check backend/proposal.js && node --check backend/pdf.js"
+    "check": "node --check backend/server.js && node --check backend/providers.js && node --check backend/proposal.js && node --check backend/pdf.js && node --check assets/aether-flow.js && node --check scripts/build-seo-pages.js && node --check scripts/validate-seo.js",
+    "build:seo": "node scripts/build-seo-pages.js",
+    "check:seo": "node scripts/validate-seo.js"
   },
   "dependencies": {
     "express": "^5.1.0",

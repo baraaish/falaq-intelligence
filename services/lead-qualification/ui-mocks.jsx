@@ -96,7 +96,7 @@ function BrandMark({ size = 40 }) {
       width: size, height: size, flexShrink: 0,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
-      <img src="assets/agent-logo-gold.png" alt="Falaq agent"
+      <img src="/services/lead-qualification/assets/agent-logo-gold.png" alt="Falaq agent"
         width={imgSize} height={imgSize}
         style={{
           width: imgSize, height: imgSize, objectFit: 'contain',
@@ -178,7 +178,7 @@ function AgentOrb({ size = 200, t = 0, active = true }) {
       position: 'relative', width: size, height: size,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
-      <img src="assets/agent-logo-gold.png" alt="Falaq agent"
+      <img src="/services/lead-qualification/assets/agent-logo-gold.png" alt="Falaq agent"
         width={imgSize} height={imgSize}
         style={{
           width: imgSize, height: imgSize, objectFit: 'contain',
