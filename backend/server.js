@@ -146,7 +146,7 @@ app.post("/api/agent/finalize", async (request, response) => {
     const reference = `FLQ-${new Date().toISOString().slice(0, 10).replaceAll("-", "")}-${crypto.randomBytes(3).toString("hex").toUpperCase()}`;
     const generated = await generateProposal({ language, category, initialRequest, answers });
     const categoryLabel = capabilities[category][language].title;
-    const pdf = await renderPdf({ proposal: generated.proposal, contact, language, categoryLabel, reference });
+    const pdf = await renderPdf({ proposal: generated.proposal, contact, language, category, categoryLabel, reference });
     const record = {
       receivedAt: new Date().toISOString(),
       reference,

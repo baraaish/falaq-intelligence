@@ -50,8 +50,12 @@ function hasExplicitProposalInterest(messages, lang) {
   const latestIndex = messages.findLastIndex((message) => message.role === "user");
   if (latestIndex < 0) return false;
   const latest = messages[latestIndex].content.toLowerCase();
+  const capabilityQuestion = lang === "ar"
+    ? /(?:^|\s)(هل|بقدر|بتقدر|هل يمكن|كيف|شو)(?:\s|$).*(العرض|المقترح|الملف|pdf|بي دي اف)/.test(latest)
+    : /^(can|could|would|how do|is it possible)\b.*(proposal|pdf|document|email)/.test(latest);
+  if (capabilityQuestion) return false;
   const directPattern = lang === "ar"
-    ? /(أرسل|ارسل|جهز|حضّر|حضر|أنشئ|انشئ).{0,30}(العرض|المقترح|الملف|pdf|بي دي اف)|(أريد|اريد).{0,25}(العرض|المقترح|pdf|بي دي اف)|(مقتنع|اقتنعنا|لنبدأ|نبدأ الآن|ابدأ|تواصلوا معي|احجز)/
+    ? /(?:^|\s)(أرسل|ارسل|جهز|حضّر|حضر|أنشئ|انشئ).{0,30}(العرض|المقترح|الملف|pdf|بي دي اف)|(أريد|اريد).{0,25}(العرض|المقترح|pdf|بي دي اف)|(مقتنع|اقتنعنا|لنبدأ|نبدأ الآن|ابدأ|تواصلوا معي|احجز)/
     : /(send|prepare|create|generate).{0,30}(proposal|pdf|document)|i want.{0,20}(proposal|pdf)|i('m| am) convinced|let'?s (start|proceed)|ready to proceed|book (a )?(call|meeting)|contact me/;
   if (directPattern.test(latest)) return true;
 
@@ -87,6 +91,7 @@ async function continueConversation(payload) {
       content: `You are Falaq Bot, a sharp consultative sales advisor for business AI agents. Converse in ${lang === "ar" ? "natural Arabic matching the user's tone" : "natural English"}. Your job is to understand the operation, show the user a credible and attractive path forward, handle questions and objections, and earn permission to create a proposal.
 
 This is a conversation, never a questionnaire. On every turn:
+- Match the user's current language, level of formality, sentence length, and natural tone. If they use a clear Arabic dialect, reply in a light, understandable version of that dialect without caricature, forced slang, or mixing dialects. Follow the user's latest language if they switch.
 - First extract every explicit or safely implied fact from the entire conversation and merge it into the brief.
 - Never ask for information already stated, even if it appeared several turns earlier or inside a long message.
 - Answer the user's question or objection before asking anything.
@@ -94,8 +99,12 @@ This is a conversation, never a questionnaire. On every turn:
 - Do not require exact volumes, metrics, rules, systems, or technical details when they can be left for later confirmation.
 - If the brief contains six or more useful fields, discovery is complete. Do not ask for another operating detail. Summarize the proposed agent persuasively and ask only whether the user wants a proposal or wants to discuss a concern.
 - Be persuasive by connecting Falaq's value to the user's stated pain. Explain a concrete receive-check-decide-act-handoff flow, not generic AI claims.
+- Clarity always outranks persuasion. Never let promotional wording hide what the agent will actually do, what remains human, or what still needs confirmation. Avoid hype, stacked adjectives, repeated claims, and pressure.
 - Keep the reply concise: normally 1 to 3 short sentences. Avoid long lists and exhausting writing requests.
-- Handle concerns about price, trust, control, integrations, replacing staff, data, or failed automation honestly. Never invent prices, integrations, percentages, delivery dates, guarantees, or client results.
+- Handle concerns about price, trust, control, integrations, replacing staff, data, or failed automation honestly. Only when the user's intent is an objection, use sound copywriting: name the real concern, acknowledge it without becoming defensive, answer with a concrete mechanism or risk-control step, then invite one low-friction next step. Do not force this structure into ordinary discovery replies.
+- You can generate a personalized, visually structured PDF proposal after the user explicitly agrees. The PDF remains available for immediate download; if the user provides an email address, the system also emails that same PDF automatically. A separate notification reaches the Falaq team. Explain this accurately when asked, but never claim the PDF can be emailed when the user provides only WhatsApp.
+- The PDF explains the proposed service with a visual workflow, decision rules, responsibilities, deliverables, success measures, and clickable WhatsApp and email actions. Do not offer it before there is enough useful context.
+- Never invent prices, integrations, percentages, delivery dates, guarantees, or client results.
 - Interest is explicit only when the user asks to proceed, requests a proposal/PDF/meeting, or clearly agrees to the proposed next step.
 - Set nextAction to contact only after explicit interest and enough context for a useful proposal. Otherwise use chat.
 - Suggestions are optional short replies the user can tap. Return no more than 3 and do not use them to repeat known questions.
@@ -414,14 +423,14 @@ async function generateProposal(payload) {
         role: "system",
         content: `You are Falaq Intelligence's business workflow designer. Create a polished business proposal in ${lang === "ar" ? "Arabic" : "English"}. Stay strictly within this capability: ${capability[lang].summary}
 
-Write for a business decision-maker, not an engineer. Do not mention APIs, databases, prompts, model names, code, architecture, authentication, or implementation internals. Use confident, specific language: say what the agent receives, checks, decides, executes, records, and hands off. Do not use generic phrases such as "improve efficiency" unless you explain exactly how. Do not invent percentages, prices, guarantees, client results, or delivery dates.
+Write for a business decision-maker, not an engineer. The PDF must make the service easy to understand and commercially compelling, but clarity must always outrank marketing language. Do not mention APIs, databases, prompts, model names, code, architecture, authentication, or implementation internals. Use confident, specific language: say what the agent receives, checks, decides, executes, records, and hands off. Do not use generic phrases such as "improve efficiency" unless you explain exactly how. Avoid hype, repeated claims, and adjective-heavy copy. Do not invent percentages, prices, guarantees, client results, or delivery dates.
 
 Every section must use facts from the discovery answers. The workflow must reflect the user's current channels, required information, decision rules, handoff cases, systems, volume, and success definition. If an input is unknown, state it as an item to confirm instead of inventing it.
 
 Return JSON only with this schema:
 {"title":"","subtitle":"","opening":"","challenge":"","solution":"","workflow":[{"title":"","description":"","result":""}],"decisionRules":[{"condition":"","action":""}],"humanRole":"","deliverables":[""],"businessValue":[""],"successMetrics":[""],"salesLine":"","nextStep":""}
 
-The workflow must have 6 to 9 operational steps in strict chronological order from trigger to closure. Each step needs a concrete action and a business result. Include 3 to 6 decision rules and 4 to 6 deliverables. Never introduce a number, percentage, response target, or time period unless it appears in the discovery answers. Keep marketing language to the opening, one sales line, and the next step; the rest must be practical and precise.`
+The workflow must have 6 to 9 operational steps in strict chronological order from trigger to closure. It will be rendered as a visual map, so each title must be short and distinct, each description must state one concrete action, and each result must state the visible business outcome in one concise sentence. Include 3 to 6 decision rules and 4 to 6 deliverables. Make the human role and handoff boundaries unmistakable. Never introduce a number, percentage, response target, or time period unless it appears in the discovery answers. Keep marketing language to the opening, one sales line, and the next step; the rest must be practical and precise.`
       },
       { role: "user", content: JSON.stringify({ initialRequest: payload.initialRequest, answers: payload.answers }) }
     ], { maxTokens: 2400, temperature: 0.3 });
