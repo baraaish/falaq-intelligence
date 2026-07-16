@@ -284,6 +284,18 @@
       <a href="#agents" data-i18n="navAgents">الوكلاء</a>
       <a href="#industries" data-i18n="navIndustries">القطاعات</a>
       <a href="#how" data-i18n="navHow">كيف نعمل</a>
+      <details class="nav-more">
+        <summary data-i18n="navCompany">الشركة والمعايير</summary>
+        <div class="nav-more-menu">
+          <a data-company-path="about" data-i18n="navAbout" href="/about/">من نحن</a>
+          <a data-company-path="trust" data-i18n="navTrust" href="/trust/">الثقة والأمان</a>
+          <a data-company-path="responsible-ai" data-i18n="navResponsible" href="/responsible-ai/">الذكاء الاصطناعي المسؤول</a>
+          <a data-company-path="service-standards" data-i18n="navStandards" href="/service-standards/">معايير الخدمة</a>
+          <a data-company-path="sla" data-i18n="navSla" href="/sla/">مستوى الخدمة</a>
+          <a data-company-path="privacy" data-i18n="navPrivacy" href="/privacy/">الخصوصية</a>
+          <a data-company-path="terms" data-i18n="navTerms" href="/terms/">الشروط والأحكام</a>
+        </div>
+      </details>
       <a href="#contact" data-i18n="navContact">تواصل</a>
     </div>
     <div class="nav-act">
@@ -506,7 +518,7 @@
       brandSub:'للذكاء الاصطناعي',
       mk1:'الأردن', mk2:'السعودية', mk3:'الإمارات', mk4:'عُمان', mk5:'قطر', mk6:'الكويت',
       copyName:'فَلَق للذكاء الاصطناعي — Falaq Intelligence',
-      navAgents:'الوكلاء', navIndustries:'القطاعات', navHow:'كيف نعمل', navContact:'تواصل', navCta:'احجز استشارة',
+      navAgents:'الوكلاء', navIndustries:'القطاعات', navHow:'كيف نعمل', navCompany:'الشركة والمعايير', navAbout:'من نحن', navTrust:'الثقة والأمان', navResponsible:'الذكاء الاصطناعي المسؤول', navStandards:'معايير الخدمة', navSla:'مستوى الخدمة', navPrivacy:'الخصوصية', navTerms:'الشروط والأحكام', navContact:'تواصل', navCta:'احجز استشارة',
       heroEyebrow:'ذكاء اصطناعي تطبيقي للعمليات',
       heroTitle:'وكلاء ذكاء اصطناعي <span class="grad">لأتمتة عمليات شركتك</span>',
       heroLead:'فلق تبني وكلاء ذكاء اصطناعي للشركات في الأردن والخليج لأتمتة تأهيل العملاء، متابعة المبيعات، خدمة العملاء، معالجة المستندات، وتحديث CRM — بالعربية والإنجليزية وداخل أنظمتك الحالية.',
@@ -562,7 +574,7 @@
       brandSub:'Intelligence',
       mk1:'Jordan', mk2:'Saudi Arabia', mk3:'UAE', mk4:'Oman', mk5:'Qatar', mk6:'Kuwait',
       copyName:'Falaq Intelligence',
-      navAgents:'Agents', navIndustries:'Industries', navHow:'How we work', navContact:'Contact', navCta:'Book a consult',
+      navAgents:'Agents', navIndustries:'Industries', navHow:'How we work', navCompany:'Company & standards', navAbout:'About Falaq', navTrust:'Trust & security', navResponsible:'Responsible AI', navStandards:'Service standards', navSla:'Service levels', navPrivacy:'Privacy', navTerms:'Terms of use', navContact:'Contact', navCta:'Book a consult',
       heroEyebrow:'Applied AI for real operations',
       heroTitle:'AI agents that <span class="grad">automate business operations</span>',
       heroLead:'Falaq builds AI agents for companies in Jordan and the Gulf to automate lead qualification, sales follow-up, customer service, document processing, and CRM updates — in Arabic and English, inside your existing systems.',
@@ -625,6 +637,9 @@
     document.querySelectorAll('[data-i18n]').forEach(function(el){
       var k = el.getAttribute('data-i18n');
       if(d[k]!=null) el.innerHTML = d[k];
+    });
+    document.querySelectorAll('[data-company-path]').forEach(function(link){
+      link.href = (lang === 'ar' ? '/' : '/en/') + link.getAttribute('data-company-path') + '/';
     });
 
     // agents

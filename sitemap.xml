@@ -126,4 +126,102 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/services/crm-control/"/>
     <lastmod>2026-07-16</lastmod>
   </url>
+  <url>
+    <loc>https://falaqai.com/about/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/about/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/en/about/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/about/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/trust/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/trust/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/trust/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/trust/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/en/trust/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/trust/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/trust/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/trust/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/responsible-ai/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/responsible-ai/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/responsible-ai/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/responsible-ai/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/en/responsible-ai/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/responsible-ai/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/responsible-ai/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/responsible-ai/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/service-standards/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/service-standards/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/service-standards/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/service-standards/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/en/service-standards/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/service-standards/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/service-standards/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/service-standards/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/sla/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/sla/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/sla/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/sla/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/en/sla/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/sla/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/sla/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/sla/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/privacy/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/en/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/privacy/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/terms/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/terms/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
+  <url>
+    <loc>https://falaqai.com/en/terms/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://falaqai.com/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://falaqai.com/en/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://falaqai.com/terms/"/>
+    <lastmod>2026-07-16</lastmod>
+  </url>
 </urlset>

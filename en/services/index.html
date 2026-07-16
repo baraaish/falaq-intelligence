@@ -99,6 +99,7 @@
   <div class="nav-act">
     <a class="btn btn-lang" id="langBtn" href="/services/" hreflang="ar" lang="ar">ع</a>
     <a class="btn btn-ghost" id="homeBtn" href="../">الرئيسية</a>
+    <a class="btn btn-ghost" id="trustBtn" href="/trust/">الثقة والمعايير</a>
     <a class="btn btn-primary" href="../#contact" id="ctaBtn">تواصل معنا</a>
   </div>
 </div></nav>
@@ -137,7 +138,7 @@
   };
   function svg(k,c){return '<svg viewBox="0 0 24 24" fill="none">'+ic[k].replace(/CUR/g,c)+'</svg>';}
   var T={
-    ar:{lang:'EN',home:'الرئيسية',cta:'تواصل معنا',crumb:'الوكلاء',kick:'مكتبة الوكلاء',
+    ar:{lang:'EN',home:'الرئيسية',trust:'الثقة والمعايير',cta:'تواصل معنا',crumb:'الوكلاء',kick:'مكتبة الوكلاء',
       title:'وكلاء ذكاء اصطناعي لأتمتة عمليات الشركات',
       lead:'استكشف حلول فلق لتأهيل العملاء، متابعة عروض الأسعار، إدارة الحجوزات، خدمة العملاء، تحصيل المستحقات، معالجة المستندات، وتنظيم CRM. كل صفحة توضح التنفيذ وحدود الصلاحية والتسليم البشري.',
       choose:'لست متأكدًا؟ ناقش عمليتك',guideLabel:'طريقة تقييم الخدمة',guideInputTitle:'المدخلات',guideInput:'القنوات والبيانات التي يبدأ منها الوكيل.',guideActionTitle:'التنفيذ',guideAction:'الخطوات التي ينفذها تلقائيًا داخل العملية.',guideHandoffTitle:'التسليم البشري',guideHandoff:'الحالات والقرارات التي تبقى مع فريقك.',
@@ -151,7 +152,7 @@
         {k:'doc',s:'document-processing',c:'#5B8DEF',t:'وكيل معالجة المستندات',d:'يستخرج البيانات من المستندات والفواتير، ينظّمها، ويكتشف النواقص مبكرًا.'},
         {k:'crm',s:'crm-control',c:'#5B8DEF',t:'وكيل التحكم في CRM',d:'يبقي نظام إدارة العلاقات محدّثًا لحظيًا — كل عميل وكل تفاعل مسجّل تلقائيًا.'}
       ]},
-    en:{lang:'ع',home:'Home',cta:'Contact us',crumb:'Agents',kick:'Agent library',
+    en:{lang:'ع',home:'Home',trust:'Trust & standards',cta:'Contact us',crumb:'Agents',kick:'Agent library',
       title:'AI agents for business process automation',
       lead:'Explore Falaq agents for lead qualification, quote follow-up, booking, customer service, accounts receivable, document processing, and CRM control. Each page explains execution, permissions, and human handoff.',
       choose:'Not sure? Discuss your workflow',guideLabel:'How to evaluate a service',guideInputTitle:'Inputs',guideInput:'The channels and data the agent starts from.',guideActionTitle:'Execution',guideAction:'The steps it performs automatically inside the process.',guideHandoffTitle:'Human handoff',guideHandoff:'The cases and decisions that stay with your team.',
@@ -171,6 +172,8 @@
     document.documentElement.lang=l;document.documentElement.dir=(l==='ar'?'rtl':'ltr');
     document.getElementById('langBtn').textContent=d.lang;
     document.getElementById('homeBtn').textContent=d.home;
+    document.getElementById('trustBtn').textContent=d.trust;
+    document.getElementById('trustBtn').href=l==='ar'?'/trust/':'/en/trust/';
     document.getElementById('ctaBtn').textContent=d.cta;
     document.getElementById('crumbHome').textContent=d.home;
     document.getElementById('crumbHere').textContent=d.crumb;
