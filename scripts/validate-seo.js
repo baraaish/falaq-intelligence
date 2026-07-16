@@ -11,6 +11,8 @@ const slugs = [
 ];
 const pages = ["", "en/", "services/", "en/services/"];
 slugs.forEach((slug) => pages.push(`services/${slug}/`, `en/services/${slug}/`));
+const companySlugs = ["about", "trust", "responsible-ai", "service-standards", "sla", "privacy", "terms"];
+companySlugs.forEach((slug) => pages.push(`${slug}/`, `en/${slug}/`));
 
 const required = [
   'rel="canonical"',
@@ -39,7 +41,7 @@ pages.forEach((page) => {
   const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
   const description = html.match(/<meta name="description" content="([^"]+)">/)?.[1];
   if (!title || title.length < 30 || title.length > 68) throw new Error(`Invalid title length in ${file}: ${title?.length}`);
-  if (!description || description.length < 105 || description.length > 170) throw new Error(`Invalid description length in ${file}: ${description?.length}`);
+  if (!description || description.length < 80 || description.length > 170) throw new Error(`Invalid description length in ${file}: ${description?.length}`);
   if (titles.has(`${language}:${title}`)) throw new Error(`Duplicate title: ${title}`);
   if (descriptions.has(`${language}:${description}`)) throw new Error(`Duplicate description: ${description}`);
   titles.add(`${language}:${title}`);

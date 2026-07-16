@@ -346,10 +346,14 @@ legacyRedirects.forEach(({ file, target, title }) => {
   writeFile(file, html);
 });
 
+const companySlugs = ["about", "trust", "responsible-ai", "service-standards", "sla", "privacy", "terms"];
 const sitemapEntries = pages.flatMap((page) => [
   { loc: `${site}${page.arPath}`, ar: `${site}${page.arPath}`, en: `${site}${page.enPath}` },
   { loc: `${site}${page.enPath}`, ar: `${site}${page.arPath}`, en: `${site}${page.enPath}` },
-]);
+]).concat(companySlugs.flatMap((slug) => [
+  { loc: `${site}/${slug}/`, ar: `${site}/${slug}/`, en: `${site}/en/${slug}/` },
+  { loc: `${site}/en/${slug}/`, ar: `${site}/${slug}/`, en: `${site}/en/${slug}/` },
+]));
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${sitemapEntries.map((entry) => `  <url>

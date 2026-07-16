@@ -239,6 +239,25 @@
     });
   }
 
+  function applyTrustNavigation() {
+    document.querySelectorAll("#dc-root nav").forEach(function (nav) {
+      var actions = nav.querySelector(":scope > div:last-child");
+      if (!actions) return;
+      var link = actions.querySelector(".falaq-trust-nav");
+      if (!link) {
+        link = document.createElement("a");
+        link.className = "falaq-trust-nav";
+        var languageControl = actions.querySelector("a, button");
+        actions.insertBefore(link, languageControl || actions.firstChild);
+      }
+      var english = document.documentElement.lang === "en";
+      var href = english ? "/en/trust/" : "/trust/";
+      var text = english ? "Trust & standards" : "الثقة والمعايير";
+      if (link.getAttribute("href") !== href) link.setAttribute("href", href);
+      if (link.textContent !== text) link.textContent = text;
+    });
+  }
+
   function getRobotQuips() {
     var ar = document.documentElement.lang !== "en";
     return ar ? {
@@ -937,6 +956,7 @@
   function scan() {
     document.querySelectorAll(".aether-flow-hero").forEach(mount);
     applyBrandLogo();
+    applyTrustNavigation();
     enhanceAgentConstellation();
     createCustomBotSection();
     createServiceBotLauncher();
