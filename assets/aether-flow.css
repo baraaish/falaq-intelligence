@@ -941,7 +941,7 @@ html[dir="rtl"] .falaq-floating-launcher { padding: 8px 8px 8px 15px; }
   html[lang="en"] .falaq-trust-nav::after { content: "Trust"; }
   .aether-flow-hero {
     min-height: auto !important;
-    padding-top: 72px !important;
+    padding-top: 76px !important;
   }
 
   .aether-flow-hero > .hero-in,
@@ -985,24 +985,36 @@ html[dir="rtl"] .falaq-floating-launcher { padding: 8px 8px 8px 15px; }
     width: min(100%, 330px) !important;
   }
 
-  section.blk { padding-block: 80px !important; }
-  .sec-head { margin-bottom: 42px !important; }
+  section.blk { padding-block: 64px !important; }
+  .sec-head { margin-bottom: 34px !important; }
 
   .agent-constellation,
-  .agent-constellation.is-open { display: grid !important; height: auto !important; grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 26px 12px !important; }
+  .agent-constellation.is-open { display: grid !important; height: auto !important; overflow: clip !important; grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 12px !important; }
   .agent-constellation:not(.is-open) .agent-node { display: none !important; }
   .agent-threads { display: none; }
-  .agent-orchestrator { position: relative; top: auto; left: auto; grid-column: 1 / -1; grid-row: 1; justify-self: center; order: -1; }
-  .agent-node { position: relative !important; inset: auto !important; width: 100% !important; min-height: 128px !important; }
+  .agent-orchestrator { position: relative; top: auto; left: auto; width: min(220px,100%); height: 300px; grid-column: 1 / -1; grid-row: 1; justify-self: center; order: -1; }
+  .agent-orchestrator .falaq-robot-svg { width: 170px; }
+  .orchestrator-hint { bottom: 0; width: min(280px,calc(100vw - 40px)); justify-content: center; white-space: normal; text-align: center; }
+  .agent-node { position: relative !important; inset: auto !important; width: 100% !important; min-height: 112px !important; padding: 16px 14px !important; }
+  .agent-node .ic { width: 42px; height: 42px; }
+  .agent-node h3 { font-size: .95rem; line-height: 1.4; }
+  .agent-node .agent-node-description { display: none; }
+  .agent-node .go { font-size: .78rem; }
   .agent-node:nth-of-type(n) { top: auto; right: auto; bottom: auto; left: auto; }
   .agent-hover-card { position: fixed; top: auto !important; right: 14px; bottom: 14px !important; left: 14px; width: auto; transform: translateY(20px) scale(.97); }
   .agent-node:hover .agent-hover-card,
   .agent-node:focus-visible .agent-hover-card { transform: translateY(0) scale(1); }
-  .custom-bot-shell { grid-template-columns: 1fr; gap: 0; }
-  .bot-awakening-stage { min-height: 430px; }
-  .seated-falaq-robot { width: 220px; }
-  .falaq-chat-panel { min-height: 600px; }
-  .falaq-chat-messages { height: 300px; }
+  .custom-bot-shell { min-height: 0; grid-template-columns: minmax(0,1fr); gap: 20px; }
+  .custom-bot-shell > * { min-width: 0; }
+  .bot-awakening-stage { min-height: 230px; }
+  .bot-floor-ring { bottom: 20px; width: min(280px,90%); }
+  .seated-falaq-robot { width: 170px; }
+  .wake-signal { top: 8px; }
+  .bot-awakening-stage .robot-quip { top: 42px; }
+  .falaq-chat-panel { width: 100%; min-width: 0; min-height: 520px; border-radius: 18px; }
+  .falaq-chat-messages { height: 250px; padding: 16px; }
+  .bot-suggestions { padding-inline: 14px; }
+  .bot-input-row { padding: 0 14px 14px; }
   .bot-contact-grid { grid-template-columns: 1fr; }
   .falaq-floating-launcher { inset-inline-end: 14px; bottom: 14px; min-height: 58px; padding: 5px; }
   .floating-bot-robot { width: 48px; height: 48px; flex-basis: 48px; }
@@ -1014,9 +1026,18 @@ html[dir="rtl"] .falaq-floating-launcher { padding: 8px 8px 8px 15px; }
 }
 
 @media (max-width: 420px) {
-  .agent-constellation,
-  .agent-constellation.is-open { grid-template-columns: 1fr !important; }
-  .agent-orchestrator { grid-column: 1; }
+  .aether-flow-hero > .hero-in,
+  .aether-flow-hero > div:nth-of-type(2) { width: calc(100% - 20px) !important; padding: 14px !important; }
+  .aether-flow-hero h1 { font-size: clamp(2rem,10.5vw,2.65rem) !important; }
+  .aether-flow-hero .lead { margin-bottom: 20px !important; font-size: 15px !important; }
+  .agent-orchestrator { grid-column: 1 / -1; }
+  .agent-node { min-height: 104px !important; }
+  .agent-hover-card { display: none !important; }
+  .falaq-chat-panel { min-height: 500px; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .agent-hover-card { display: none !important; }
 }
 
 :is(a, button, input, select, textarea):focus-visible {

@@ -211,7 +211,7 @@
 
   /* FOOTER */
   footer{border-top:1px solid var(--line);padding:44px 0 40px;margin-top:80px}
-  .foot{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:flex-start}
+  .foot{display:grid;grid-template-columns:1.35fr repeat(3,minmax(0,1fr));gap:34px;align-items:start}
   .foot .col h5{font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);margin-bottom:14px}
   html[dir="rtl"] .foot .col h5{letter-spacing:0;text-transform:none}
   .foot .col a{display:block;color:var(--dim);font-size:.92rem;margin-bottom:9px;transition:color .16s}
@@ -230,14 +230,28 @@
     .why{grid-template-columns:1fr}
     .nav-links{display:none}
     .nav-toggle{display:grid;place-items:center}
-    .nav-links.open{display:flex;position:absolute;top:70px;inset-inline:0;flex-direction:column;background:var(--bg2);
+    .nav-links.open{display:flex;position:absolute;top:70px;inset-inline:0;max-height:calc(100dvh - 70px);overflow-y:auto;flex-direction:column;background:var(--bg2);
       padding:20px;border-bottom:1px solid var(--line);gap:18px}
+    .foot{grid-template-columns:1.2fr repeat(2,minmax(0,1fr))}
+    .foot-brand{grid-column:1/-1;max-width:480px}
   }
   @media(max-width:620px){
+    .wrap{width:min(var(--maxw),calc(100% - 28px))}
+    .nav-in{gap:8px;min-height:64px}
+    .brand{gap:8px;font-size:1rem}
+    .brand .mark{width:32px;height:32px}
+    .brand small{font-size:.62rem}
+    .nav-act{gap:7px}
+    .nav-act>.btn-primary{display:none}
+    .btn-lang{padding:0 10px}
+    .nav-toggle{width:40px;height:40px}
+    .nav-links.open{top:64px;max-height:calc(100dvh - 64px)}
     .agents,.models,.team,.inds{grid-template-columns:1fr}
     .hero{padding:64px 0 60px}
     section.blk{padding:60px 0}
     .cta{padding:48px 22px}
+    .foot{grid-template-columns:1fr 1fr;gap:30px 20px}
+    .foot-brand{grid-column:1/-1}
   }
   @media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
@@ -284,18 +298,6 @@
       <a href="#agents" data-i18n="navAgents">الوكلاء</a>
       <a href="#industries" data-i18n="navIndustries">القطاعات</a>
       <a href="#how" data-i18n="navHow">كيف نعمل</a>
-      <details class="nav-more">
-        <summary data-i18n="navCompany">الشركة والمعايير</summary>
-        <div class="nav-more-menu">
-          <a data-company-path="about" data-i18n="navAbout" href="/about/">من نحن</a>
-          <a data-company-path="trust" data-i18n="navTrust" href="/trust/">الثقة والأمان</a>
-          <a data-company-path="responsible-ai" data-i18n="navResponsible" href="/responsible-ai/">الذكاء الاصطناعي المسؤول</a>
-          <a data-company-path="service-standards" data-i18n="navStandards" href="/service-standards/">معايير الخدمة</a>
-          <a data-company-path="sla" data-i18n="navSla" href="/sla/">مستوى الخدمة</a>
-          <a data-company-path="privacy" data-i18n="navPrivacy" href="/privacy/">الخصوصية</a>
-          <a data-company-path="terms" data-i18n="navTerms" href="/terms/">الشروط والأحكام</a>
-        </div>
-      </details>
       <a href="#contact" data-i18n="navContact">تواصل</a>
     </div>
     <div class="nav-act">
@@ -462,19 +464,25 @@
         <a href="services/quote-follow-up/" data-i18n="ag_quote">متابعة العروض</a>
         <a href="services/booking-recovery/" data-i18n="ag_booking">الحجز والمكالمات</a>
         <a href="services/customer-service/" data-i18n="ag_cs">خدمة العملاء</a>
-      </div>
-      <div class="col">
-        <h5>&nbsp;</h5>
         <a href="services/accounts-receivable/" data-i18n="ag_ar">تحصيل المستحقات</a>
         <a href="services/document-processing/" data-i18n="ag_doc">معالجة المستندات</a>
         <a href="services/crm-control/" data-i18n="ag_crm">التحكم في CRM</a>
         <a href="services/" data-i18n="footAll">كل الخدمات</a>
       </div>
       <div class="col">
-        <h5 data-i18n="footCompany">الشركة</h5>
-        <a href="#industries" data-i18n="navIndustries">القطاعات</a>
-        <a href="#how" data-i18n="navHow">كيف نعمل</a>
+        <h5 data-i18n="navCompany">الشركة والمعايير</h5>
+        <a data-company-path="about" data-i18n="navAbout" href="/about/">من نحن</a>
+        <a data-company-path="trust" data-i18n="navTrust" href="/trust/">الثقة والأمان</a>
+        <a data-company-path="responsible-ai" data-i18n="navResponsible" href="/responsible-ai/">الذكاء الاصطناعي المسؤول</a>
+        <a data-company-path="service-standards" data-i18n="navStandards" href="/service-standards/">معايير الخدمة</a>
+        <a data-company-path="sla" data-i18n="navSla" href="/sla/">مستوى الخدمة</a>
+      </div>
+      <div class="col">
+        <h5 data-i18n="footLegal">السياسات والتواصل</h5>
+        <a data-company-path="privacy" data-i18n="navPrivacy" href="/privacy/">الخصوصية</a>
+        <a data-company-path="terms" data-i18n="navTerms" href="/terms/">الشروط والأحكام</a>
         <a href="#contact" data-i18n="navContact">تواصل</a>
+        <a href="mailto:hello@falaqai.com">hello@falaqai.com</a>
       </div>
     </div>
     <div class="copy">
@@ -518,7 +526,7 @@
       brandSub:'للذكاء الاصطناعي',
       mk1:'الأردن', mk2:'السعودية', mk3:'الإمارات', mk4:'عُمان', mk5:'قطر', mk6:'الكويت',
       copyName:'فَلَق للذكاء الاصطناعي — Falaq Intelligence',
-      navAgents:'الوكلاء', navIndustries:'القطاعات', navHow:'كيف نعمل', navCompany:'الشركة والمعايير', navAbout:'من نحن', navTrust:'الثقة والأمان', navResponsible:'الذكاء الاصطناعي المسؤول', navStandards:'معايير الخدمة', navSla:'مستوى الخدمة', navPrivacy:'الخصوصية', navTerms:'الشروط والأحكام', navContact:'تواصل', navCta:'احجز استشارة',
+      navAgents:'الوكلاء', navIndustries:'القطاعات', navHow:'كيف نعمل', navCompany:'الشركة والمعايير', navAbout:'من نحن', navTrust:'الثقة والأمان', navResponsible:'الذكاء الاصطناعي المسؤول', navStandards:'معايير الخدمة', navSla:'مستوى الخدمة', navPrivacy:'الخصوصية', navTerms:'الشروط والأحكام', navContact:'تواصل', navCta:'احجز استشارة', footLegal:'السياسات والتواصل',
       heroEyebrow:'ذكاء اصطناعي تطبيقي للعمليات',
       heroTitle:'وكلاء ذكاء اصطناعي <span class="grad">لأتمتة عمليات شركتك</span>',
       heroLead:'فلق تبني وكلاء ذكاء اصطناعي للشركات في الأردن والخليج لأتمتة تأهيل العملاء، متابعة المبيعات، خدمة العملاء، معالجة المستندات، وتحديث CRM — بالعربية والإنجليزية وداخل أنظمتك الحالية.',
@@ -574,7 +582,7 @@
       brandSub:'Intelligence',
       mk1:'Jordan', mk2:'Saudi Arabia', mk3:'UAE', mk4:'Oman', mk5:'Qatar', mk6:'Kuwait',
       copyName:'Falaq Intelligence',
-      navAgents:'Agents', navIndustries:'Industries', navHow:'How we work', navCompany:'Company & standards', navAbout:'About Falaq', navTrust:'Trust & security', navResponsible:'Responsible AI', navStandards:'Service standards', navSla:'Service levels', navPrivacy:'Privacy', navTerms:'Terms of use', navContact:'Contact', navCta:'Book a consult',
+      navAgents:'Agents', navIndustries:'Industries', navHow:'How we work', navCompany:'Company & standards', navAbout:'About Falaq', navTrust:'Trust & security', navResponsible:'Responsible AI', navStandards:'Service standards', navSla:'Service levels', navPrivacy:'Privacy', navTerms:'Terms of use', navContact:'Contact', navCta:'Book a consult', footLegal:'Policies & contact',
       heroEyebrow:'Applied AI for real operations',
       heroTitle:'AI agents that <span class="grad">automate business operations</span>',
       heroLead:'Falaq builds AI agents for companies in Jordan and the Gulf to automate lead qualification, sales follow-up, customer service, document processing, and CRM updates — in Arabic and English, inside your existing systems.',
