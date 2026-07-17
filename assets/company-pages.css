@@ -79,6 +79,10 @@ h2 { margin: 0 0 17px; font-size: clamp(1.45rem, 2.5vw, 2.05rem); line-height: 1
 .site-footer { padding: 48px 0 38px; border-top: 1px solid var(--line); }
 .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 40px; }
 .footer-copy { max-width: 390px; margin-top: 13px; color: var(--mute); font-size: .86rem; }
+.social-links { display: flex; gap: 10px; margin-top: 18px; }
+.social-link { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid var(--line-hi); border-radius: 11px; color: var(--mute); transition: .2s ease; }
+.social-link:hover { border-color: #9f67ce; background: rgba(168, 85, 247, .1); color: #fff; transform: translateY(-2px); }
+.social-link svg { width: 19px; height: 19px; }
 .footer-col strong { display: block; margin-bottom: 12px; font-size: .78rem; }
 .footer-col a { display: block; margin: 7px 0; color: var(--mute); font-size: .83rem; }
 .footer-col a:hover { color: #fff; }
