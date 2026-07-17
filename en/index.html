@@ -218,6 +218,10 @@
   .foot .col a:hover{color:var(--ink)}
   .foot-brand{max-width:280px;color:var(--mute);font-size:.9rem}
   .foot-brand .brand{margin-bottom:12px}
+  .social-links{display:flex;gap:10px;margin-top:18px}
+  .social-link{display:grid;width:40px;height:40px;place-items:center;border:1px solid var(--line-hi);border-radius:11px;color:var(--dim);transition:color .18s,border-color .18s,background .18s,transform .18s}
+  .social-link:hover{color:#fff;border-color:rgba(192,132,252,.65);background:rgba(168,85,247,.1);transform:translateY(-2px)}
+  .social-link svg{width:19px;height:19px}
   .copy{border-top:1px solid var(--line);margin-top:34px;padding-top:22px;color:var(--mute);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 
   /* reveal */
@@ -279,7 +283,7 @@
   <meta name="twitter:title" content="Falaq Intelligence | AI Agents for Business Operations">
   <meta name="twitter:description" content="Falaq builds practical AI agents that qualify leads, follow up sales, support customers, process documents, and update business systems.">
   <meta name="twitter:image" content="https://falaqai.com/assets/falaq-social-card.jpg">
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://falaqai.com/#organization","name":"Falaq Intelligence","alternateName":"فلق للذكاء الاصطناعي","url":"https://falaqai.com/","logo":"https://falaqai.com/assets/falaq-symbol.png","image":"https://falaqai.com/assets/falaq-social-card.jpg","email":"hello@falaqai.com","telephone":"+962792961872","areaServed":["Jordan","Saudi Arabia","United Arab Emirates","Oman","Qatar","Kuwait"]},{"@type":"WebSite","@id":"https://falaqai.com/#website","url":"https://falaqai.com/","name":"Falaq Intelligence","alternateName":"فلق للذكاء الاصطناعي","publisher":{"@id":"https://falaqai.com/#organization"},"inLanguage":["ar","en"]}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://falaqai.com/#organization","name":"Falaq Intelligence","alternateName":"فلق للذكاء الاصطناعي","url":"https://falaqai.com/","logo":"https://falaqai.com/assets/falaq-symbol.png","image":"https://falaqai.com/assets/falaq-social-card.jpg","email":"hello@falaqai.com","telephone":"+962792961872","sameAs":["https://www.instagram.com/falaqai/","https://www.facebook.com/profile.php?id=61592175171348","https://www.linkedin.com/company/135187245/"],"areaServed":["Jordan","Saudi Arabia","United Arab Emirates","Oman","Qatar","Kuwait"]},{"@type":"WebSite","@id":"https://falaqai.com/#website","url":"https://falaqai.com/","name":"Falaq Intelligence","alternateName":"فلق للذكاء الاصطناعي","publisher":{"@id":"https://falaqai.com/#organization"},"inLanguage":["ar","en"]}]}</script>
 <!-- SEO:END -->
 </head>
 <body>
@@ -457,6 +461,11 @@
       <div class="foot-brand">
         <a class="brand" href="./"><span class="mark"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gFoot" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gFoot)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gFoot)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg></span><span data-i18n="brandName">فَلَق</span></a>
         <p data-i18n="footBlurb">وكلاء ذكاء اصطناعي ينفذون العمل داخل عمليات الشركات في الأردن والخليج.</p>
+        <div class="social-links" aria-label="Social media">
+          <a class="social-link" href="https://www.instagram.com/falaqai/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a class="social-link" href="https://www.facebook.com/profile.php?id=61592175171348" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.7 22v-9h3l.5-3.5h-3.5V7.3c0-1 .3-1.7 1.8-1.7h1.9V2.5c-.3 0-1.5-.1-2.8-.1-2.8 0-4.7 1.7-4.7 4.8v2.3H6.8V13h3.1v9h3.8Z"/></svg></a>
+          <a class="social-link" href="https://www.linkedin.com/company/135187245/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.5 8.1H3.2V21h3.3V8.1ZM4.8 3A1.9 1.9 0 1 0 4.8 6.8 1.9 1.9 0 0 0 4.8 3ZM21 13.6c0-3.9-2.1-5.8-4.9-5.8-2.3 0-3.3 1.2-3.9 2.1V8.1H9V21h3.3v-6.4c0-1.7.3-3.4 2.5-3.4 2.2 0 2.2 2 2.2 3.5V21h3.3l.7-7.4Z"/></svg></a>
+        </div>
       </div>
       <div class="col">
         <h5 data-i18n="footAgents">الوكلاء</h5>

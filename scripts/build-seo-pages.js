@@ -168,6 +168,11 @@ function schemaFor(page, language) {
       image: socialImage,
       email: "hello@falaqai.com",
       telephone: "+962792961872",
+      sameAs: [
+        "https://www.instagram.com/falaqai/",
+        "https://www.facebook.com/profile.php?id=61592175171348",
+        "https://www.linkedin.com/company/135187245/",
+      ],
       areaServed: countries,
     });
     graph.push({

@@ -891,11 +891,14 @@ function footer(t) {
             <a href="https://wa.me/${CONFIG.whatsappNumber}" target="_blank" rel="noreferrer">${CONFIG.whatsappDisplay}</a>
             <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>
             <div class="footer-social">
-              <a href="#" aria-label="LinkedIn" class="social-link">
+              <a href="https://www.linkedin.com/company/135187245/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-link">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
               </a>
-              <a href="#" aria-label="Twitter" class="social-link">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              <a href="https://www.instagram.com/falaqai/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg>
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=61592175171348" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.7 22v-9h3l.5-3.5h-3.5V7.3c0-1 .3-1.7 1.8-1.7h1.9V2.5c-.3 0-1.5-.1-2.8-.1-2.8 0-4.7 1.7-4.7 4.8v2.3H6.8V13h3.1v9h3.8Z"/></svg>
               </a>
             </div>
           </div>
