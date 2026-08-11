@@ -335,14 +335,18 @@ legacyRedirects.forEach(({ file, target, title }) => {
   writeFile(file, `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><meta http-equiv="refresh" content="0;url=${target}"><link rel="canonical" href="${site}${target}"><title>${title}</title></head><body><p><a href="${target}">انتقل إلى الصفحة</a></p><script>location.replace(${JSON.stringify(target)})</script></body></html>\n`);
 });
 
+// /contact/ has always been a redirect into the home page's contact section.
+// The English side was missing one, so /en/contact/ answered with a 404.
+writeFile("en/contact/index.html", `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><meta http-equiv="refresh" content="0;url=/en/#contact"><link rel="canonical" href="${site}/en/#contact"><title>Contact Falaq Intelligence</title></head><body><p><a href="/en/#contact">Go to contact</a></p><script>location.replace("/en/#contact")</script></body></html>\n`);
+
+// Pages still rendered client-side by app.js. The sector pages left this list
+// once build-sector-pages.js started emitting them as static, indexable HTML.
 [
   "about/index.html",
   "contact/index.html",
-  "industries/index.html",
   "thank-you/index.html",
   "ar/about/index.html",
   "ar/contact/index.html",
-  "ar/industries/index.html",
   "ar/thank-you/index.html",
 ].forEach((file) => {
   const filePath = path.join(root, file);
@@ -351,14 +355,31 @@ legacyRedirects.forEach(({ file, target, title }) => {
   writeFile(file, html);
 });
 
-const companySlugs = ["about", "trust", "responsible-ai", "service-standards", "sla", "privacy", "terms"];
+const companySlugs = ["about", "trust", "responsible-ai", "service-standards", "sla", "privacy", "terms", "how-we-work", "measuring-results", "technology"];
+
+// Services introduced by content/services.js carry their own metadata from
+// build-service-pages.js, so only their sitemap entries are needed here.
+const { SERVICES } = require("../content/services.js");
+const { SECTORS } = require("../content/sectors.js");
+const generatedServiceSlugs = SERVICES
+  .map((service) => service.slug)
+  .filter((slug) => !pages.some((page) => page.slug === slug));
+
 const sitemapEntries = pages.flatMap((page) => [
   { loc: `${site}${page.arPath}`, ar: `${site}${page.arPath}`, en: `${site}${page.enPath}` },
   { loc: `${site}${page.enPath}`, ar: `${site}${page.arPath}`, en: `${site}${page.enPath}` },
 ]).concat(companySlugs.flatMap((slug) => [
   { loc: `${site}/${slug}/`, ar: `${site}/${slug}/`, en: `${site}/en/${slug}/` },
   { loc: `${site}/en/${slug}/`, ar: `${site}/${slug}/`, en: `${site}/en/${slug}/` },
-]));
+])).concat(generatedServiceSlugs.flatMap((slug) => [
+  { loc: `${site}/services/${slug}/`, ar: `${site}/services/${slug}/`, en: `${site}/en/services/${slug}/` },
+  { loc: `${site}/en/services/${slug}/`, ar: `${site}/services/${slug}/`, en: `${site}/en/services/${slug}/` },
+])).concat([{ loc: `${site}/industries/`, ar: `${site}/industries/`, en: `${site}/en/industries/` },
+  { loc: `${site}/en/industries/`, ar: `${site}/industries/`, en: `${site}/en/industries/` }])
+  .concat(SECTORS.flatMap((sector) => [
+    { loc: `${site}/industries/${sector.slug}/`, ar: `${site}/industries/${sector.slug}/`, en: `${site}/en/industries/${sector.slug}/` },
+    { loc: `${site}/en/industries/${sector.slug}/`, ar: `${site}/industries/${sector.slug}/`, en: `${site}/en/industries/${sector.slug}/` },
+  ]));
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${sitemapEntries.map((entry) => `  <url>
@@ -366,7 +387,7 @@ ${sitemapEntries.map((entry) => `  <url>
     <xhtml:link rel="alternate" hreflang="ar" href="${entry.ar}"/>
     <xhtml:link rel="alternate" hreflang="en" href="${entry.en}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${entry.ar}"/>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-08-11</lastmod>
   </url>`).join("\n")}
 </urlset>
 `;

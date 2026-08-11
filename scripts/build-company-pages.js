@@ -3,7 +3,8 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
 const site = "https://falaqai.com";
-const updated = "2026-07-16";
+// Content release date. Keep this explicit so generated output is deterministic.
+const updated = "2026-08-11";
 
 const labels = {
   ar: {
@@ -14,7 +15,7 @@ const labels = {
     about: "من نحن",
     contact: "تواصل معنا",
     contents: "محتويات الصفحة",
-    updated: "آخر تحديث: 16 يوليو 2026",
+    updated: "آخر تحديث: 11 أغسطس 2026",
     related: "صفحات ذات صلة",
     company: "الشركة والمعايير",
     legal: "السياسات القانونية",
@@ -30,7 +31,7 @@ const labels = {
     about: "About",
     contact: "Contact us",
     contents: "On this page",
-    updated: "Last updated: 16 July 2026",
+    updated: "Last updated: 11 August 2026",
     related: "Related pages",
     company: "Company & standards",
     legal: "Legal policies",
@@ -255,6 +256,157 @@ const pages = [
         { title: "Services and payments", paragraphs: ["A website service description is not a commitment to one standard scope for every client. The signed proposal defines scope, deliverables, fees, payment, cancellation, and support. Out-of-scope changes may require separate estimation and approval."], bullets: ["Work starts after required approvals", "The client provides necessary access and information", "Changes are managed in writing", "Third-party fees follow the agreement"] },
         { title: "Limitation of liability", paragraphs: ["We apply reasonable professional care, but the public site is provided as available and may rely on external services. To the extent permitted by law, we are not responsible for indirect losses caused by reliance on general site content or unapproved output. Service agreements define project-specific responsibilities and limits."], bullets: ["No guarantee of permanently uninterrupted website access", "No guarantee of a specific search-engine ranking", "No responsibility for an independent provider change or failure outside our control", "Nothing excludes rights that cannot legally be excluded"] },
         { title: "Changes and contact", paragraphs: ["We may update these terms when services change. Continued site use after publication means acceptance of the updated terms. Questions can be sent to hello@falaqai.com. Paid-service disputes follow the mechanism and governing law stated in the signed agreement."] },
+      ],
+    },
+  },
+  {
+    slug: "how-we-work",
+    ar: {
+      title: "كيف نعمل | نماذج التعاقد ومراحل التسليم",
+      description: "ثلاثة نماذج تعاقد وأربع مراحل تسليم: تدقيق العملية، التصميم والصلاحيات، البناء والاختبار، ثم الإطلاق والقياس.",
+      eyebrow: "كيف نعمل",
+      h1: "عملية واحدة، بنطاق محدد ومقاييس متفق عليها قبل البناء",
+      intro: "نبدأ بعملية واحدة عالية الأثر، ونوثق كل شيء قبل كتابة أي سطر: النطاق، الصلاحيات، مسؤول التصعيد، ومقاييس النجاح. التوسع يأتي بعد ثبوت النتائج، لا قبله.",
+      sections: [
+        { title: "نماذج التعاقد", paragraphs: ["يمكن التعاقد بأحد ثلاثة نماذج، ويُختار وفق نضج العملية ووجود فريق تقني داخلي."], cards: [
+          { title: "تجربة محددة النطاق", text: "عملية واحدة، نطاق ثابت، ومقاييس نجاح متفق عليها كتابةً قبل بدء البناء. مناسبة للتعاقد الأول." },
+          { title: "عقد تشغيل شهري", text: "محفظة وكلاء تُراقب وتُضبط وتُوسّع شهريًا، مع حزمة مراجعة ومسؤول حساب بالاسم. مناسبة للبرامج القائمة." },
+          { title: "بناء وتسليم", text: "نبني ونوثق وندرّب فريق الشركة وننقل الملكية. الشركة تشغّل النظام من الإطلاق. مناسبة لفرق تقنية داخلية." },
+        ] },
+        { title: "مراحل التسليم", paragraphs: ["أربع مراحل، لكل واحدة مخرج موثق قبل الانتقال إلى التي تليها."], bullets: [
+          "المرحلة ٠١ — تدقيق العملية: نعمل إلى جانب الفريق المنفّذ ونوثق كيف تجري العملية فعلًا، بما فيها الاستثناءات والنقاط التي ينتظر عندها العمل",
+          "المرحلة ٠٢ — التصميم والصلاحيات: يُوثَّق النطاق وصلاحيات الأنظمة ومسؤولو التصعيد ومقاييس النجاح ويُعتمدون قبل أي بناء",
+          "المرحلة ٠٣ — البناء والاختبار: يُبنى الوكيل مقابل الأنظمة الحية ويُختبر على حالات تاريخية، فتُعرف دقته قبل أن يتعامل مع أي عميل",
+          "المرحلة ٠٤ — الإطلاق والقياس: الإطلاق يجري تحت إشراف وكل إجراء قابل للمراجعة، ونوسّع النطاق فقط بعد تحقق المقاييس",
+        ] },
+        { title: "ما يحكم الالتزام", paragraphs: ["أزمنة الاستجابة ومستوى التشغيل وحدود الدقة والتزامات التصعيد منصوص عليها في اتفاقية مستوى الخدمة ومعايير الخدمة المنشورتين على هذا الموقع."] },
+      ],
+    },
+    en: {
+      title: "How we work | Engagement models and delivery",
+      description: "Three engagement models and a four-step delivery sequence: process audit, design and permissions, build and test, then launch and measure.",
+      eyebrow: "How we work",
+      h1: "One process, scoped and measured before anything is built",
+      intro: "We begin with a single high-impact process and document everything before a line is written: the scope, the permissions, the escalation owner, and the success measures. Expansion follows results rather than preceding them.",
+      sections: [
+        { title: "Engagement models", paragraphs: ["Engagements take one of three shapes, chosen on process maturity and whether an in-house technical team exists."], cards: [
+          { title: "Scoped pilot", text: "A single process, a fixed scope, and success measures agreed in writing before the build begins. Suited to a first engagement." },
+          { title: "Operations retainer", text: "A portfolio of agents monitored, tuned and extended each month, with a review pack and a named account owner. Suited to established programmes." },
+          { title: "Build & handover", text: "We build, document, train your team, and transfer ownership. You operate the system from launch. Suited to in-house IT teams." },
+        ] },
+        { title: "Delivery sequence", paragraphs: ["Four steps, each with a documented output before the next begins."], bullets: [
+          "Step 01 — Process audit: we work alongside the team performing the task and document how it operates in practice, including the exceptions and the points at which work waits",
+          "Step 02 — Design & permissions: scope, system permissions, escalation owners and success measures are documented and signed off before any build begins",
+          "Step 03 — Build & test: the agent is built against live systems and tested on historical cases, so its accuracy is known before it engages with any customer",
+          "Step 04 — Launch & measure: launch takes place under supervision, with every action reviewable, and scope extends only once the measures are met",
+        ] },
+        { title: "What governs the commitment", paragraphs: ["Response times, uptime, accuracy thresholds and escalation obligations are set out in our published Service Level Agreement and Service Standards."] },
+      ],
+    },
+  },
+  {
+    slug: "measuring-results",
+    ar: {
+      title: "قياس النتائج | أربعة مقاييس تُتفق قبل البناء",
+      description: "كل تعاقد يُقاس بأربعة أرقام تُتفق قبل البناء وتُبلَّغ شهريًا: الحجم المُعالَج، زمن الاستجابة، الساعات المستردة، والأثر التجاري.",
+      eyebrow: "قياس النتائج",
+      h1: "أربعة أرقام تُتفق قبل البناء وتبقى ثابتة طوال التعاقد",
+      intro: "تُحدَّد المقاييس بالاشتراك مع الشركة وتبقى ثابتة طوال مدة التعاقد، حتى يُقيَّم الأداء مقابل المعيار المتفق عليه في البداية لا معيار عُدِّل لاحقًا.",
+      sections: [
+        { title: "المقاييس الأربعة", paragraphs: ["تُتفق قبل بدء البناء وتُبلَّغ شهريًا."], cards: [
+          { title: "الحجم المُعالَج", text: "الطلبات التي أكملها الوكيل دون تدخل بشري." },
+          { title: "زمن الاستجابة", text: "يُقاس قبل دخول الوكيل الخدمة وبعده." },
+          { title: "الساعات المستردة", text: "وقت الموظفين الذي يتحرر كل شهر." },
+          { title: "الأثر التجاري", text: "إيراد مسترد أو كلفة مُتجنَّبة." },
+        ] },
+        { title: "التقارير والمراجعة", paragraphs: ["تصدر حزمة مراجعة شهرية مكتوبة مقابل المقاييس الأربعة، مرفقة بسجل تدقيق الوكيل والاستثناءات التي أُثيرت خلال الفترة. وتجري كل ثلاثة أشهر مراجعة للنطاق: أي العمليات تُوسَّع، وأيها يُوقَف، وأين يحقق التعاقد التالي أعلى عائد."], bullets: [
+          "حزمة مراجعة شهرية مكتوبة مقابل المقاييس الأربعة",
+          "سجل تدقيق الوكيل والاستثناءات المُثارة خلال الفترة",
+          "مراجعة نطاق فصلية: ما يُوسَّع وما يُوقَف",
+          "مراجع العملاء ودراسات الحالة القطاعية تُقدَّم عند الطلب بموافقة خطية من العميل المعني",
+        ] },
+      ],
+    },
+    en: {
+      title: "Measuring results | Four figures agreed before the build",
+      description: "Every engagement is measured against four figures agreed before the build and reported monthly: volume handled, response time, hours returned, and commercial effect.",
+      eyebrow: "Measuring results",
+      h1: "Four figures agreed before the build, fixed for the engagement",
+      intro: "The measures are set jointly with the client and remain fixed for the duration of the engagement, so that performance is assessed against the standard defined at the outset rather than one adjusted afterwards.",
+      sections: [
+        { title: "The four measures", paragraphs: ["Agreed before the build begins and reported monthly."], cards: [
+          { title: "Volume handled", text: "Requests completed by the agent without human involvement." },
+          { title: "Response time", text: "Measured before and after the agent enters service." },
+          { title: "Hours returned", text: "Staff time released each month." },
+          { title: "Commercial effect", text: "Revenue recovered or cost avoided." },
+        ] },
+        { title: "Reporting and review", paragraphs: ["A written monthly review pack reports against the four measures, accompanied by the agent audit log and the exceptions raised during the period. A quarterly assessment reviews scope: which processes to extend, which to retire, and where the next engagement delivers the greatest return."], bullets: [
+          "A written monthly review pack against the four measures",
+          "The agent audit log and exceptions raised during the period",
+          "A quarterly scope review: what to extend and what to retire",
+          "Client references and sector case studies provided on request, with the written consent of the client concerned",
+        ] },
+      ],
+    },
+  },
+  {
+    slug: "technology",
+    ar: {
+      title: "التقنية والشركاء | حياد المزوّدين بالتصميم",
+      description: "لا نرتبط بمزوّد واحد. كل مكوّن في الوكيل يستخدم النموذج الأفضل لمهمته، وقابل للاستبدال دون إعادة بناء.",
+      eyebrow: "التقنية والشركاء",
+      h1: "محايدون تجاه المزوّدين بالتصميم، لا بالصدفة",
+      intro: "لسنا مرتبطين بمزوّد واحد. كل مكوّن في الوكيل يستخدم النموذج الأفضل أداءً لمهمته — فهم العربية، معالجة المستندات، الصوت، أو الاستدلال — ويمكن استبداله كلما تقدّم المجال، دون إعادة بناء الوكيل حوله.",
+      sections: [
+        { title: "لماذا الحياد مهم", paragraphs: ["المزوّد الذي يتصدّر اليوم قد لا يتصدّر بعد ستة أشهر، وقد يُوقف نموذجًا تعتمد عليه. حين يكون الوكيل مبنيًا حول مزوّد واحد، أي تغيير عنده يصبح مشروع إعادة بناء عندك. ولأننا نختار لكل مهمة ما يناسبها، يبقى استبدال أي مكوّن تعديلًا في الإعداد لا في المعمار."], bullets: [
+          "اختيار النموذج لكل مهمة على حدة: فهم العربية، المستندات، الصوت، الاستدلال",
+          "استبدال أي مكوّن دون إعادة بناء الوكيل حوله",
+          "عدم ربط الشركة بعقد مزوّد واحد",
+        ] },
+        { title: "أسطح التكامل", paragraphs: ["يعمل الوكيل داخل الأنظمة التي تديرها الشركة اليوم."], bullets: [
+          "المواقع وتطبيقات الجوال، عبر وسم سكربت أو SDK",
+          "منصات التجارة الإلكترونية: Shopify و WooCommerce و سلة و زد",
+          "أنظمة الحجز والعيادات ونقاط البيع",
+          "تقويم Google و Microsoft",
+          "واتساب للأعمال، والدردشة، والاتصال الهاتفي، والبريد الإلكتروني",
+          "منصات الـ CRM، قراءة وكتابة، بقواعد على مستوى الحقل",
+          "أنظمة ERP والفوترة والمحاسبة عبر API",
+        ] },
+        { title: "الحوكمة والأمان", paragraphs: ["الصلاحيات تُمنح بأقل قدر يكفي لأداء المهمة، وكل إجراء ينفّذه الوكيل يُسجَّل في سجل تدقيق كامل."], bullets: [
+          "حدود البيانات ومدد الاحتفاظ تُتفق لكل تعاقد",
+          "وصول بأقل صلاحية ممكنة إلى أنظمة الشركة",
+          "سجل تدقيق كامل لكل إجراء ينفّذه الوكيل",
+          "سياسات منشورة للذكاء الاصطناعي المسؤول والثقة والأمان",
+        ] },
+      ],
+    },
+    en: {
+      title: "Technology & partners | Model-neutral by design",
+      description: "We are not committed to a single provider. Each component uses the model that performs best for that task and can be replaced without rebuilding the agent.",
+      eyebrow: "Technology & partners",
+      h1: "Model-neutral by design, not by accident",
+      intro: "We are not committed to a single provider. Each component of an agent uses the model that performs best for that task — Arabic comprehension, document processing, voice, or reasoning — and can be replaced as the field advances, without rebuilding the agent around it.",
+      sections: [
+        { title: "Why neutrality matters", paragraphs: ["The provider leading today may not lead in six months, and may retire a model you depend on. When an agent is built around one provider, any change on their side becomes a rebuild on yours. Because we select per task, replacing a component stays a configuration change rather than an architectural one."], bullets: [
+          "Model selected per task: Arabic comprehension, documents, voice, reasoning",
+          "Any component replaceable without rebuilding the agent around it",
+          "No lock-in to a single provider contract",
+        ] },
+        { title: "Integration surfaces", paragraphs: ["The agent operates inside the systems a business already runs."], bullets: [
+          "Websites and mobile applications, via script tag or SDK",
+          "E-commerce platforms: Shopify, WooCommerce, Salla, Zid",
+          "Booking, clinic and point-of-sale systems",
+          "Google and Microsoft calendars",
+          "WhatsApp Business, web chat, telephony and email",
+          "CRM platforms, read and write, with field-level rules",
+          "ERP, billing and accounting systems via API",
+        ] },
+        { title: "Governance & security", paragraphs: ["Access is granted at the least privilege sufficient to perform the task, and every action an agent takes is written to a complete audit log."], bullets: [
+          "Data boundaries and retention agreed per engagement",
+          "Least-privilege access to client systems",
+          "A complete audit log of every action an agent takes",
+          "Published Responsible AI and Trust & Security policies",
+        ] },
       ],
     },
   },

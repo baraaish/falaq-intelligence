@@ -158,7 +158,27 @@
   .inds{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
   .ind{padding:22px 18px;border-radius:16px;background:var(--panel);border:1px solid var(--line);
     display:flex;flex-direction:column;gap:12px;transition:transform .2s,border-color .2s}
+  .ind{color:inherit;text-decoration:none}
   .ind:hover{transform:translateY(-4px);border-color:var(--line-hi)}
+  .flow-picker{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:20px}
+  .flow-tab{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--dim);
+    font:inherit;font-size:.87rem;font-weight:700;cursor:pointer;transition:.18s ease}
+  .flow-tab:hover{border-color:var(--line-hi);color:#fff}
+  .flow-tab.on{border-color:transparent;background:#fff;color:#08050d}
+  .flow-agent{margin:0 0 22px;text-align:center;color:var(--dim);font-size:.9rem}
+  .flow-agent a{color:#c084fc;font-weight:700}
+  .sandbox-head{max-width:620px;margin:38px auto 16px;text-align:center}
+  .sandbox-head h3{margin:0 0 8px;font-size:1.15rem}
+  .sandbox-head p{margin:0;color:var(--dim);font-size:.88rem}
+  .sandbox{max-width:960px;margin-inline:auto}
+  .sec-more{margin:26px 0 0;text-align:center}
+  .sec-more a{color:var(--acc,#c084fc);font-weight:700;text-decoration:none}
+  .sec-more a:hover{text-decoration:underline}
+  .stats-blk{padding-top:0}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .stat{padding:22px 18px;border-radius:16px;background:var(--panel);border:1px solid var(--line)}
+  .stat b{display:block;font-family:'Manrope',sans-serif;font-size:2.1rem;line-height:1.1;color:#fff}
+  .stat span{display:block;margin-top:8px;color:var(--dim);font-size:.86rem}
   .ind .ii{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.22)}
   .ind .ii svg{width:22px;height:22px}
   .ind h4{font-size:1rem;font-weight:700}
@@ -231,6 +251,7 @@
   @media(max-width:960px){
     .agents,.models,.team{grid-template-columns:repeat(2,1fr)}
     .inds{grid-template-columns:repeat(2,1fr)}
+    .stats{grid-template-columns:repeat(2,1fr)}
     .why{grid-template-columns:1fr}
     .nav-links{display:none}
     .nav-toggle{display:grid;place-items:center}
@@ -251,6 +272,7 @@
     .nav-toggle{width:40px;height:40px}
     .nav-links.open{top:64px;max-height:calc(100dvh - 64px)}
     .agents,.models,.team,.inds{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(2,1fr)}
     .hero{padding:64px 0 60px}
     section.blk{padding:60px 0}
     .cta{padding:48px 22px}
@@ -260,6 +282,8 @@
   @media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
   <link rel="stylesheet" href="/assets/aether-flow.css">
+  <link rel="stylesheet" href="/assets/flow-view.css">
+  <link rel="stylesheet" href="/assets/agent-sandbox.css">
   <script defer src="/assets/aether-flow.js"></script>
 <!-- SEO:START -->
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
@@ -300,7 +324,7 @@
     </a>
     <div class="nav-links" id="navLinks">
       <a href="#agents" data-i18n="navAgents">الوكلاء</a>
-      <a href="#industries" data-i18n="navIndustries">القطاعات</a>
+      <a href="/industries/" data-sectors-link data-i18n="navIndustries">القطاعات</a>
       <a href="#how" data-i18n="navHow">كيف نعمل</a>
       <a href="#contact" data-i18n="navContact">تواصل</a>
     </div>
@@ -378,6 +402,25 @@
   </div>
 </div>
 
+<!-- FLOW PICKER -->
+<section class="blk" id="flow">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="kick" data-i18n="flowKick">جرّب الآن</span>
+      <h2 data-i18n="flowTitle">اختر قطاعك، وشاهد الوكيل الذي نبدأ به</h2>
+      <p data-i18n="flowSub">المخطط أدناه هو مسار العمل الفعلي، بقواعده وحدوده — بما في ذلك اللحظة التي يتوقف فيها الوكيل ويسلّم لموظف.</p>
+    </div>
+    <div class="flow-picker rv" id="flowPicker" role="tablist" aria-label="القطاعات"></div>
+    <p class="flow-agent rv" id="flowAgent"></p>
+    <div class="flow-canvas rv" id="flowCanvas" role="tabpanel" aria-live="polite"></div>
+    <div class="sandbox-head rv" id="sandboxHead" hidden>
+      <h3 data-i18n="sbTitle">جرّب القواعد بنفسك</h3>
+      <p data-i18n="sbSub">غيّر المدخلات وشاهد أي قاعدة تنطبق ولماذا. الحساب يجري في متصفحك — لا إرسال ولا تخزين.</p>
+    </div>
+    <div class="sandbox rv" id="sandbox"></div>
+  </div>
+</section>
+
 <!-- AGENTS -->
 <section class="blk" id="agents">
   <div class="wrap">
@@ -387,6 +430,14 @@
       <p data-i18n="agentsSub">كل وكيل مصمّم لعملية تجارية محددة، يعمل ضمن صلاحيات تحددها أنت، ويسلّم للموظف المختص عند الحاجة. اضغط على أي وكيل لمشاهدة صفحته التفاعلية.</p>
     </div>
     <div class="agents" id="agentGrid"></div>
+    <p class="sec-more rv"><a href="/services/" data-services-link data-i18n="agentsMore">اطّلع على الخدمات السبعَ عشرة كاملة ←</a></p>
+  </div>
+</section>
+
+<!-- AT A GLANCE -->
+<section class="blk stats-blk">
+  <div class="wrap">
+    <div class="stats" id="statGrid"></div>
   </div>
 </section>
 
@@ -502,6 +553,9 @@
 </footer>
 
 <script src="/assets/config.js"></script>
+<script src="/assets/generated/home-data.js"></script>
+<script src="/assets/flow-view.js"></script>
+<script src="/assets/agent-sandbox.js"></script>
 <script>
 (function(){
   var cfg = window.FALAQ_CONFIG || {whatsappNumber:"962792961872",whatsappDisplay:"+962 79 296 1872",email:"hello@falaqai.com"};
@@ -519,6 +573,9 @@
   function svg(k,cur){return '<svg viewBox="0 0 24 24" fill="none">'+ic[k].replace(/CUR/g,cur)+'</svg>';}
 
   var indIc = {
+    education:'<path d="M12 5 3 9l9 4 9-4-9-4Z" stroke="#C896FF" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 11v5c0 1.1 2.2 2 5 2s5-.9 5-2v-5" stroke="#C896FF" stroke-width="1.5" stroke-linejoin="round"/><path d="M21 9v5" stroke="#C896FF" stroke-width="1.5" stroke-linecap="round"/>',
+    retail:'<path d="M4 8h16l-1.2 11a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8L4 8Z" stroke="#C084FC" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round"/>',
+    hospitality:'<path d="M6 3v7a2 2 0 0 0 4 0V3M8 10v11" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 21V3c-1.7.9-2.5 2.7-2.5 5s.8 3.6 2.5 4" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
     health:'<path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10Z" stroke="#A855F7" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v5M9.5 10.5h5" stroke="#A855F7" stroke-width="1.4" stroke-linecap="round"/>',
     realestate:'<path d="M4 11 12 4l8 7M6 10v9h12v-9" stroke="#8B5CF6" stroke-width="1.5" stroke-linejoin="round"/><rect x="10" y="13" width="4" height="6" stroke="#8B5CF6" stroke-width="1.4"/>',
     logistics:'<rect x="2" y="7" width="12" height="9" rx="1" stroke="#C896FF" stroke-width="1.5"/><path d="M14 10h4l3 3v3h-7" stroke="#C896FF" stroke-width="1.5" stroke-linejoin="round"/><circle cx="6" cy="18" r="1.8" stroke="#C896FF" stroke-width="1.4"/><circle cx="17" cy="18" r="1.8" stroke="#C896FF" stroke-width="1.4"/>',
@@ -543,6 +600,12 @@
       marketsLabel:'نخدم الشركات في:',
       agentsKick:'حلول الذكاء الاصطناعي', agentsTitle:'وكلاء ذكاء اصطناعي لأتمتة المبيعات وخدمة العملاء والعمليات',
       agentsSub:'اختر عملية متكررة داخل شركتك. كل وكيل يربط قنواتك وبياناتك، ينفذ الخطوات المسموحة، ويوثّق النتيجة أو يسلّم الحالة للموظف المختص.',
+      agentsMore:'اطّلع على الخدمات السبعَ عشرة كاملة ←',
+      flowKick:'جرّب الآن',
+      flowTitle:'اختر قطاعك، وشاهد الوكيل الذي نبدأ به',
+      flowSub:'المخطط أدناه هو مسار العمل الفعلي، بقواعده وحدوده — بما في ذلك اللحظة التي يتوقف فيها الوكيل ويسلّم لموظف.',
+      sbTitle:'جرّب القواعد بنفسك',
+      sbSub:'غيّر المدخلات وشاهد أي قاعدة تنطبق ولماذا. الحساب يجري في متصفحك — لا إرسال ولا تخزين.',
       indKick:'حلول حسب القطاع', indTitle:'أتمتة بالذكاء الاصطناعي مبنية حول عمليات قطاعك',
       indSub:'نصمم حلولًا للرعاية الصحية والعقارات واللوجستيات وصناعة المحتوى ومبيعات B2B وفق تدفقات العمل والضوابط الفعلية لكل قطاع.',
       whyKick:'لماذا فَلَق', whyTitle:'أتمتة عمليات بالذكاء الاصطناعي، لا مجرد شات بوت',
@@ -599,6 +662,12 @@
       marketsLabel:'Serving businesses in:',
       agentsKick:'AI solutions', agentsTitle:'AI agents for sales, customer service, and operations automation',
       agentsSub:'Choose a recurring process. Each agent connects your channels and data, executes approved steps, logs the result, and hands the case to the right employee when needed.',
+      agentsMore:'See all seventeen services →',
+      flowKick:'Try it now',
+      flowTitle:'Choose your sector and see the agent we start with',
+      flowSub:'The diagram below is the real workflow, with its rules and its limits — including the moment the agent stops and hands the case to a person.',
+      sbTitle:'Try the rules yourself',
+      sbSub:'Change the inputs and watch which rule applies, and why. The calculation runs in your browser — nothing is sent or stored.',
       indKick:'Industry solutions', indTitle:'AI automation designed around your industry workflows',
       indSub:'We build practical workflows for healthcare, real estate, logistics, content teams, and B2B sales around each sector’s real systems and controls.',
       whyKick:'Why Falaq', whyTitle:'AI workflow automation, not just another chatbot',
@@ -670,9 +739,80 @@
         +'</a>';
     }).join('');
 
-    // industries
-    document.getElementById('indGrid').innerHTML = d.inds.map(function(x){
-      return '<div class="ind"><span class="ii">'+'<svg viewBox="0 0 24 24" fill="none">'+indIc[x.k]+'</svg>'+'</span><h4>'+x.t+'</h4><p>'+x.d+'</p></div>';
+    // industries — sourced from content/sectors.js so the cards, the sector
+    // pages and the sitemap cannot drift apart. Cards are links: they used to
+    // be inert divs, which left the section with no way into the sector pages.
+    var home = (window.FALAQ_HOME || {})[lang] || {};
+    var sectors = home.sectors || [];
+    document.getElementById('indGrid').innerHTML = sectors.map(function(x){
+      return '<a class="ind" href="'+x.href+'"><span class="ii">'+'<svg viewBox="0 0 24 24" fill="none">'+(indIc[x.icon]||'')+'</svg>'+'</span><h4>'+x.t+'</h4><p>'+x.d+'</p></a>';
+    }).join('');
+
+    document.querySelectorAll('[data-services-link]').forEach(function(link){
+      link.href = lang === 'ar' ? '/services/' : '/en/services/';
+    });
+    document.querySelectorAll('[data-sectors-link]').forEach(function(link){
+      link.href = lang === 'ar' ? '/industries/' : '/en/industries/';
+    });
+
+    // flow picker — pre-baked, so choosing a sector draws instantly with no
+    // network call and no tokens spent
+    var picker = document.getElementById('flowPicker');
+    if (picker && sectors.length && window.FalaqFlow) {
+      picker.innerHTML = sectors.map(function(x, i){
+        return '<button type="button" role="tab" id="flow-tab-'+x.slug+'" aria-controls="flowCanvas" tabindex="'+(i===0?'0':'-1')+'" class="flow-tab'+(i===0?' on':'')+'" data-sector="'+x.slug+'" aria-selected="'+(i===0)+'">'+x.t+'</button>';
+      }).join('');
+      var drawFlow = function(slug){
+        var flow = (home.flows||{})[slug];
+        if (!flow) return;
+        window.FalaqFlow.render('#flowCanvas', flow, home.flowStrings);
+        // The sandbox makes the diagram above interactive. Sectors whose agent
+        // has no published rules simply do not show it.
+        var sbHost = document.getElementById('sandbox');
+        var sbHead = document.getElementById('sandboxHead');
+        var agentRules = (home.rules||{})[slug];
+        if (sbHost && window.FalaqSandbox) {
+          if (agentRules) {
+            sbHead.hidden = false;
+            window.FalaqSandbox.mount(sbHost, agentRules, home.ruleText, home.sandboxStrings, lang);
+          } else {
+            sbHead.hidden = true;
+            window.FalaqSandbox.mount(sbHost, null);
+          }
+        }
+        var agentEl = document.getElementById('flowAgent');
+        if (agentEl) agentEl.innerHTML = (lang==='ar'?'الوكيل الأول المعتاد: ':'Usual first agent: ')
+          + '<a href="'+flow.agentHref+'">'+flow.agent+'</a>';
+        picker.querySelectorAll('.flow-tab').forEach(function(b){
+          var on = b.getAttribute('data-sector') === slug;
+          b.classList.toggle('on', on);
+          b.setAttribute('aria-selected', String(on));
+          b.setAttribute('tabindex', on ? '0' : '-1');
+          if (on) document.getElementById('flowCanvas').setAttribute('aria-labelledby', b.id);
+        });
+      };
+      picker.addEventListener('click', function(e){
+        var b = e.target.closest('.flow-tab');
+        if (b) drawFlow(b.getAttribute('data-sector'));
+      });
+      picker.addEventListener('keydown', function(e){
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+        var tabs = Array.from(picker.querySelectorAll('.flow-tab'));
+        var current = tabs.indexOf(document.activeElement);
+        if (current < 0) return;
+        var next = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1
+          : (current + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        e.preventDefault();
+        tabs[next].focus();
+        drawFlow(tabs[next].getAttribute('data-sector'));
+      });
+      drawFlow(sectors[0].slug);
+    }
+
+    // at-a-glance figures from the company profile
+    var statGrid = document.getElementById('statGrid');
+    if (statGrid) statGrid.innerHTML = (home.stats||[]).map(function(s){
+      return '<div class="stat"><b>'+s.n+'</b><span>'+s.t+'</span></div>';
     }).join('');
 
     // why

@@ -1,0 +1,35 @@
+/* Service pages extend company-pages.css. Load that first — this file only
+   adds what the service layout needs beyond it. */
+
+/* The service layout is single column: no table of contents sidebar, so the
+   article measure is capped rather than inheriting the full wrap width. */
+.service-body { max-width: 900px; padding-top: 56px; }
+.service-body > .content-section:first-child .section-num { margin-top: 0; }
+
+/* "Operates across" — reuses list semantics but reads as a channel row, so the
+   inherited checkmark and full-width row treatment are both cleared. */
+.chips { display: flex; flex-wrap: wrap; gap: 9px; margin: 21px 0 0; padding: 0; list-style: none; }
+.content-section .chips li { padding: 8px 15px; padding-inline-start: 15px; border: 1px solid var(--line-hi); border-radius: 999px; background: rgba(168, 85, 247, .07); color: #d9d1df; font-size: .86rem; font-weight: 650; }
+.content-section .chips li::before { content: none; }
+
+/* Numbered "what is included" cards: the number is a label, not a heading. */
+.service-body .info-card strong { color: var(--accent); font-family: var(--font-en); font-size: .72rem; font-weight: 800; letter-spacing: .12em; }
+.service-body .info-card span { display: block; color: #d2ccd7; font-size: .92rem; }
+
+/* The listing page nests service cards inside each category section. */
+.service-body .related-grid { margin-top: 22px; }
+.related-grid.one-up { grid-template-columns: minmax(0, 1fr); }
+
+/* Sector cards name the agent an engagement usually starts with. */
+.card-tag { display: block; margin-top: 11px; padding-top: 10px; border-top: 1px solid var(--line); color: var(--accent); font-size: .76rem; font-style: normal; font-weight: 700; }
+
+.service-cta { padding: 70px 0 84px; border-top: 1px solid var(--line); background: radial-gradient(120% 140% at 50% 0%, rgba(168, 85, 247, .12), transparent 60%), #05040a; text-align: center; }
+.service-cta h2 { margin-bottom: 12px; }
+.service-cta p { max-width: 620px; margin: 0 auto 26px; color: var(--dim); }
+.cta-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 11px; }
+.cta-actions .nav-button { min-height: 46px; padding: 0 22px; font-size: .9rem; }
+
+@media (max-width: 720px) {
+  .service-body { padding-top: 38px; }
+  .service-cta { padding: 52px 0 62px; }
+}

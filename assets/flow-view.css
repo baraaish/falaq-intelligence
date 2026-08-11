@@ -1,0 +1,69 @@
+/* Styles for assets/flow-view.js. Uses the home page's existing custom
+   properties so the diagram reads as part of the site, not a widget. */
+
+/* Shared by the home page picker and the generated service pages. */
+.flow-canvas { max-width: 620px; margin: 24px auto 0; }
+
+.fx { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+
+.fx-node {
+  position: relative;
+  padding: 15px 18px;
+  border: 1px solid var(--line, #251b30);
+  border-radius: 14px;
+  background: var(--panel, #0b0912);
+}
+
+/* Connector between consecutive rows. */
+.fx > li + li { margin-top: 26px; }
+.fx > li + li::before {
+  content: "";
+  position: absolute;
+  top: -26px;
+  inset-inline-start: 50%;
+  width: 1px;
+  height: 26px;
+  background: linear-gradient(var(--line-hi, #49315c), var(--accent, #c084fc));
+}
+
+.fx-label {
+  display: block;
+  color: var(--accent, #c084fc);
+  font-family: "Manrope", system-ui, sans-serif;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.fx-text { display: block; margin-top: 6px; color: #d2ccd7; font-size: .92rem; line-height: 1.6; }
+
+.fx-trigger { border-color: var(--line-hi, #49315c); background: linear-gradient(145deg, rgba(168, 85, 247, .1), rgba(255, 255, 255, .015)); }
+.fx-decision { border-color: rgba(192, 132, 252, .42); background: rgba(168, 85, 247, .07); }
+.fx-log { border-style: dashed; }
+
+/* The fork is where the guardrail becomes visible, so both outcomes sit at the
+   same weight — the blocked branch is not styled as an error. */
+.fx-fork { position: relative; }
+.fx-branches { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.fx-branch { padding: 15px 18px; border: 1px solid var(--line, #251b30); border-radius: 14px; background: var(--panel, #0b0912); }
+.fx-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: .74rem; font-weight: 800; }
+.fx-yes { border-color: rgba(74, 222, 128, .3); }
+.fx-yes .fx-tag { background: rgba(74, 222, 128, .14); color: #86efac; }
+.fx-no { border-color: rgba(251, 191, 36, .3); }
+.fx-no .fx-tag { background: rgba(251, 191, 36, .14); color: #fcd34d; }
+
+.fx-in > .fx > li { animation: fxIn .34s ease both; }
+.fx-in > .fx > li:nth-child(2) { animation-delay: .05s; }
+.fx-in > .fx > li:nth-child(3) { animation-delay: .1s; }
+.fx-in > .fx > li:nth-child(4) { animation-delay: .15s; }
+.fx-in > .fx > li:nth-child(5) { animation-delay: .2s; }
+.fx-in > .fx > li:nth-child(6) { animation-delay: .25s; }
+@keyframes fxIn { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-in > .fx > li { animation: none; }
+}
+
+@media (max-width: 640px) {
+  .fx-branches { grid-template-columns: minmax(0, 1fr); }
+}
