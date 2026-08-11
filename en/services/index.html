@@ -1,202 +1,60 @@
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Agents for Business Workflows | Falaq Services</title>
-<meta name="description" content="Explore Falaq AI agents for lead qualification, quote follow-up, booking, customer service, receivables, documents, and CRM control.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#070B14;--bg2:#0A0F1E;--panel:#0F1421;--card:#0C1224;--line:#1C2338;--line-hi:#2A3350;
-    --ink:#F4F7FF;--dim:#AEB6C9;--mute:#6B7688;--coral:#C084FC;
-    --fen:'Manrope',system-ui,sans-serif;--far:'Tajawal',system-ui,sans-serif;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--ink);font-family:var(--far);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-  html[dir="ltr"] body{font-family:var(--fen)}
-  ::selection{background:var(--coral);color:#070B14}
-  a{color:inherit;text-decoration:none}
-  .wrap{width:min(1180px,calc(100% - 44px));margin:0 auto}
-  @keyframes floatOrb1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-40px) scale(1.08)}}
-  @keyframes iconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-  .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(18px);background:rgba(7,11,20,.72);border-bottom:1px solid var(--line)}
-  .nav-in{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:16px}
-  .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.15rem}
-  .brand .mark{width:34px;height:34px;border-radius:10px;background:radial-gradient(circle at 35% 30%,#1c1230,#0b1120);border:1px solid rgba(168,85,247,.5);display:grid;place-items:center;animation:iconFloat 5s ease-in-out infinite}
-  .brand .mark svg{width:19px;height:19px}
-  .nav-act{display:flex;gap:10px;align-items:center}
-  .btn{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 18px;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid transparent;font-family:inherit;transition:transform .16s}
-  .btn:hover{transform:translateY(-2px)}
-  .btn-primary{background:linear-gradient(180deg,#c896ff,var(--coral));color:#14081f}
-  .btn-lang{min-height:38px;padding:0 12px;background:transparent;border:1px solid var(--line-hi);color:var(--dim);font-weight:600}
-  .btn-ghost{background:rgba(244,247,255,.04);border:1px solid var(--line-hi);color:var(--ink)}
-  .hero{position:relative;overflow:hidden;padding:72px 0 40px;text-align:center}
-  .orb{position:absolute;border-radius:50%;filter:blur(14px);pointer-events:none;top:-20%;inset-inline-end:-5%;width:460px;height:460px;background:radial-gradient(circle at 30% 30%,rgba(168,85,247,.22),transparent 65%);animation:floatOrb1 18s ease-in-out infinite}
-  .hero-in{position:relative;z-index:2;max-width:760px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:16px}
-  .kick{color:var(--coral);font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase}
-  html[dir="rtl"] .kick{letter-spacing:0;text-transform:none}
-  h1{font-size:clamp(1.9rem,4.6vw,3rem);font-weight:800;line-height:1.2;letter-spacing:-.4px}
-  .lead{color:var(--dim);font-size:1.08rem;max-width:640px}
-  .hero-act{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
-  .guide{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:22px 0 4px}
-  .guide-item{padding:18px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);text-align:start}
-  .guide-item b{display:block;margin-bottom:5px;color:var(--coral);font-family:var(--fen);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
-  html[dir="rtl"] .guide-item b{font-family:var(--far);letter-spacing:0;text-transform:none}
-  .guide-item span{color:var(--dim);font-size:.9rem}
-  .crumb{color:var(--mute);font-size:.85rem;margin-bottom:8px}
-  .crumb a:hover{color:var(--ink)}
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;padding:30px 0 90px}
-  .agent{position:relative;display:flex;gap:18px;padding:26px 24px;border-radius:18px;background:linear-gradient(180deg,var(--panel),var(--card));border:1px solid var(--line);overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s}
-  .agent:hover{transform:translateY(-5px);border-color:var(--ac);box-shadow:0 24px 50px rgba(0,0,0,.4)}
-  .agent .glow{position:absolute;top:-40px;inset-inline-end:-40px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,var(--ac),transparent 68%);opacity:.16;filter:blur(6px)}
-  .agent .ic{position:relative;flex-shrink:0;width:56px;height:56px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.03)}
-  .agent .ic svg{width:28px;height:28px}
-  .agent .body{position:relative;display:flex;flex-direction:column;gap:8px}
-  .agent .row{display:flex;align-items:center;gap:10px}
-  .agent .num{font-family:var(--fen);font-weight:800;font-size:.8rem;color:var(--mute)}
-  .agent h3{font-size:1.2rem;font-weight:800}
-  .agent p{color:var(--dim);font-size:.95rem}
-  .agent .go{display:inline-flex;align-items:center;gap:7px;color:var(--ac);font-weight:700;font-size:.9rem;margin-top:2px}
-  .agent .go .ar{transition:transform .2s}
-  .agent:hover .go .ar{transform:translateX(-4px)}
-  html[dir="ltr"] .agent:hover .go .ar{transform:translateX(4px)}
-  footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--mute);font-size:.85rem}
-  .service-social{display:flex;justify-content:center;gap:10px;margin-top:16px}
-  .service-social a{display:grid;width:40px;height:40px;place-items:center;border:1px solid var(--line-hi);border-radius:11px;color:var(--dim);transition:.2s ease}
-  .service-social a:hover{border-color:var(--coral);background:rgba(168,85,247,.1);color:#fff;transform:translateY(-2px)}
-  .service-social svg{width:19px;height:19px}
-  @media(max-width:720px){.grid,.guide{grid-template-columns:1fr}.nav-act #homeBtn{display:none}.hero{padding-top:52px}}
-  @media(prefers-reduced-motion:reduce){*{animation:none!important}}
-</style>
-<!-- SEO:START -->
-  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Falaq AI Services | 17 services across five tracks</title>
+  <meta name="description" content="Seventeen AI services across revenue and customer operations, documents and systems, integrations, channels, and enablement.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
   <link rel="canonical" href="https://falaqai.com/en/services/">
   <link rel="alternate" hreflang="ar" href="https://falaqai.com/services/">
   <link rel="alternate" hreflang="en" href="https://falaqai.com/en/services/">
   <link rel="alternate" hreflang="x-default" href="https://falaqai.com/services/">
-  <link rel="icon" href="/assets/falaq-symbol.png" type="image/png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Falaq Intelligence">
-  <meta property="og:title" content="AI Agents for Business Workflows | Falaq Services">
-  <meta property="og:description" content="Explore Falaq AI agents for lead qualification, quote follow-up, booking, customer service, receivables, documents, and CRM control.">
+  <meta property="og:title" content="Falaq AI Services | 17 services across five tracks">
+  <meta property="og:description" content="Seventeen AI services across revenue and customer operations, documents and systems, integrations, channels, and enablement.">
   <meta property="og:url" content="https://falaqai.com/en/services/">
   <meta property="og:image" content="https://falaqai.com/assets/falaq-social-card.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Falaq Intelligence - AI agents for business operations">
   <meta property="og:locale" content="en_US">
-  <meta property="og:locale:alternate" content="ar_JO">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AI Agents for Business Workflows | Falaq Services">
-  <meta name="twitter:description" content="Explore Falaq AI agents for lead qualification, quote follow-up, booking, customer service, receivables, documents, and CRM control.">
+  <meta name="twitter:title" content="Falaq AI Services | 17 services across five tracks">
+  <meta name="twitter:description" content="Seventeen AI services across revenue and customer operations, documents and systems, integrations, channels, and enablement.">
   <meta name="twitter:image" content="https://falaqai.com/assets/falaq-social-card.jpg">
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ItemList","@id":"https://falaqai.com/en/services/#services","name":"AI Agents for Business Workflows | Falaq Services","itemListElement":[{"@type":"ListItem","position":1,"name":"AI Lead Qualification Agent","url":"https://falaqai.com/en/services/lead-qualification/"},{"@type":"ListItem","position":2,"name":"AI Quote Follow-Up Agent","url":"https://falaqai.com/en/services/quote-follow-up/"},{"@type":"ListItem","position":3,"name":"AI Booking and Missed-Call Recovery Agent","url":"https://falaqai.com/en/services/booking-recovery/"},{"@type":"ListItem","position":4,"name":"AI Customer Service Agent","url":"https://falaqai.com/en/services/customer-service/"},{"@type":"ListItem","position":5,"name":"AI Accounts Receivable Agent","url":"https://falaqai.com/en/services/accounts-receivable/"},{"@type":"ListItem","position":6,"name":"AI Document Processing Agent","url":"https://falaqai.com/en/services/document-processing/"},{"@type":"ListItem","position":7,"name":"AI CRM Control Agent","url":"https://falaqai.com/en/services/crm-control/"}]},{"@type":"BreadcrumbList","@id":"https://falaqai.com/en/services/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://falaqai.com/en/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://falaqai.com/en/services/"}]}]}</script>
-<!-- SEO:END -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","name":"Falaq AI Services | 17 services across five tracks","numberOfItems":17,"itemListElement":[{"@type":"ListItem","position":1,"name":"Lead Qualification","url":"https://falaqai.com/en/services/lead-qualification/"},{"@type":"ListItem","position":2,"name":"Quote Follow-Up","url":"https://falaqai.com/en/services/quote-follow-up/"},{"@type":"ListItem","position":3,"name":"Booking & Call Recovery","url":"https://falaqai.com/en/services/booking-recovery/"},{"@type":"ListItem","position":4,"name":"Customer Service","url":"https://falaqai.com/en/services/customer-service/"},{"@type":"ListItem","position":5,"name":"Accounts Receivable","url":"https://falaqai.com/en/services/accounts-receivable/"},{"@type":"ListItem","position":6,"name":"Document Processing","url":"https://falaqai.com/en/services/document-processing/"},{"@type":"ListItem","position":7,"name":"CRM Control","url":"https://falaqai.com/en/services/crm-control/"},{"@type":"ListItem","position":8,"name":"Workflow & Process Automation","url":"https://falaqai.com/en/services/workflow-automation/"},{"@type":"ListItem","position":9,"name":"Internal Knowledge Assistant","url":"https://falaqai.com/en/services/internal-knowledge-assistant/"},{"@type":"ListItem","position":10,"name":"Website & In-App AI Assistant","url":"https://falaqai.com/en/services/website-app-assistant/"},{"@type":"ListItem","position":11,"name":"E-commerce Platform Integration","url":"https://falaqai.com/en/services/ecommerce-integration/"},{"@type":"ListItem","position":12,"name":"Booking, POS & Calendar Integration","url":"https://falaqai.com/en/services/booking-pos-integration/"},{"@type":"ListItem","position":13,"name":"WhatsApp Business API","url":"https://falaqai.com/en/services/whatsapp-business-api/"},{"@type":"ListItem","position":14,"name":"Voice AI Agents","url":"https://falaqai.com/en/services/voice-agents/"},{"@type":"ListItem","position":15,"name":"Custom Model Development & Fine-Tuning","url":"https://falaqai.com/en/services/custom-model-development/"},{"@type":"ListItem","position":16,"name":"Data, Reporting & Analytics Dashboards","url":"https://falaqai.com/en/services/analytics-dashboards/"},{"@type":"ListItem","position":17,"name":"AI Training & Team Enablement","url":"https://falaqai.com/en/services/training-enablement/"}]}</script>
+  <link rel="icon" href="/assets/falaq-symbol.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/company-pages.css">
+  <link rel="stylesheet" href="/assets/service-pages.css">
+  <link rel="stylesheet" href="/assets/flow-view.css">
 </head>
 <body>
-<nav class="nav"><div class="wrap nav-in">
-  <a class="brand" href="../"><span class="mark"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gSvc" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gSvc)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gSvc)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg></span><span>فَلَق</span></a>
-  <div class="nav-act">
-    <a class="btn btn-lang" id="langBtn" href="/services/" hreflang="ar" lang="ar">ع</a>
-    <a class="btn btn-ghost" id="homeBtn" href="../">الرئيسية</a>
-    <a class="btn btn-ghost" id="trustBtn" href="/trust/">الثقة والمعايير</a>
-    <a class="btn btn-primary" href="../#contact" id="ctaBtn">تواصل معنا</a>
-  </div>
-</div></nav>
-
-<header class="hero">
-  <span class="orb"></span>
-  <div class="wrap hero-in">
-    <div class="crumb"><a href="../" id="crumbHome">الرئيسية</a> / <span id="crumbHere">الوكلاء</span></div>
-    <span class="kick" id="kick">مكتبة الوكلاء</span>
-    <h1 id="title">وكلاء ذكاء اصطناعي لأتمتة عمليات الشركات</h1>
-    <p class="lead" id="lead">استكشف حلول فلق لتأهيل العملاء، متابعة عروض الأسعار، إدارة الحجوزات، خدمة العملاء، تحصيل المستحقات، معالجة المستندات، وتنظيم CRM.</p>
-    <div class="hero-act"><a class="btn btn-primary" href="../#falaq-custom-bot" id="chooseBtn">لست متأكدًا؟ ناقش عمليتك</a></div>
-  </div>
-</header>
-
-<main class="wrap">
-  <div class="guide" id="serviceGuide" aria-label="طريقة تقييم الخدمة">
-    <div class="guide-item"><b id="guideInputTitle">المدخلات</b><span id="guideInput">القنوات والبيانات التي يبدأ منها الوكيل.</span></div>
-    <div class="guide-item"><b id="guideActionTitle">التنفيذ</b><span id="guideAction">الخطوات التي ينفذها تلقائيًا داخل العملية.</span></div>
-    <div class="guide-item"><b id="guideHandoffTitle">التسليم البشري</b><span id="guideHandoff">الحالات والقرارات التي تبقى مع فريقك.</span></div>
-  </div>
-  <div class="grid" id="grid"></div>
-</main>
-<footer><div class="wrap">© <span id="yr"></span> فَلَق للذكاء الاصطناعي — Falaq Intelligence<div class="service-social" aria-label="Social media"><a href="https://www.instagram.com/falaqai/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a><a href="https://www.facebook.com/profile.php?id=61592175171348" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.7 22v-9h3l.5-3.5h-3.5V7.3c0-1 .3-1.7 1.8-1.7h1.9V2.5c-.3 0-1.5-.1-2.8-.1-2.8 0-4.7 1.7-4.7 4.8v2.3H6.8V13h3.1v9h3.8Z"/></svg></a><a href="https://www.linkedin.com/company/135187245/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.5 8.1H3.2V21h3.3V8.1ZM4.8 3A1.9 1.9 0 1 0 4.8 6.8 1.9 1.9 0 0 0 4.8 3ZM21 13.6c0-3.9-2.1-5.8-4.9-5.8-2.3 0-3.3 1.2-3.9 2.1V8.1H9V21h3.3v-6.4c0-1.7.3-3.4 2.5-3.4 2.2 0 2.2 2 2.2 3.5V21h3.3l.7-7.4Z"/></svg></a></div></div></footer>
-
-<script>
-(function(){
-  var ic={
-    lead:'<path d="M4 4H20L13 12.5V19L11 20V12.5L4 4Z" stroke="CUR" stroke-width="1.5" stroke-linejoin="round"/>',
-    quote:'<rect x="4" y="3" width="14" height="18" rx="2" stroke="CUR" stroke-width="1.5"/><path d="M8 8h6M8 12h6M8 16h4" stroke="CUR" stroke-width="1.5" stroke-linecap="round"/>',
-    booking:'<rect x="3" y="5" width="18" height="16" rx="2" stroke="CUR" stroke-width="1.5"/><path d="M3 9h18M8 3v4M16 3v4" stroke="CUR" stroke-width="1.5" stroke-linecap="round"/><path d="m9 15 2 2 4-4" stroke="CUR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
-    cs:'<path d="M4 12a8 8 0 0 1 16 0v5a2 2 0 0 1-2 2h-2v-6h4M4 12v5a2 2 0 0 0 2 2h2v-6H4" stroke="CUR" stroke-width="1.5" stroke-linejoin="round"/>',
-    ar:'<circle cx="12" cy="12" r="8.5" stroke="CUR" stroke-width="1.5"/><path d="M12 7v10M9.5 9.5c0-1 1-1.5 2.5-1.5s2.5.6 2.5 1.7c0 2.3-5 1.3-5 3.6 0 1.1 1 1.7 2.5 1.7s2.5-.5 2.5-1.5" stroke="CUR" stroke-width="1.4" stroke-linecap="round"/>',
-    doc:'<path d="M6 3h8l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="CUR" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 3v4h4M8 13h8M8 17h5" stroke="CUR" stroke-width="1.4" stroke-linecap="round"/>',
-    crm:'<circle cx="7" cy="8" r="2.5" stroke="CUR" stroke-width="1.5"/><circle cx="17" cy="8" r="2.5" stroke="CUR" stroke-width="1.5"/><path d="M3 19c0-2.2 1.8-4 4-4s4 1.8 4 4M13 19c0-2.2 1.8-4 4-4s4 1.8 4 4M9.5 8h5" stroke="CUR" stroke-width="1.5" stroke-linecap="round"/>'
-  };
-  function svg(k,c){return '<svg viewBox="0 0 24 24" fill="none">'+ic[k].replace(/CUR/g,c)+'</svg>';}
-  var T={
-    ar:{lang:'EN',home:'الرئيسية',trust:'الثقة والمعايير',cta:'تواصل معنا',crumb:'الوكلاء',kick:'مكتبة الوكلاء',
-      title:'وكلاء ذكاء اصطناعي لأتمتة عمليات الشركات',
-      lead:'استكشف حلول فلق لتأهيل العملاء، متابعة عروض الأسعار، إدارة الحجوزات، خدمة العملاء، تحصيل المستحقات، معالجة المستندات، وتنظيم CRM. كل صفحة توضح التنفيذ وحدود الصلاحية والتسليم البشري.',
-      choose:'لست متأكدًا؟ ناقش عمليتك',guideLabel:'طريقة تقييم الخدمة',guideInputTitle:'المدخلات',guideInput:'القنوات والبيانات التي يبدأ منها الوكيل.',guideActionTitle:'التنفيذ',guideAction:'الخطوات التي ينفذها تلقائيًا داخل العملية.',guideHandoffTitle:'التسليم البشري',guideHandoff:'الحالات والقرارات التي تبقى مع فريقك.',
-      view:'شاهد الصفحة',arrow:'←',
-      list:[
-        {k:'lead',s:'lead-qualification',c:'#C084FC',t:'وكيل تأهيل العملاء',d:'يستقبل كل عميل، يجمع بياناته، يمنحه درجة تأهيل، ويوجّهه فورًا للإجراء الصحيح.'},
-        {k:'quote',s:'quote-follow-up',c:'#F2B705',t:'وكيل متابعة العروض',d:'يتابع كل عرض سعر تلقائيًا، وينبّه المبيعات لحظة ظهور نية الشراء الحقيقية.'},
-        {k:'booking',s:'booking-recovery',c:'#F2B705',t:'الحجز واسترجاع المكالمات',d:'يؤكّد المواعيد ويذكّر بها، ويعيد التواصل مع المكالمات الفائتة تلقائيًا.'},
-        {k:'cs',s:'customer-service',c:'#8B7CF6',t:'وكيل خدمة العملاء',d:'يجيب على الاستفسارات المتكررة، ويصعّد الحالات الحساسة للموظف المختص.'},
-        {k:'ar',s:'accounts-receivable',c:'#2FD9A8',t:'وكيل تحصيل المستحقات',d:'يذكّر بالفواتير المستحقة برسائل منظمة، ويتابع حتى السداد دون إحراج فريقك.'},
-        {k:'doc',s:'document-processing',c:'#5B8DEF',t:'وكيل معالجة المستندات',d:'يستخرج البيانات من المستندات والفواتير، ينظّمها، ويكتشف النواقص مبكرًا.'},
-        {k:'crm',s:'crm-control',c:'#5B8DEF',t:'وكيل التحكم في CRM',d:'يبقي نظام إدارة العلاقات محدّثًا لحظيًا — كل عميل وكل تفاعل مسجّل تلقائيًا.'}
-      ]},
-    en:{lang:'ع',home:'Home',trust:'Trust & standards',cta:'Contact us',crumb:'Agents',kick:'Agent library',
-      title:'AI agents for business process automation',
-      lead:'Explore Falaq agents for lead qualification, quote follow-up, booking, customer service, accounts receivable, document processing, and CRM control. Each page explains execution, permissions, and human handoff.',
-      choose:'Not sure? Discuss your workflow',guideLabel:'How to evaluate a service',guideInputTitle:'Inputs',guideInput:'The channels and data the agent starts from.',guideActionTitle:'Execution',guideAction:'The steps it performs automatically inside the process.',guideHandoffTitle:'Human handoff',guideHandoff:'The cases and decisions that stay with your team.',
-      view:'View page',arrow:'→',
-      list:[
-        {k:'lead',s:'lead-qualification',c:'#C084FC',t:'Lead Qualification Agent',d:'Receives every lead, collects their data, scores them, and routes them instantly to the right action.'},
-        {k:'quote',s:'quote-follow-up',c:'#F2B705',t:'Quote Follow-Up Agent',d:'Follows up on every quote automatically and alerts sales the moment real buying intent appears.'},
-        {k:'booking',s:'booking-recovery',c:'#F2B705',t:'Booking & Missed-Call Recovery',d:'Confirms and reminds appointments, and re-engages missed calls automatically.'},
-        {k:'cs',s:'customer-service',c:'#8B7CF6',t:'Customer Service Agent',d:'Answers recurring questions and escalates sensitive cases to the right staff member.'},
-        {k:'ar',s:'accounts-receivable',c:'#2FD9A8',t:'Accounts Receivable Agent',d:'Reminds customers of due invoices with organized messages and follows up to payment.'},
-        {k:'doc',s:'document-processing',c:'#5B8DEF',t:'Document Processing Agent',d:'Extracts data from documents and invoices, organizes it, and flags gaps early.'},
-        {k:'crm',s:'crm-control',c:'#5B8DEF',t:'CRM Control Agent',d:'Keeps your CRM updated in real time — every lead and interaction logged automatically.'}
-      ]}
-  };
-  function render(l){
-    var d=T[l];
-    document.documentElement.lang=l;document.documentElement.dir=(l==='ar'?'rtl':'ltr');
-    document.getElementById('langBtn').textContent=d.lang;
-    document.getElementById('homeBtn').textContent=d.home;
-    document.getElementById('trustBtn').textContent=d.trust;
-    document.getElementById('trustBtn').href=l==='ar'?'/trust/':'/en/trust/';
-    document.getElementById('ctaBtn').textContent=d.cta;
-    document.getElementById('crumbHome').textContent=d.home;
-    document.getElementById('crumbHere').textContent=d.crumb;
-    document.getElementById('kick').textContent=d.kick;
-    document.getElementById('title').textContent=d.title;
-    document.getElementById('lead').textContent=d.lead;
-    document.getElementById('chooseBtn').textContent=d.choose;
-    document.getElementById('serviceGuide').setAttribute('aria-label',d.guideLabel);
-    ['guideInputTitle','guideInput','guideActionTitle','guideAction','guideHandoffTitle','guideHandoff'].forEach(function(id){document.getElementById(id).textContent=d[id];});
-    document.getElementById('grid').innerHTML=d.list.map(function(a,i){
-      return '<a class="agent" style="--ac:'+a.c+'" href="./'+a.s+'/"><span class="glow"></span>'
-        +'<span class="ic" style="border-color:'+a.c+'55">'+svg(a.k,a.c)+'</span>'
-        +'<div class="body"><div class="row"><span class="num">0'+(i+1)+'</span><h3>'+a.t+'</h3></div>'
-        +'<p>'+a.d+'</p><span class="go">'+d.view+' <span class="ar">'+d.arrow+'</span></span></div></a>';
-    }).join('');
-  }
-  render('en');
-  document.getElementById('yr').textContent=new Date().getFullYear();
-})();
-</script>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/en/" aria-label="Falaq Intelligence"><span class="brand-mark"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="#c084fc"/><path d="M10 40.5a17 17 0 0 0 28 0" fill="none" stroke="#c084fc" stroke-width="3" stroke-linecap="round"/></svg></span><span>Falaq Intelligence</span></a>
+      <div class="nav-links"><a href="/en/">Home</a><a href="/en/services/" aria-current="page">Services</a><a href="/en/industries/">Sectors</a><a href="/en/trust/">Trust & standards</a><a href="/en/about/">About</a></div>
+      <div class="nav-actions"><a class="nav-button" href="/services/" hreflang="ar">العربية</a><a class="nav-button primary" href="/en/#contact">Contact us</a></div>
+    </div>
+  </nav>
+  <main id="main">
+    <header class="hero"><div class="wrap hero-content">
+      <div class="breadcrumb"><a href="/en/">Home</a> / Services</div>
+      <span class="eyebrow">17 services · 5 tracks</span>
+      <h1>Each service can be engaged independently</h1>
+      <p class="hero-lead">Most engagements combine two or three, beginning with the process that carries the highest operational cost.</p>
+    </div></header>
+    <div class="wrap service-body">
+      <section class="content-section"><span class="section-num">01</span><h2>Revenue &amp; Customer Operations</h2><p>Agents that work inbound demand from the moment it arrives until an outcome is recorded.</p><div class="related-grid"><a class="related-card" href="/en/services/lead-qualification/"><b>01 · Lead Qualification</b><span>Answers every inbound enquiry, collects what the sales team needs, and assigns the lead to a named salesperson.</span></a><a class="related-card" href="/en/services/quote-follow-up/"><b>02 · Quote Follow-Up</b><span>Tracks every quotation issued and contacts the client at defined intervals until a decision is recorded.</span></a><a class="related-card" href="/en/services/booking-recovery/"><b>03 · Booking &amp; Call Recovery</b><span>Takes and confirms appointments against live availability, and re-contacts customers after a missed call or appointment.</span></a><a class="related-card" href="/en/services/customer-service/"><b>04 · Customer Service</b><span>Answers customer questions using your own documented policies, prices and product data as its only source.</span></a><a class="related-card" href="/en/services/accounts-receivable/"><b>05 · Accounts Receivable</b><span>Contacts customers holding overdue invoices on a defined sequence and records every response.</span></a></div></section>
+      <section class="content-section"><span class="section-num">06</span><h2>Documents, Data &amp; Systems</h2><p>Agents that read, validate and write inside the systems a business already runs.</p><div class="related-grid"><a class="related-card" href="/en/services/document-processing/"><b>06 · Document Processing</b><span>Reads submitted documents, extracts the fields you specify, and validates them against existing records.</span></a><a class="related-card" href="/en/services/crm-control/"><b>07 · CRM Control</b><span>Writes every interaction and outcome back to the CRM as work occurs, and enforces your data rules.</span></a><a class="related-card" href="/en/services/workflow-automation/"><b>08 · Workflow &amp; Process Automation</b><span>Connects the steps of a process that currently passes between several people and several systems.</span></a><a class="related-card" href="/en/services/internal-knowledge-assistant/"><b>09 · Internal Knowledge Assistant</b><span>Answers staff questions on policy, pricing and procedure from your internal documentation.</span></a></div></section>
+      <section class="content-section"><span class="section-num">10</span><h2>Integration Services</h2><p>Connecting the agent to the platforms holding your live data: store, bookings, point of sale, website.</p><div class="related-grid"><a class="related-card" href="/en/services/website-app-assistant/"><b>10 · Website &amp; In-App AI Assistant</b><span>An assistant embedded within your website or mobile application, installed as a single script tag or an SDK.</span></a><a class="related-card" href="/en/services/ecommerce-integration/"><b>11 · E-commerce Platform Integration</b><span>Connects the agent to your online store so that it reads live order, product and stock data.</span></a><a class="related-card" href="/en/services/booking-pos-integration/"><b>12 · Booking, POS &amp; Calendar Integration</b><span>A two-way connection to your booking system, point of sale or calendar that reads live availability and writes confirmed bookings directly.</span></a></div></section>
+      <section class="content-section"><span class="section-num">13</span><h2>Channels</h2><p>The official channels the agent operates on, established and run end to end.</p><div class="related-grid"><a class="related-card" href="/en/services/whatsapp-business-api/"><b>13 · WhatsApp Business API</b><span>Establishes the official WhatsApp Business API for you and operates the agent on it.</span></a><a class="related-card" href="/en/services/voice-agents/"><b>14 · Voice AI Agents</b><span>Answers inbound calls and places outbound calls in Arabic and English, with a recording and transcript of each.</span></a></div></section>
+      <section class="content-section"><span class="section-num">15</span><h2>Intelligence &amp; Enablement</h2><p>Raising system accuracy, measuring its effect, and training your team to operate it.</p><div class="related-grid"><a class="related-card" href="/en/services/custom-model-development/"><b>15 · Custom Model Development &amp; Fine-Tuning</b><span>Adapts a model to your own vocabulary, documents and dialect where general models are not sufficiently accurate.</span></a><a class="related-card" href="/en/services/analytics-dashboards/"><b>16 · Data, Reporting &amp; Analytics Dashboards</b><span>A dashboard reporting what the agents performed, at what cost, and to what effect.</span></a><a class="related-card" href="/en/services/training-enablement/"><b>17 · AI Training &amp; Team Enablement</b><span>Trains your staff to supervise, operate and extend the delivered systems, with operating guides and separate sessions for supervisors and managers.</span></a></div></section>
+    </div>
+    <section class="service-cta"><div class="wrap"><h2>Identify the process that carries the highest cost</h2><p>We will demonstrate how a Falaq agent would carry it out, beginning with a scoped engagement and measures agreed in advance.</p><div class="cta-actions"><a class="nav-button primary" href="https://wa.me/962792961872" target="_blank" rel="noopener noreferrer">Talk to us on WhatsApp</a><a class="nav-button" href="mailto:hello@falaqai.com">Send us an email</a></div></div></section>
+  </main>
+  <footer class="site-footer"><div class="wrap"><div class="footer-grid"><div><a class="brand" href="/en/">Falaq Intelligence</a><p class="footer-copy">We build AI agents that perform real work inside business operations in Arabic and English.</p><div class="social-links" aria-label="Social media"><a class="social-link" href="https://www.instagram.com/falaqai/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a><a class="social-link" href="https://www.facebook.com/profile.php?id=61592175171348" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.7 22v-9h3l.5-3.5h-3.5V7.3c0-1 .3-1.7 1.8-1.7h1.9V2.5c-.3 0-1.5-.1-2.8-.1-2.8 0-4.7 1.7-4.7 4.8v2.3H6.8V13h3.1v9h3.8Z"/></svg></a><a class="social-link" href="https://www.linkedin.com/company/135187245/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.5 8.1H3.2V21h3.3V8.1ZM4.8 3A1.9 1.9 0 1 0 4.8 6.8 1.9 1.9 0 0 0 4.8 3ZM21 13.6c0-3.9-2.1-5.8-4.9-5.8-2.3 0-3.3 1.2-3.9 2.1V8.1H9V21h3.3v-6.4c0-1.7.3-3.4 2.5-3.4 2.2 0 2.2 2 2.2 3.5V21h3.3l.7-7.4Z"/></svg></a></div></div><div class="footer-col"><strong>Company & standards</strong><a href="/en/about/">About</a><a href="/en/trust/">Trust & standards</a><a href="/en/responsible-ai/">Responsible AI</a><a href="/en/service-standards/">Service standards</a><a href="/en/sla/">Service level agreement</a></div><div class="footer-col"><strong>Legal policies</strong><a href="/en/privacy/">Privacy policy</a><a href="/en/terms/">Terms</a><a href="mailto:hello@falaqai.com">hello@falaqai.com</a></div></div><div class="copyright">© 2026 Falaq Intelligence. All rights reserved.</div></div></footer>
 </body>
 </html>

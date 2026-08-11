@@ -1,0 +1,349 @@
+// Agent workflows rendered by assets/flow-view.js.
+//
+// Every Falaq agent follows the same shape described in the company profile —
+// receive, check, decide, act, hand off, log — so the schema is fixed rather
+// than a general graph. Keyed by the service slug in content/services.js.
+//
+// `no` is deliberately not a failure branch: it is the guardrail firing. That
+// is the whole point of showing the flow, so keep it honest when editing.
+
+const FLOWS = {
+  "lead-qualification": {
+    ar: {
+      trigger: "واتساب · نموذج الموقع · الدردشة · إعلان",
+      steps: [
+        "يرد خلال ثوانٍ برسائل معتمدة من فريقك",
+        "يسأل أسئلة التأهيل واحدًا واحدًا، لا دفعة واحدة"
+      ],
+      decision: "اكتملت الحقول الإلزامية وتجاوز حدّ التأهيل؟",
+      yes: { label: "مؤهل", action: "يُحجز موعد أو يُحوَّل فورًا إلى مندوب بالاسم" },
+      no: { label: "القاعدة ٠١ تمنع", action: "لا يُصنَّف، ويدخل تسلسل متابعة بدل أن يُهمل" },
+      log: "كل عميل — مؤهل أو لا — يُسجَّل في الـ CRM بمصدره ودرجته ونص محادثته"
+    },
+    en: {
+      trigger: "WhatsApp · Website form · Web chat · Ad",
+      steps: [
+        "Replies within seconds using messaging your team approved",
+        "Asks qualification questions one at a time, not all at once"
+      ],
+      decision: "Are the mandatory fields complete and the threshold met?",
+      yes: { label: "Qualified", action: "Books a time or routes immediately to a named salesperson" },
+      no: { label: "Rule 01 blocks", action: "Not scored; enters a follow-up sequence rather than being discarded" },
+      log: "Every lead — qualified or not — is logged to the CRM with source, score and transcript"
+    }
+  },
+  "booking-recovery": {
+    ar: {
+      trigger: "مكالمة لم يُرد عليها · طلب حجز · موعد لم يُحضر",
+      steps: [
+        "يقرأ التوافر الحقيقي من نظام الحجز قبل عرض أي وقت",
+        "يعرض الأوقات الشاغرة فقط ويرسل التذكير قبل الموعد"
+      ],
+      decision: "هل الوقت المطلوب شاغر فعلًا في نظامك؟",
+      yes: { label: "متاح", action: "يُثبَّت الحجز في نظامك مباشرة ويُرسل التأكيد" },
+      no: { label: "غير متاح", action: "يعرض بدائل من التوافر نفسه، ولا يَعِد بوقت غير موجود" },
+      log: "الإلغاءات تُحرَّر وتُعرض على قائمة الانتظار، وكل تواصل يُسجَّل"
+    },
+    en: {
+      trigger: "Unanswered call · Booking request · Missed appointment",
+      steps: [
+        "Reads genuine availability from your booking system before offering a time",
+        "Offers only free slots and sends the reminder ahead of the appointment"
+      ],
+      decision: "Is the requested time genuinely free in your system?",
+      yes: { label: "Available", action: "Writes the booking straight into your system and confirms" },
+      no: { label: "Not available", action: "Offers alternatives from the same availability, never a time that does not exist" },
+      log: "Cancellations are released to the waitlist, and every contact is recorded"
+    }
+  },
+  "ecommerce-integration": {
+    ar: {
+      trigger: "سؤال عن طلب · سلة متروكة · طلب إرجاع",
+      steps: [
+        "يقرأ حالة الشحنة والمخزون والسعر الساري من متجرك مباشرة",
+        "يجيب بالحالة الفعلية، لا بتقدير عام"
+      ],
+      decision: "هل الإجراء المطلوب داخل الحدود التي وضعتها؟",
+      yes: { label: "ضمن الحدود", action: "يُنفَّذ الإجراء ويُسجَّل على الطلب الأصلي" },
+      no: { label: "خارج الحدود", action: "يُحال إلى موظف مع الطلب وسجل المحادثة" },
+      log: "كل إجراء يغيّر الطلب يُوثَّق بمن طلبه ومتى ولماذا"
+    },
+    en: {
+      trigger: "Order question · Abandoned cart · Return request",
+      steps: [
+        "Reads shipment status, stock and the active price directly from your store",
+        "Answers with the actual status rather than a general estimate"
+      ],
+      decision: "Is the requested action inside the limits you set?",
+      yes: { label: "Within limits", action: "The action is performed and recorded against the original order" },
+      no: { label: "Outside limits", action: "Referred to a member of staff with the order and the conversation" },
+      log: "Every order-altering action is documented with who asked, when and why"
+    }
+  },
+  "quote-follow-up": {
+    ar: {
+      trigger: "عرض سعر صدر للعميل",
+      steps: [
+        "يتابع وفق جدولك — اليوم الثاني والخامس والعاشر مثلًا",
+        "يجيب عن النطاق والسعر والتسليم من وثيقة العرض نفسها"
+      ],
+      decision: "هل أبدى العميل قرارًا أو طلب تعديل شروط؟",
+      yes: { label: "قرار", action: "يُنبَّه صاحب الحساب فورًا مع سبب القرار" },
+      no: { label: "لا رد بعد", action: "يستمر التسلسل، ويُسجَّل سبب التأخير على الفرصة" },
+      log: "لا عرض يُغلق بلا نتيجة: مكسوب، أو مفقود بسبب مذكور، أو مغلق رسميًا"
+    },
+    en: {
+      trigger: "A quotation issued to the client",
+      steps: [
+        "Follows up on your schedule — the second, fifth and tenth day, for example",
+        "Answers scope, price and delivery from the quotation document itself"
+      ],
+      decision: "Has the client given a decision or asked to change terms?",
+      yes: { label: "Decision", action: "The account owner is notified at once with the stated reason" },
+      no: { label: "No reply yet", action: "The sequence continues and the delay reason is recorded on the opportunity" },
+      log: "No quotation closes without an outcome: won, lost with a reason, or formally closed"
+    }
+  },
+  "customer-service": {
+    ar: {
+      trigger: "سؤال عميل على واتساب أو الدردشة أو البريد",
+      steps: [
+        "يبحث في سياساتك وأسعارك وبيانات منتجاتك المفهرسة",
+        "يجيب من هذه المادة وحدها"
+      ],
+      decision: "هل الإجابة موجودة في المادة المصدر؟",
+      yes: { label: "موجودة", action: "يجيب العميل مباشرة ويوثّق المصدر" },
+      no: { label: "القاعدة ٠٣ تمنع", action: "يقول إنه لا يعرف ويُصعِّد لموظف بالاسم مع كامل السياق" },
+      log: "العميل لا يُطلب منه إعادة كلامه: المحادثة والسجل والملخص تنتقل مع الحالة"
+    },
+    en: {
+      trigger: "A customer question on WhatsApp, web chat or email",
+      steps: [
+        "Searches your indexed policies, prices and product data",
+        "Answers from that material alone"
+      ],
+      decision: "Is the answer contained in the source material?",
+      yes: { label: "Found", action: "Answers the customer directly and records the source" },
+      no: { label: "Rule 03 blocks", action: "Says it does not know and escalates to a named person with full context" },
+      log: "The customer is never asked to repeat: conversation, record and summary travel with the case"
+    }
+  },
+  "accounts-receivable": {
+    ar: {
+      trigger: "تقرير أعمار الديون من نظامك المحاسبي",
+      steps: [
+        "يتواصل وفق تسلسل تحدده أنت، وتتصاعد رسمية الرسالة مع تقادم الفاتورة",
+        "يرسل رابط الدفع ويجيب عن أسئلة الفاتورة نفسها"
+      ],
+      decision: "هل الفاتورة متنازع عليها أو تحتاج قرارًا تجاريًا؟",
+      yes: { label: "نزاع", action: "تُخرَج من التسلسل وتُحال للفريق المالي — لا يجادل الوكيل" },
+      no: { label: "التزام بالسداد", action: "يُسجَّل التاريخ الذي وعد به العميل، ويعود فيه" },
+      log: "كل تواصل ورد والتزام يُسجَّل مقابل الحساب"
+    },
+    en: {
+      trigger: "The ageing report from your accounting system",
+      steps: [
+        "Contacts on the sequence you set, formality rising as the invoice ages",
+        "Issues the payment link and answers questions on the invoice itself"
+      ],
+      decision: "Is the invoice disputed or does it need a commercial decision?",
+      yes: { label: "Dispute", action: "Removed from the sequence and referred to finance — the agent does not argue" },
+      no: { label: "Promise to pay", action: "The date the customer gave is recorded, and the agent returns on it" },
+      log: "Every contact, response and commitment is recorded against the account"
+    }
+  },
+  "document-processing": {
+    ar: {
+      trigger: "صورة أو مسح أو PDF عبر واتساب أو البريد",
+      steps: [
+        "يقرأ العربية والإنجليزية حتى على جودة رديئة",
+        "يستخرج الحقول التي حددتها: رقم الفاتورة، المبلغ، الرقم الضريبي، التواريخ"
+      ],
+      decision: "هل تطابقت القيم مع السجل المقابل في نظامك؟",
+      yes: { label: "متطابق", action: "يُكتب في نظامك دون تدخل بشري" },
+      no: { label: "اختلاف", action: "يُحفظ في قائمة استثناءات تُبيّن موضع الاختلاف بالضبط" },
+      log: "كل مستند وكل قيمة مستخرجة قابلة للمراجعة مقابل أصلها"
+    },
+    en: {
+      trigger: "A photo, scan or PDF over WhatsApp or email",
+      steps: [
+        "Reads Arabic and English even at poor quality",
+        "Extracts the fields you specified: invoice number, amount, tax registration, dates"
+      ],
+      decision: "Do the values reconcile against the corresponding record?",
+      yes: { label: "Reconciles", action: "Written through to your system without intervention" },
+      no: { label: "Discrepancy", action: "Held in an exception queue stating exactly what did not match" },
+      log: "Every document and extracted value stays reviewable against its original"
+    }
+  },
+  "crm-control": {
+    ar: {
+      trigger: "محادثة أو مكالمة أو إجراء وقع للتو",
+      steps: [
+        "يكتب في الـ CRM أثناء وقوع العمل، لا بعده",
+        "يُكمل الحقول الناقصة من معلومات موجودة في السجل نفسه"
+      ],
+      decision: "هل تحقق شرط الانتقال للمرحلة التالية؟",
+      yes: { label: "الشرط تحقق", action: "تتقدم مرحلة الصفقة وتُوثَّق النتيجة وسببها" },
+      no: { label: "لم يتحقق", action: "تبقى المرحلة كما هي — لا تقدّم بلا شرط" },
+      log: "تقرير أسبوعي بالسجلات الناقصة يصل مدير المبيعات"
+    },
+    en: {
+      trigger: "A conversation, call or action that just took place",
+      steps: [
+        "Writes to the CRM as the work happens, not afterwards",
+        "Completes missing fields from information already in the record"
+      ],
+      decision: "Has the condition for the next stage been met?",
+      yes: { label: "Condition met", action: "The deal stage advances and the outcome and its reason are recorded" },
+      no: { label: "Not met", action: "The stage stays where it is — no progression without the condition" },
+      log: "A weekly list of incomplete records reaches the sales manager"
+    }
+  },
+  "workflow-automation": {
+    ar: {
+      trigger: "طلب داخلي يمر بين عدة أشخاص وأنظمة",
+      steps: [
+        "يتحقق من اكتمال الطلب ويوجّهه إلى المعتمِد الصحيح",
+        "يكتب في كل نظام يمر به ويُشعر مقدّم الطلب في كل مرحلة"
+      ],
+      decision: "هل تجاوز الطلب مدة الانتظار المتفق عليها؟",
+      yes: { label: "تجاوز المهلة", action: "يُصعَّد تلقائيًا وفق الحد الزمني المحدد كتابةً" },
+      no: { label: "ضمن المهلة", action: "ينتظر قرار المعتمِد — القرار البشري يبقى بشريًا" },
+      log: "خريطة العملية موثقة قبل البناء، وكل استثناء له معالجة محددة"
+    },
+    en: {
+      trigger: "An internal request passing between people and systems",
+      steps: [
+        "Validates the request and routes it to the correct approver",
+        "Writes to each system it touches and notifies the requester at each stage"
+      ],
+      decision: "Has the request exceeded the agreed waiting time?",
+      yes: { label: "Past threshold", action: "Escalated automatically against the time limit agreed in writing" },
+      no: { label: "Within time", action: "Waits for the approver — the human decision stays human" },
+      log: "The process map is documented before the build, and every exception has a defined treatment"
+    }
+  },
+  "internal-knowledge-assistant": {
+    ar: {
+      trigger: "سؤال موظف بالعربية أو الإنجليزية",
+      steps: [
+        "يبحث في الأدلة والإجراءات وقوائم الأسعار والتعاميم المفهرسة",
+        "يتحقق من صلاحية السائل قبل عرض أي مادة"
+      ],
+      decision: "هل يسمح دور الموظف بالاطلاع على هذه المادة؟",
+      yes: { label: "مصرَّح", action: "يجيب ويذكر الوثيقة والقسم ليتمكن من التحقق بنفسه" },
+      no: { label: "خارج الصلاحية", action: "لا تُعرض المادة، ويُوجَّه إلى الجهة المخوّلة" },
+      log: "تقرير شهري بأكثر المواضيع سؤالًا يكشف أين يحتاج التوثيق أو التدريب"
+    },
+    en: {
+      trigger: "A staff question in Arabic or English",
+      steps: [
+        "Searches indexed handbooks, procedures, price lists and circulars",
+        "Checks the asker's permission before showing any material"
+      ],
+      decision: "Does this employee's role allow access to this material?",
+      yes: { label: "Permitted", action: "Answers and cites the document and section so it can be verified" },
+      no: { label: "Out of scope", action: "The material is not shown, and the question routes to the authorised owner" },
+      log: "A monthly report of the most-asked topics shows where documentation or training is needed"
+    }
+  },
+  "website-app-assistant": {
+    ar: {
+      trigger: "زائر يكتب في موقعك أو تطبيقك",
+      steps: [
+        "يجيب من محتوى موقعك وبيانات منتجاتك",
+        "يوجّه الزائر إلى الصفحة أو المنتج الصحيح"
+      ],
+      decision: "هل أظهر الزائر نية شرائية واضحة؟",
+      yes: { label: "نية واضحة", action: "تُجمع بياناته وتُكتب مباشرة في الـ CRM" },
+      no: { label: "لا يزال يستكشف", action: "يكمل المساعدة دون طلب بيانات، أو يكمل على واتساب لو فضّل" },
+      log: "التحويل إلى موظف يتم بالاسم ومع إرفاق المحادثة كاملة"
+    },
+    en: {
+      trigger: "A visitor typing on your website or app",
+      steps: [
+        "Answers from your site content and product data",
+        "Directs the visitor to the correct page or product"
+      ],
+      decision: "Has the visitor shown clear buying intent?",
+      yes: { label: "Clear intent", action: "Contact details are collected and written straight into the CRM" },
+      no: { label: "Still exploring", action: "Keeps helping without asking for details, or continues on WhatsApp if preferred" },
+      log: "Transfer to a member of staff happens by name, with the full conversation attached"
+    }
+  },
+  "whatsapp-business-api": {
+    ar: {
+      trigger: "رسالة على رقم واتساب الرسمي لشركتك",
+      steps: [
+        "يدير الجلسة ضمن نافذة الأربع والعشرين ساعة",
+        "يستخدم قالبًا معتمدًا حين يلزم التواصل خارجها"
+      ],
+      decision: "هل العميل مسجّل موافقته على التواصل؟",
+      yes: { label: "موافقة مسجّلة", action: "تُرسل الرسالة وتُتابَع حالتها حتى التسليم والقراءة" },
+      no: { label: "بلا موافقة", action: "لا تُرسل — سجل الموافقة شرط، لا خيار" },
+      log: "ملكية الرقم وحساب Business Manager تبقى للشركة طوال الوقت"
+    },
+    en: {
+      trigger: "A message to your official WhatsApp number",
+      steps: [
+        "Manages the session inside the twenty-four-hour window",
+        "Uses an approved template when contact outside it is required"
+      ],
+      decision: "Is the customer's opt-in on record?",
+      yes: { label: "Opt-in on record", action: "The message is sent and its status tracked to delivery and read" },
+      no: { label: "No opt-in", action: "Not sent — the consent record is a condition, not a preference" },
+      log: "Ownership of the number and the Business Manager account stays with the client throughout"
+    }
+  },
+  "voice-agents": {
+    ar: {
+      trigger: "مكالمة واردة أو مكالمة صادرة مجدولة",
+      steps: [
+        "يجيب فورًا ويتعرّف على المتصل مقابل الـ CRM",
+        "يعالج الطلب ضمن نطاقه: حجز، حالة طلب، ساعات عمل، رصيد"
+      ],
+      decision: "هل الطلب داخل نطاق الوكيل المحدد؟",
+      yes: { label: "ضمن النطاق", action: "يُنجَز في المكالمة نفسها دون تحويل" },
+      no: { label: "خارج النطاق", action: "يُحوَّل لموظف مع سياق المكالمة، لا يبدأ العميل من الصفر" },
+      log: "تسجيل ونص وملخص مقابل كل مكالمة في سجل العميل"
+    },
+    en: {
+      trigger: "An inbound call or a scheduled outbound call",
+      steps: [
+        "Answers immediately and identifies the caller against the CRM",
+        "Handles the request within its scope: booking, order status, opening hours, balance"
+      ],
+      decision: "Is the request inside the agent's defined scope?",
+      yes: { label: "In scope", action: "Completed on the call itself, without a transfer" },
+      no: { label: "Out of scope", action: "Transferred to a person with the call context — the customer does not restart" },
+      log: "A recording, transcript and summary against every call in the customer record"
+    }
+  },
+  "booking-pos-integration": {
+    ar: {
+      trigger: "طلب حجز · استفسار مناسبة · سؤال عن القائمة",
+      steps: [
+        "يقرأ التوافر ومدة الخدمة والموظف المسؤول والسعر من نظامك",
+        "يعرض الأسعار من نقطة البيع لا من قائمة منفصلة قد تتقادم"
+      ],
+      decision: "هل الطاولة أو الموعد متاح بالمدة والسعة المطلوبة؟",
+      yes: { label: "متاح", action: "يُكتب الحجز المؤكد في نظامك، فالجدول واحد للطرفين" },
+      no: { label: "ممتلئ", action: "يُضاف إلى قائمة الانتظار ويُعرض عليه أول موعد يُحرَّر" },
+      log: "كل حجز وإلغاء وتحويل لقائمة الانتظار يُسجَّل في نظام الحجز نفسه"
+    },
+    en: {
+      trigger: "Booking request · Event enquiry · Menu question",
+      steps: [
+        "Reads availability, service duration, staff assignment and price from your system",
+        "Quotes prices from the point of sale, not a separate list that can fall out of date"
+      ],
+      decision: "Is the table or slot free for the duration and party size requested?",
+      yes: { label: "Available", action: "The confirmed booking is written into your system, so both sides read one schedule" },
+      no: { label: "Full", action: "Added to the waitlist and offered the first slot that is released" },
+      log: "Every booking, cancellation and waitlist move is recorded in the booking system itself"
+    }
+  }
+};
+
+module.exports = { FLOWS };

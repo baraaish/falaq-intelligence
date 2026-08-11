@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "start": "node --env-file-if-exists=.env backend/server.js",
-    "check": "node --check backend/server.js && node --check backend/providers.js && node --check backend/proposal.js && node --check backend/pdf.js && node --check assets/aether-flow.js && node --check scripts/build-company-pages.js && node --check scripts/build-seo-pages.js && node --check scripts/validate-seo.js",
-    "build:seo": "node scripts/build-company-pages.js && node scripts/build-seo-pages.js",
-    "check:seo": "node scripts/validate-seo.js"
+    "check": "npm run check:syntax && npm run check:generated && npm run check:seo && npm run check:site",
+    "check:syntax": "node --check backend/server.js && node --check backend/providers.js && node --check backend/proposal.js && node --check backend/pdf.js && node --check assets/aether-flow.js && node --check assets/agent-sandbox.js && node --check assets/flow-view.js && node --check content/agent-flows.js && node --check content/agent-rules.js && node --check content/sectors.js && node --check content/services.js && node --check scripts/lib/layout.js && node --check scripts/build-company-pages.js && node --check scripts/build-seo-pages.js && node --check scripts/build-service-pages.js && node --check scripts/build-sector-pages.js && node --check scripts/validate-generated.js && node --check scripts/validate-seo.js && node --check scripts/validate-site.js",
+    "build:seo": "node scripts/build-company-pages.js && node scripts/build-seo-pages.js && node scripts/build-service-pages.js && node scripts/build-sector-pages.js",
+    "check:generated": "node scripts/validate-generated.js",
+    "check:seo": "node scripts/validate-seo.js",
+    "check:site": "node scripts/validate-site.js"
   },
   "dependencies": {
     "express": "^5.1.0",
