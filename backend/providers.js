@@ -19,7 +19,7 @@ const PROVIDERS = [
     name: "gemini",
     keyEnv: "GEMINI_API_KEY",
     modelEnv: "GEMINI_MODEL",
-    defaultModel: "gemini-2.0-flash",
+    defaultModel: "gemini-3.6-flash",
     url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
   },
   {
@@ -121,10 +121,13 @@ async function probeProviders(maxAgeMs = 5 * 60 * 1000) {
     const model = process.env[provider.modelEnv] || provider.defaultModel;
     const startedAt = Date.now();
     try {
+      // Generous for a two-word answer, but the gpt-oss models spend tokens on
+      // reasoning before they emit any content and report an empty reply if the
+      // budget runs out first — which reads as a dead provider when it is fine.
       await callProvider(provider, [
         { role: "system", content: 'Reply with JSON only: {"ok":true}' },
         { role: "user", content: "ping" }
-      ], { maxTokens: 20, temperature: 0, timeout: 15000 });
+      ], { maxTokens: 512, temperature: 0, timeout: 20000 });
       return { name: provider.name, model, ok: true, ms: Date.now() - startedAt };
     } catch (error) {
       return { name: provider.name, model, ok: false, ms: Date.now() - startedAt, error: error.message.slice(0, 160) };
