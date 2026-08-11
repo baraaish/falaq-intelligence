@@ -1,0 +1,74 @@
+/* Styles for assets/agent-sandbox.js. Controls on one side, the agent's
+   reasoning on the other — the panel is the point, so it carries the weight. */
+
+.sb { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+
+.sb-controls { padding: 6px 18px 14px; border: 1px solid var(--line, #251b30); border-radius: 16px; background: var(--panel, #0b0912); }
+.sb-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line, #251b30); }
+.sb-row:last-child { border-bottom: 0; }
+.sb-name { color: #d2ccd7; font-size: .88rem; font-weight: 650; }
+/* The conflict switch is the one that overrides everything, so it reads apart. */
+.sb-conflict { margin-top: 4px; padding-top: 16px; border-top: 1px dashed var(--line-hi, #49315c); }
+.sb-conflict .sb-name { color: #fcd34d; }
+
+.sb-row input[type="range"] { flex: 1; min-width: 90px; accent-color: var(--accent, #c084fc); }
+.sb-row output { min-width: 92px; color: #fff; font-family: "Manrope", system-ui, sans-serif; font-size: .82rem; font-weight: 700; text-align: end; }
+
+.sb-choice { display: flex; flex-wrap: wrap; gap: 6px; }
+.sb-choice button { padding: 6px 12px; border: 1px solid var(--line-hi, #49315c); border-radius: 999px; background: transparent; color: var(--dim, #b2acb8); font: inherit; font-size: .8rem; font-weight: 650; cursor: pointer; }
+.sb-choice button.on { border-color: transparent; background: #fff; color: #08050d; }
+
+.sb-toggle { width: 44px; height: 25px; padding: 0; border: 1px solid var(--line-hi, #49315c); border-radius: 999px; background: transparent; cursor: pointer; }
+.sb-toggle span { display: block; width: 17px; height: 17px; margin: 3px; border-radius: 50%; background: var(--mute, #77717e); transition: .18s ease; }
+.sb-toggle.on { border-color: var(--accent, #c084fc); background: rgba(168, 85, 247, .2); }
+.sb-toggle.on span { margin-inline-start: 22px; background: var(--accent, #c084fc); }
+
+.sb-panel { padding: 18px; border: 1px solid var(--line-hi, #49315c); border-radius: 16px; background: linear-gradient(160deg, rgba(168, 85, 247, .07), rgba(255, 255, 255, .012)); }
+.sb-panel h4 { margin: 0 0 9px; color: var(--accent, #c084fc); font-family: "Manrope", system-ui, sans-serif; font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.sb-panel h4 + ul + h4 { margin-top: 18px; }
+
+.sb-extracted { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+.sb-x { display: grid; grid-template-columns: 1fr auto 18px; gap: 8px; align-items: baseline; padding: 7px 10px; border-radius: 9px; background: rgba(255, 255, 255, .02); font-size: .84rem; }
+.sb-x span { color: var(--mute, #77717e); }
+.sb-x b { color: #d2ccd7; font-weight: 700; }
+.sb-x i { color: var(--mute, #77717e); font-style: normal; text-align: center; }
+.sb-x.ok i { color: #86efac; }
+.sb-x.weak i { color: #fcd34d; }
+
+.sb-rules { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.sb-rule { display: flex; gap: 11px; padding: 11px 12px; border: 1px solid var(--line, #251b30); border-radius: 11px; background: rgba(255, 255, 255, .018); }
+.sb-rid { flex: none; color: var(--accent, #c084fc); font-family: "Manrope", system-ui, sans-serif; font-size: .74rem; font-weight: 800; }
+.sb-rule b { display: block; color: #fff; font-size: .85rem; }
+.sb-rule em { display: block; margin-top: 3px; color: #fcd34d; font-size: .78rem; font-style: normal; }
+.sb-rule > div > span { display: block; margin-top: 4px; color: var(--mute, #77717e); font-size: .78rem; line-height: 1.55; }
+
+.sb-decision { margin-top: 16px; padding: 15px 16px; border: 1px solid var(--line-hi, #49315c); border-radius: 13px; }
+.sb-decision p { margin: 9px 0 0; color: #d2ccd7; font-size: .86rem; line-height: 1.6; }
+.sb-handoff { color: var(--mute, #77717e) !important; }
+.sb-handoff b { color: #d2ccd7; }
+.sb-tag { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: .8rem; font-weight: 800; }
+.sb-score { margin-inline-start: 9px; color: #fff; font-family: "Manrope", system-ui, sans-serif; font-size: 1.3rem; font-weight: 800; }
+.sb-score small { color: var(--mute, #77717e); font-size: .72rem; font-weight: 700; }
+
+.sb-hot { border-color: rgba(74, 222, 128, .38); background: rgba(74, 222, 128, .07); }
+.sb-hot .sb-tag { background: rgba(74, 222, 128, .16); color: #86efac; }
+.sb-warm .sb-tag { background: rgba(251, 191, 36, .16); color: #fcd34d; }
+.sb-blocked .sb-tag, .sb-review .sb-tag { background: rgba(148, 163, 184, .16); color: #cbd5e1; }
+.sb-review { border-color: rgba(251, 191, 36, .38); background: rgba(251, 191, 36, .06); }
+
+@media (max-width: 860px) {
+  .sb { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Side-by-side leaves the slider about 90px on a phone, which is unusable, so
+   the label moves onto its own line and the control takes the full width. */
+@media (max-width: 560px) {
+  .sb-row { flex-wrap: wrap; }
+  .sb-name { flex: 1 1 100%; }
+  .sb-row input[type="range"] { flex: 1 1 auto; min-width: 0; }
+  .sb-choice { flex: 1 1 100%; }
+  .sb-toggle { height: 30px; }
+  .sb-toggle span { width: 20px; height: 20px; margin: 4px; }
+  .sb-toggle.on span { margin-inline-start: 18px; }
+  .sb-x { grid-template-columns: 1fr auto 16px; font-size: .8rem; }
+}
