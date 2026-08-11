@@ -1,13 +1,6 @@
-const { execFileSync } = require("node:child_process");
-
+// Tried in order. Cerebras leads on free daily allowance, Groq on latency,
+// so the pair covers both a burst and a long quiet day before the rest kick in.
 const PROVIDERS = [
-  {
-    name: "groq",
-    keyEnv: "GROQ_API_KEY",
-    modelEnv: "GROQ_MODEL",
-    defaultModel: "llama-3.3-70b-versatile",
-    url: "https://api.groq.com/openai/v1/chat/completions"
-  },
   {
     name: "cerebras",
     keyEnv: "CEREBRAS_API_KEY",
@@ -16,33 +9,30 @@ const PROVIDERS = [
     url: "https://api.cerebras.ai/v1/chat/completions"
   },
   {
+    name: "groq",
+    keyEnv: "GROQ_API_KEY",
+    modelEnv: "GROQ_MODEL",
+    defaultModel: "llama-3.3-70b-versatile",
+    url: "https://api.groq.com/openai/v1/chat/completions"
+  },
+  {
+    name: "gemini",
+    keyEnv: "GEMINI_API_KEY",
+    modelEnv: "GEMINI_MODEL",
+    defaultModel: "gemini-2.0-flash",
+    url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+  },
+  {
     name: "openrouter",
     keyEnv: "OPENROUTER_API_KEY",
     modelEnv: "OPENROUTER_MODEL",
     defaultModel: "openai/gpt-oss-20b:free",
     url: "https://openrouter.ai/api/v1/chat/completions"
-  },
-  {
-    name: "github-models",
-    keyEnv: "GITHUB_MODELS_TOKEN",
-    modelEnv: "GITHUB_MODELS_MODEL",
-    defaultModel: "openai/gpt-4.1-mini",
-    url: "https://models.github.ai/inference/chat/completions"
   }
 ];
 
-let cachedGitHubToken;
-
 function providerKey(provider) {
-  if (process.env[provider.keyEnv]) return process.env[provider.keyEnv];
-  if (provider.name !== "github-models") return "";
-  if (cachedGitHubToken !== undefined) return cachedGitHubToken;
-  try {
-    cachedGitHubToken = execFileSync("gh", ["auth", "token"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
-  } catch (_) {
-    cachedGitHubToken = "";
-  }
-  return cachedGitHubToken;
+  return process.env[provider.keyEnv] || "";
 }
 
 function configuredProviders() {
@@ -119,4 +109,30 @@ async function generateJson(messages, options = {}) {
   throw error;
 }
 
-module.exports = { configuredProviders, generateJson };
+let probeCache = { at: 0, result: null };
+
+// A provider only ever runs when the ones above it fail, so a retired endpoint
+// or a renamed model can sit broken for weeks. This exercises each one for real.
+// Cached, because the probe spends the same quota it is meant to protect.
+async function probeProviders(maxAgeMs = 5 * 60 * 1000) {
+  if (probeCache.result && Date.now() - probeCache.at < maxAgeMs) return probeCache.result;
+
+  const result = await Promise.all(configuredProviders().map(async (provider) => {
+    const model = process.env[provider.modelEnv] || provider.defaultModel;
+    const startedAt = Date.now();
+    try {
+      await callProvider(provider, [
+        { role: "system", content: 'Reply with JSON only: {"ok":true}' },
+        { role: "user", content: "ping" }
+      ], { maxTokens: 20, temperature: 0, timeout: 15000 });
+      return { name: provider.name, model, ok: true, ms: Date.now() - startedAt };
+    } catch (error) {
+      return { name: provider.name, model, ok: false, ms: Date.now() - startedAt, error: error.message.slice(0, 160) };
+    }
+  }));
+
+  probeCache = { at: Date.now(), result };
+  return result;
+}
+
+module.exports = { configuredProviders, generateJson, probeProviders };

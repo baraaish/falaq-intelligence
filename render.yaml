@@ -9,10 +9,10 @@ services:
     healthCheckPath: /api/agent/status
     domains:
       - api.falaqai.com
+    # Provider keys come from the environment group linked in the dashboard, so
+    # they are deliberately not declared here.
     envVars:
       - key: GOOGLE_SHEETS_URL
-        sync: false
-      - key: GITHUB_MODELS_TOKEN
         sync: false
       - key: RESEND_API_KEY
         sync: false

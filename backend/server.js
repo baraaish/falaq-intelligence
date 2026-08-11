@@ -6,12 +6,17 @@ const { analyzeRequest, validateAnswer, continueConversation, generateProposal, 
 const { renderPdf } = require("./pdf");
 const { sendProposalEmails } = require("./email");
 const capabilities = require("./capabilities.json");
-const { configuredProviders } = require("./providers");
+const { configuredProviders, probeProviders } = require("./providers");
+const { floodLimit, conversationLimit, finalizeLimit } = require("./rate-limit");
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
 const root = path.resolve(__dirname, "..");
 const dataDirectory = path.join(__dirname, "data");
+
+// Render terminates TLS in front of the app, so without this every request
+// reports the proxy address and the whole rate limiter collapses to one bucket.
+app.set("trust proxy", 1);
 
 app.use(express.json({ limit: "1mb" }));
 
@@ -34,6 +39,13 @@ app.use((request, response, next) => {
   }
   if (request.method === "OPTIONS") return response.sendStatus(origin && allowedOrigins.has(origin) ? 204 : 403);
   next();
+});
+
+// POST only — Render polls the status route as its health check and must never
+// be throttled by traffic arriving through the same proxy address.
+app.use("/api/agent", (request, response, next) => {
+  if (request.method !== "POST") return next();
+  return floodLimit(request, response, next);
 });
 
 function isValidEmail(value) {
@@ -72,17 +84,23 @@ async function recordLead(record) {
   }
 }
 
-app.get("/api/agent/status", (_request, response) => {
-  response.json({
+// Render polls this as the health check, so the default response stays a cheap
+// config read. `?probe=1` is the deliberate, cached version that actually calls
+// each provider — a configured key proves nothing about a retired endpoint.
+app.get("/api/agent/status", async (request, response) => {
+  const base = {
     ok: true,
     providers: configuredProviders().map((provider) => provider.name),
     mode: configuredProviders().length ? "ai" : "local",
     googleSheets: Boolean(process.env.GOOGLE_SHEETS_URL),
     email: Boolean(process.env.RESEND_API_KEY)
-  });
+  };
+
+  if (request.query.probe !== "1") return response.json(base);
+  response.json({ ...base, probe: await probeProviders() });
 });
 
-app.post("/api/agent/analyze", async (request, response) => {
+app.post("/api/agent/analyze", conversationLimit, async (request, response) => {
   const message = cleanText(request.body?.message, 1500);
   const language = request.body?.language === "en" ? "en" : "ar";
   if (message.length < 3) return response.status(400).json({ error: language === "ar" ? "اكتب وصفًا أوضح قليلًا." : "Please add a little more detail." });
@@ -95,7 +113,7 @@ app.post("/api/agent/analyze", async (request, response) => {
   }
 });
 
-app.post("/api/agent/turn", async (request, response) => {
+app.post("/api/agent/turn", conversationLimit, async (request, response) => {
   const language = request.body?.language === "en" ? "en" : "ar";
   const messages = Array.isArray(request.body?.messages) ? request.body.messages : [];
   if (!messages.some((message) => message?.role === "user" && cleanText(message.content, 1600))) {
@@ -110,7 +128,7 @@ app.post("/api/agent/turn", async (request, response) => {
   }
 });
 
-app.post("/api/agent/validate-answer", async (request, response) => {
+app.post("/api/agent/validate-answer", conversationLimit, async (request, response) => {
   const language = request.body?.language === "en" ? "en" : "ar";
   const answer = cleanText(request.body?.answer, 1600);
   if (!request.body?.question?.id || !answer) {
@@ -124,7 +142,7 @@ app.post("/api/agent/validate-answer", async (request, response) => {
   }
 });
 
-app.post("/api/agent/finalize", async (request, response) => {
+app.post("/api/agent/finalize", finalizeLimit, async (request, response) => {
   const language = request.body?.language === "en" ? "en" : "ar";
   const contact = normalizeContact(request.body?.contact);
   const category = capabilities[request.body?.category] ? request.body.category : "lead-qualification";

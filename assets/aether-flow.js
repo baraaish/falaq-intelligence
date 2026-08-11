@@ -435,14 +435,14 @@
       kick: "مستشار تحديد النطاق", title: "صف العملية التي تريد تحسينها", lead: "اذكر ما يحدث اليوم، أين تتعطل العملية، وما النتيجة المطلوبة. سأرتب السياق، أوضح دور الوكيل والفريق، ثم أجهز تصورًا وملف PDF عند موافقتك.",
       badge: "يفهم السياق · يقترح مسارًا · ينشئ PDF", bot: "مستشار فلق", status: "يرد حسب سياقك، لا قائمة أسئلة", wake: "جاهز عندما تكون جاهزًا", hello: "صف لي العملية كما تحدث اليوم. يمكنك كتابة كل التفاصيل في رسالة واحدة، وسأسأل فقط عما يغيّر الحل فعلًا.",
       ideas: ["عملاء يصلون ولا تتم متابعتهم", "خطوات يدوية تستهلك وقت الفريق", "بيانات تتشتت بين أكثر من نظام"], placeholder: "ما الذي يحدث اليوم، وما الذي تريد تغييره؟", send: "إرسال",
-      thinking: "أفكر في أفضل خطوة...", confirm: "أريد العرض المقترح", restart: "البدء من جديد", summary: "ممتاز. اكتملت الصورة الأولية. سأبني العرض حول", contactIntro: "ممتاز، أصبح لدينا سياق كافٍ لعرض مفيد. أدخل اسمك وبريدك أو رقم واتساب وسأجهز ملفك.",
+      thinking: "أفكر في أفضل خطوة...", waking: "جارٍ تشغيل المستشار، لحظة من فضلك…", confirm: "أريد العرض المقترح", restart: "البدء من جديد", summary: "ممتاز. اكتملت الصورة الأولية. سأبني العرض حول", contactIntro: "ممتاز، أصبح لدينا سياق كافٍ لعرض مفيد. أدخل اسمك وبريدك أو رقم واتساب وسأجهز ملفك.",
       name: "الاسم الكامل *", company: "الشركة (اختياري)", email: "البريد الإلكتروني", phone: "رقم واتساب", create: "إنشاء ملف العرض", contactError: "أدخل الاسم والبريد أو رقم واتساب بشكل صحيح.",
       generating: "أبني التصور وأصمم ملفك الآن...", ready: "تم إعداد تصور خدمتك. يمكنك تنزيل الملف مباشرة:", emailed: "أرسلت نسخة أيضًا إلى بريدك الإلكتروني.", download: "تنزيل ملف PDF", again: "بناء تصور جديد", failed: "تعذر إكمال الطلب الآن. تأكد أن الباكند يعمل ثم حاول مجددًا."
     } : {
       kick: "SCOPE ADVISOR", title: "Describe the workflow you want to improve", lead: "Explain what happens today, where it breaks, and the outcome you need. I’ll organize the context, clarify the agent and human roles, then prepare a concept and PDF when you agree.",
       badge: "Understands context · maps workflow · creates PDF", bot: "Falaq Advisor", status: "Context-led, not a fixed questionnaire", wake: "READY WHEN YOU ARE", hello: "Describe the process as it works today. Put every detail in one message if you prefer; I’ll ask only what materially changes the solution.",
       ideas: ["Leads arrive but follow-up is missed", "Manual steps consume the team’s time", "Data is scattered across systems"], placeholder: "What happens today, and what should change?", send: "Send",
-      thinking: "Thinking through the best next step...", confirm: "I want the proposal", restart: "Start over", summary: "Great. I have enough context to shape the proposal around", contactIntro: "Great, we now have enough context for a useful proposal. Enter your name and an email or WhatsApp number and I’ll prepare it.",
+      thinking: "Thinking through the best next step...", waking: "Starting the advisor, one moment…", confirm: "I want the proposal", restart: "Start over", summary: "Great. I have enough context to shape the proposal around", contactIntro: "Great, we now have enough context for a useful proposal. Enter your name and an email or WhatsApp number and I’ll prepare it.",
       name: "Full name *", company: "Company (optional)", email: "Email address", phone: "WhatsApp number", create: "Create proposal file", contactError: "Enter your name and a valid email or WhatsApp number.",
       generating: "Building the workflow and designing your file...", ready: "Your service concept is ready. Download it here:", emailed: "A copy was also sent to your email address.", download: "Download PDF", again: "Build another concept", failed: "The request could not be completed. Make sure the backend is running and try again."
     };
@@ -460,15 +460,50 @@
     return (config.agentApiBase || "").replace(/\/$/, "") + path;
   }
 
-  async function postAgent(path, payload) {
-    var response = await fetch(agentApi(path), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    var data = await response.json().catch(function () { return {}; });
-    if (!response.ok) throw new Error(data.error || "Request failed");
-    return data;
+  var agentWarmed = false;
+
+  // The API sleeps on Render's free plan and takes close to a minute to wake.
+  // Pinging it the moment the launcher appears means the instance is usually up
+  // before the visitor has finished typing.
+  function warmAgent() {
+    if (agentWarmed) return;
+    agentWarmed = true;
+    fetch(agentApi("/api/agent/status"), { cache: "no-store" }).catch(function () {});
+  }
+
+  function delay(ms) {
+    return new Promise(function (resolve) { setTimeout(resolve, ms); });
+  }
+
+  // 503 means either a sleeping instance or every provider failing at once, and
+  // both are worth waiting out. 429 is a real limit and must surface straight away.
+  var RETRY_DELAYS = [3000, 6000, 10000, 15000];
+
+  async function postAgent(path, payload, onWaking) {
+    for (var attempt = 0; ; attempt++) {
+      var response;
+      try {
+        response = await fetch(agentApi(path), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+      } catch (networkError) {
+        if (attempt >= RETRY_DELAYS.length) throw networkError;
+        await delay(RETRY_DELAYS[attempt]);
+        continue;
+      }
+
+      if (response.status === 503 && attempt < RETRY_DELAYS.length) {
+        if (attempt === 0 && onWaking) onWaking();
+        await delay(RETRY_DELAYS[attempt]);
+        continue;
+      }
+
+      var data = await response.json().catch(function () { return {}; });
+      if (!response.ok) throw new Error(data.error || "Request failed");
+      return data;
+    }
   }
 
   function showBotTyping(section) {
@@ -527,6 +562,11 @@
     setBotBusy(section, true);
     renderBotSuggestions(section, [], function () {});
     var typing = showBotTyping(section);
+    var waking = null;
+    var clearWaking = function () {
+      if (waking) waking.remove();
+      waking = null;
+    };
     try {
       var result = await postAgent("/api/agent/turn", {
         language: currentBotLanguage(),
@@ -534,8 +574,11 @@
         category: state.category,
         messages: state.messages.slice(-16),
         brief: state.brief || {}
+      }, function () {
+        waking = addChatMessage(section, copy.waking, false);
       });
       typing.remove();
+      clearWaking();
       state.category = result.category;
       state.categoryLabel = result.categoryLabel;
       state.brief = result.brief || state.brief || {};
@@ -548,6 +591,7 @@
       if (result.nextAction === "contact") showContactGate(section);
     } catch (error) {
       typing.remove();
+      clearWaking();
       state.messages.pop();
       addChatMessage(section, error.message || copy.failed, false);
       setBotBusy(section, false);
@@ -786,6 +830,7 @@
     ].join("");
 
     document.body.append(launcher, overlay);
+    warmAgent();
     var section = overlay.querySelector("#falaq-service-bot");
     bindBotForm(section);
     updateBotInstanceLanguage(section);
@@ -877,6 +922,7 @@
     var messages = section.querySelector(".falaq-chat-messages");
     messages.appendChild(message);
     messages.scrollTop = messages.scrollHeight;
+    return message;
   }
 
   function updateBotInstanceLanguage(section) {
