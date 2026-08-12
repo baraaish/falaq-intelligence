@@ -1,37 +1,15 @@
-:root {
-  --bg: #03030a !important;
-  --bg2: #05050d !important;
-  --panel: rgba(255, 255, 255, .022) !important;
-  --panel2: rgba(255, 255, 255, .035) !important;
-  --card: rgba(255, 255, 255, .022) !important;
-  --line: rgba(255, 255, 255, .065) !important;
-  --line-hi: rgba(191, 128, 255, .20) !important;
-  --accent: #bf80ff !important;
-  --coral: #bf80ff !important;
-  --amber: #d8b4fe !important;
-  --violet: #a855f7 !important;
-  --teal: #c084fc !important;
-  --blue: #8b5cf6 !important;
-}
-
+/* The design tokens this file used to redeclare (with !important) now live in
+   assets/falaq-2026.css, which is the single palette for the site. The legacy
+   service pages under /services/ carry no var() references at all — they are
+   inline-styled — so removing that block changes nothing for them, and it stops
+   the home page's tokens from being overridden by a stylesheet whose job is the
+   hero. The base colours below are kept for the legacy pages, which load this
+   file alone. */
 html,
 body {
-  background: #03030a !important;
-  color: #e8e8ec !important;
+  background: #03030a;
+  color: #e8e8ec;
 }
-
-html {
-  scrollbar-color: rgba(191, 128, 255, .28) #03030a;
-}
-
-::selection {
-  background: rgba(191, 128, 255, .25) !important;
-  color: #fff !important;
-}
-
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #03030a; }
-::-webkit-scrollbar-thumb { background: rgba(191, 128, 255, .25); border-radius: 999px; }
 
 .aether-flow-hero {
   position: relative !important;
@@ -332,143 +310,11 @@ body > [data-falaq-home] {
   background: rgba(3, 3, 10, .84) !important;
 }
 
-/* Full Aether design language for the main website. */
-.nav {
-  position: fixed !important;
-  inset: 0 0 auto !important;
-  z-index: 50 !important;
-  border-color: rgba(255, 255, 255, .055) !important;
-  background: rgba(3, 3, 10, .72) !important;
-  backdrop-filter: blur(20px) saturate(1.2) !important;
-}
-
-.nav-links {
-  color: #9c9ca8 !important;
-  font-size: .86rem !important;
-}
-
-.nav-links a:hover { color: #fff !important; }
-
-.markets {
-  border-color: rgba(255, 255, 255, .055) !important;
-  background: rgba(255, 255, 255, .012) !important;
-}
-
-section.blk {
-  padding-block: 112px !important;
-  background: transparent !important;
-}
-
-section.blk + section.blk::before,
-#dc-root section:not(.aether-flow-hero)::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 8%;
-  left: 8%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .06), transparent);
-  pointer-events: none;
-}
-
-.sec-head {
-  max-width: 720px !important;
-  margin: 0 0 64px !important;
-  text-align: start !important;
-}
-
-.kick {
-  margin-bottom: 16px !important;
-  color: #a855f7 !important;
-  font-size: .72rem !important;
-  letter-spacing: .18em !important;
-}
-
-.sec-head h2,
-section.blk > .wrap > h2 {
-  color: #fff !important;
-  font-size: clamp(2rem, 4.2vw, 3.25rem) !important;
-  line-height: 1.16 !important;
-  letter-spacing: -.04em !important;
-}
-
-.sec-head p {
-  max-width: 600px;
-  color: #8a8a96 !important;
-  font-size: 1rem !important;
-  line-height: 1.85 !important;
-}
-
-.agents,
-.inds,
-.models {
-  gap: 14px !important;
-}
-
-.agent,
-.ind,
-.model {
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, .065) !important;
-  border-radius: 18px !important;
-  background: rgba(255, 255, 255, .022) !important;
-  box-shadow: none !important;
-  transition: transform .5s cubic-bezier(.22, 1, .36, 1), border-color .5s ease, background .5s ease, box-shadow .5s ease !important;
-}
-
-.agent:hover,
-.ind:hover,
-.model:hover {
-  transform: translateY(-6px) !important;
-  border-color: rgba(191, 128, 255, .22) !important;
-  background: rgba(255, 255, 255, .042) !important;
-  box-shadow: 0 24px 64px -16px rgba(191, 128, 255, .10) !important;
-}
-
-.agent .ic,
-.ind .ii {
-  border-color: rgba(191, 128, 255, .16) !important;
-  background: rgba(168, 85, 247, .09) !important;
-  color: #c896ff !important;
-}
-
-.agent h3,
-.ind h4,
-.model h3 { color: #fff !important; }
-
-.agent p,
-.ind p,
-.model p { color: #8a8a96 !important; }
-
-.agent .go,
-.agent .num,
-.model .tag { color: #c896ff !important; }
-
-.why-box,
-.cta {
-  border-color: rgba(255, 255, 255, .07) !important;
-  background: radial-gradient(circle at 80% 0%, rgba(168, 85, 247, .10), transparent 38%), rgba(255, 255, 255, .018) !important;
-  box-shadow: none !important;
-}
-
-.why-item {
-  border-color: rgba(255, 255, 255, .06) !important;
-}
-
-.why-item .ck {
-  border-color: rgba(191, 128, 255, .18) !important;
-  background: rgba(168, 85, 247, .10) !important;
-  color: #c896ff !important;
-}
-
-.rv {
-  transform: translateY(32px) !important;
-  transition: opacity .9s cubic-bezier(.22, 1, .36, 1), transform .9s cubic-bezier(.22, 1, .36, 1) !important;
-}
-
-.rv.in {
-  transform: translateY(0) !important;
-}
+/* The home page section styling that used to live here (nav, markets, section.blk,
+   sec-head, kick, agent/ind/model cards, cta, rv — all !important) moved to
+   assets/home.css. It was a duplicate of the home page inline <style> that it
+   happened to override, which made the real values impossible to find. This
+   file now owns the hero, the robot persona and the chat surfaces only. */
 
 /* Landing-page surfaces keep their layouts but share one glass system. */
 #dc-root,

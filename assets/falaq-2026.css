@@ -1,0 +1,244 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   falaq-2026.css — the single source of design tokens and shared primitives.
+
+   Every other stylesheet in assets/ derives from this file and must not define
+   its own :root block. company-pages.css @imports it, so generated pages get the
+   same tokens without a change to scripts/lib/layout.js; index.html links it
+   directly.
+
+   Tokens adapted from the "Cinematic Precision" system in the Stitch export
+   (stitch_romer_saas_dashboard/cinematic_precision/DESIGN.md). Its surface
+   hierarchy, typography and 4px spacing are adopted; its blue/cyan accent is
+   not — Falaq keeps its own purple so the site stays recognisably itself.
+
+   The export shipped Tailwind's Play CDN (~400 KB, development only). These are
+   the same decisions expressed as plain custom properties, no build step.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Deep-space surface ladder ───────────────────────────────────────────
+     Structure comes from small steps in value, not from shadows — that is what
+     makes the layout read as calm rather than busy. */
+  --s-void: #070708;
+  --s-base: #08080a;
+  --s-1: #101112;
+  --s-2: #141516;
+  --s-3: #191a1c;
+  --s-4: #201f21;
+
+  --line: #232427;
+  --line-hi: #33343a;
+  --line-accent: rgba(168, 85, 247, .3);
+
+  --ink: #e9e7ec;
+  --ink-2: #a9a5b3;
+  --ink-3: #6f6b79;
+
+  /* Falaq's own accent, kept from the existing brand. */
+  --acc: #a855f7;
+  --acc-lo: #c084fc;
+  --acc-hi: #d8b4fe;
+  --acc-dim: rgba(168, 85, 247, .1);
+
+  /* Reserved for state and data only, never decoration. */
+  --ok: #4ade80;
+  --hold: #fbbf24;
+  --info: #50d8e9;
+
+  --f-head: "Manrope", system-ui, sans-serif;
+  --f-body: "Tajawal", system-ui, sans-serif;
+  --f-data: "Inter", ui-monospace, "SFMono-Regular", monospace;
+
+  /* 4px base scale, as in the source system. */
+  --x1: 4px;
+  --x2: 8px;
+  --x3: 16px;
+  --x4: 24px;
+  --x5: 40px;
+  --x6: 64px;
+  --x7: 96px;
+
+  --r-sm: 2px;
+  --r: 4px;
+  --r-md: 6px;
+  --r-lg: 8px;
+  --r-xl: 12px;
+
+  /* Content measure. Pages may raise this locally; the default matches what the
+     generated company and service pages have always used. */
+  --wrap: 1120px;
+  --gutter: 44px;
+
+  /* ── Compatibility aliases ───────────────────────────────────────────────
+     Older names still referenced by company-pages.css, service-pages.css,
+     flow-view.css, agent-sandbox.css and inline markup on generated pages.
+     They are aliases, not a second palette: change a value above and every
+     consumer follows. Do not add new rules that use these. */
+  --bg: var(--s-void);
+  --bg2: var(--s-base);
+  --panel: var(--s-1);
+  --panel-hi: var(--s-2);
+  --panel2: var(--s-2);
+  --card: var(--s-1);
+  --dim: var(--ink-2);
+  --mute: var(--ink-3);
+  --accent: var(--acc-lo);
+  --accent-strong: var(--acc);
+  --coral: var(--acc);
+  --amber: var(--acc-hi);
+  --violet: var(--acc-lo);
+  --teal: var(--acc-lo);
+  --blue: #8b5cf6;
+  --font-ar: var(--f-body);
+  --font-en: var(--f-head);
+  --far: var(--f-body);
+  --fen: var(--f-head);
+  --maxw: var(--wrap);
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: var(--line-hi) var(--s-void);
+}
+
+body {
+  margin: 0;
+  background: var(--s-void);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  /* Overflow is a bug, not a layout tool: clipping it here would hide the bug
+     rather than fix it, so pages are expected to fit. */
+}
+
+html[dir="ltr"] body { font-family: var(--f-head); }
+
+a { color: inherit; text-decoration: none; }
+img, svg, video, canvas { max-width: 100%; }
+img { display: block; height: auto; }
+
+::selection { background: rgba(168, 85, 247, .28); color: #fff; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--s-void); }
+::-webkit-scrollbar-thumb { border-radius: 999px; background: var(--line-hi); }
+
+:is(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--acc-lo);
+  outline-offset: 3px;
+}
+
+/* ── Layout primitives ────────────────────────────────────────────────────── */
+
+.wrap { width: min(var(--wrap), calc(100% - var(--gutter))); margin-inline: auto; }
+
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: 10px;
+  inset-inline-start: 10px;
+  padding: 9px 14px;
+  border-radius: var(--r);
+  background: var(--ink);
+  color: var(--s-void);
+  font-weight: 700;
+  transform: translateY(-160%);
+}
+.skip-link:focus { transform: none; }
+
+/* Bands are the site's vertical rhythm. A hairline, never a shadow, separates
+   two consecutive bands. */
+.band { padding-block: var(--x7); }
+.band-tight { padding-block: var(--x6); }
+.band + .band { border-top: 1px solid var(--line); }
+
+.hairline { height: 1px; margin: 0; border: 0; background: var(--line); }
+
+.panel { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--s-1); }
+.panel-hi { border-color: var(--line-hi); background: var(--s-2); }
+
+/* Hover shifts panel depth rather than colour, keeping the surface tactile
+   without introducing a second accent. */
+.panel-int { transition: background-color .18s ease, border-color .18s ease; }
+.panel-int:hover { border-color: var(--line-hi); background: var(--s-2); }
+
+/* ── Typography ───────────────────────────────────────────────────────────── */
+
+/* Headings carry the system's signature: weight 520 with negative tracking.
+   520 sits between Medium and Semibold and is why the type reads as technical
+   rather than marketing-loud. Tajawal has no 520, so Arabic rounds to 700 and
+   loses most of the negative tracking, which Arabic script cannot carry. */
+.t-h1, .t-h2, .t-h3, .t-h4 {
+  margin: 0;
+  font-family: var(--f-head);
+  font-weight: 520;
+  line-height: 1.15;
+  letter-spacing: -.045em;
+  color: var(--ink);
+}
+html[dir="rtl"] :is(.t-h1, .t-h2, .t-h3, .t-h4) {
+  font-family: var(--f-body);
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+.t-h1 { font-size: clamp(2.1rem, 4.6vw, 3rem); }
+.t-h2 { font-size: clamp(1.6rem, 3.2vw, 2rem); line-height: 1.2; }
+.t-h3 { font-size: 1.5rem; line-height: 1.2; letter-spacing: -.04em; }
+.t-h4 { font-size: 1.125rem; line-height: 1.4; letter-spacing: -.02em; }
+
+.t-body { font-size: 1rem; line-height: 1.65; color: var(--ink-2); }
+.t-sm { font-size: .875rem; line-height: 1.55; color: var(--ink-2); }
+
+/* Technical eyebrow, as in the source's "FIG 01 / UNIFIED VIEW" labels. Arabic
+   has no case, so uppercase and wide tracking are dropped rather than faked. */
+.t-label {
+  font-family: var(--f-data);
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+html[dir="rtl"] .t-label { letter-spacing: 0; text-transform: none; font-family: var(--f-body); }
+
+/* Figures line up in columns; without tabular figures they jitter as they
+   change, which is very visible in a live panel. */
+.t-data {
+  font-family: var(--f-data);
+  font-size: .8125rem;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -.01em;
+}
+
+/* ── Motion ───────────────────────────────────────────────────────────────── */
+
+/* Scroll-in reveal. Deliberately small: 14px and 420ms, staggered 50ms by
+   --rv-i, which JS sets per item. Anything larger reads as a slideshow. */
+.rv {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .42s cubic-bezier(.22, 1, .36, 1), transform .42s cubic-bezier(.22, 1, .36, 1);
+  transition-delay: calc(var(--rv-i, 0) * 50ms);
+}
+.rv.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rv { opacity: 1; transform: none; transition: none; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+@media (max-width: 720px) {
+  :root { --x7: 56px; --x6: 40px; --gutter: 28px; }
+}

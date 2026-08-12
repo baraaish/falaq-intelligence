@@ -1,56 +1,58 @@
-/* Styles for assets/flow-view.js. Uses the home page's existing custom
-   properties so the diagram reads as part of the site, not a widget. */
+/* Styles for assets/flow-view.js — the agent workflow diagram.
+   Tokens come from falaq-2026.css (loaded directly on the home page, via the
+   @import in company-pages.css everywhere else). No local :root here. */
 
-/* Shared by the home page picker and the generated service pages. */
-.flow-canvas { max-width: 620px; margin: 24px auto 0; }
+.flow-canvas { max-width: 640px; margin: var(--x4) auto 0; }
 
-.fx { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.fx { display: grid; margin: 0; padding: 0; gap: 0; list-style: none; }
 
 .fx-node {
   position: relative;
-  padding: 15px 18px;
-  border: 1px solid var(--line, #251b30);
-  border-radius: 14px;
-  background: var(--panel, #0b0912);
+  padding: 12px var(--x3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--s-1);
 }
 
 /* Connector between consecutive rows. */
-.fx > li + li { margin-top: 26px; }
+.fx > li + li { margin-top: var(--x4); }
 .fx > li + li::before {
-  content: "";
   position: absolute;
-  top: -26px;
+  top: calc(var(--x4) * -1);
   inset-inline-start: 50%;
   width: 1px;
-  height: 26px;
-  background: linear-gradient(var(--line-hi, #49315c), var(--accent, #c084fc));
+  height: var(--x4);
+  background: linear-gradient(var(--line-hi), var(--acc));
+  content: "";
 }
 
 .fx-label {
   display: block;
-  color: var(--accent, #c084fc);
-  font-family: "Manrope", system-ui, sans-serif;
-  font-size: .68rem;
-  font-weight: 800;
-  letter-spacing: .12em;
+  color: var(--acc-lo);
+  font-family: var(--f-data);
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: .14em;
   text-transform: uppercase;
 }
-.fx-text { display: block; margin-top: 6px; color: #d2ccd7; font-size: .92rem; line-height: 1.6; }
+html[dir="rtl"] .fx-label { letter-spacing: 0; text-transform: none; font-family: var(--f-body); font-weight: 700; }
 
-.fx-trigger { border-color: var(--line-hi, #49315c); background: linear-gradient(145deg, rgba(168, 85, 247, .1), rgba(255, 255, 255, .015)); }
-.fx-decision { border-color: rgba(192, 132, 252, .42); background: rgba(168, 85, 247, .07); }
-.fx-log { border-style: dashed; }
+.fx-text { display: block; margin-top: var(--x1); color: var(--ink-2); font-size: .875rem; line-height: 1.6; }
+
+.fx-trigger { border-color: var(--line-hi); background: var(--s-2); }
+.fx-decision { border-color: var(--line-accent); background: var(--acc-dim); }
+.fx-log { border-style: dashed; background: transparent; }
 
 /* The fork is where the guardrail becomes visible, so both outcomes sit at the
    same weight — the blocked branch is not styled as an error. */
 .fx-fork { position: relative; }
-.fx-branches { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.fx-branch { padding: 15px 18px; border: 1px solid var(--line, #251b30); border-radius: 14px; background: var(--panel, #0b0912); }
-.fx-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: .74rem; font-weight: 800; }
+.fx-branches { display: grid; margin: 0; padding: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--x2); list-style: none; }
+.fx-branch { padding: 12px var(--x3); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--s-1); }
+.fx-tag { display: inline-block; padding: 2px 8px; border-radius: var(--r-sm); font-family: var(--f-data); font-size: .6875rem; font-weight: 600; }
 .fx-yes { border-color: rgba(74, 222, 128, .3); }
-.fx-yes .fx-tag { background: rgba(74, 222, 128, .14); color: #86efac; }
+.fx-yes .fx-tag { background: rgba(74, 222, 128, .12); color: var(--ok); }
 .fx-no { border-color: rgba(251, 191, 36, .3); }
-.fx-no .fx-tag { background: rgba(251, 191, 36, .14); color: #fcd34d; }
+.fx-no .fx-tag { background: rgba(251, 191, 36, .12); color: var(--hold); }
 
 .fx-in > .fx > li { animation: fxIn .34s ease both; }
 .fx-in > .fx > li:nth-child(2) { animation-delay: .05s; }
