@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { SECTORS, RETIRED_SLUGS } = require("../content/sectors.js");
-const { SERVICES } = require("../content/services.js");
+const { SERVICES, CATEGORIES } = require("../content/services.js");
 const { FLOWS } = require("../content/agent-flows.js");
 const { markup: flowMarkup } = require("../assets/flow-view.js");
 const { RULES, RULE_TEXT } = require("../content/agent-rules.js");
@@ -310,6 +310,24 @@ for (const language of ["ar", "en"]) {
   homeData[language].sandboxStrings = language === "ar"
     ? { extracted: "ما استخرجه الوكيل", rules: "القواعد التي انطبقت", handoff: "التسليم" }
     : { extracted: "What the agent extracted", rules: "Rules that applied", handoff: "Handoff" };
+
+  // The home page renders all 17 services as cards. `image` points at the
+  // photograph for that service; the card falls back to a generated mark when
+  // the file is absent, so a partial image set still ships cleanly.
+  homeData[language].categories = CATEGORIES.map((category) => ({
+    key: category.key,
+    title: category[language].title,
+    lead: category[language].lead
+  }));
+  homeData[language].services = SERVICES.map((service) => ({
+    slug: service.slug,
+    number: service.number,
+    category: service.category,
+    name: service[language].name,
+    summary: service[language].summary,
+    href: itemRoute("services", service.slug, language),
+    image: `/assets/services/${service.slug}.webp`
+  }));
 }
 
 const generatedDir = path.join(root, "assets", "generated");

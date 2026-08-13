@@ -19,8 +19,8 @@
 :root {
   --line: #232427 !important;
   --line-hi: #33343a !important;
-  --accent: #c084fc !important;
-  --accent-strong: #a855f7 !important;
+  --accent: #4da3ff !important;
+  --accent-strong: #1a6dff !important;
   --panel: #101112 !important;
   --dim: #a9a5b3 !important;
   --mute: #6f6b79 !important;
@@ -135,7 +135,7 @@ html[dir="rtl"] .sv-rail h3 { font-family: var(--f-body); font-weight: 700; lett
 /* --- with / without contrast ------------------------------------------- */
 .sv-contrast { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--x4); }
 .sv-track { padding: var(--x4); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--s-1); }
-.sv-track-good { border-color: var(--line-accent); background: linear-gradient(180deg, rgba(168, 85, 247, .05), transparent 45%), var(--s-1); }
+.sv-track-good { border-color: var(--line-accent); background: linear-gradient(180deg, rgba(26, 109, 255, .05), transparent 45%), var(--s-1); }
 .sv-track > .t-label { display: block; margin-bottom: var(--x4); }
 .sv-track-good > .t-label { color: var(--acc-lo); }
 .sv-track ol { display: grid; gap: 0; margin: 0 0 var(--x3); padding: 0; list-style: none; counter-reset: sv-node; }
@@ -160,7 +160,7 @@ html[dir="rtl"] .sv-rail h3 { font-family: var(--f-body); font-weight: 700; lett
 .sv-flow { max-width: 900px; margin-inline: auto; }
 
 /* --- engagement band ---------------------------------------------------- */
-.sv-engage { padding: var(--x7) 0; border-block: 1px solid var(--line); background: radial-gradient(110% 130% at 50% 0%, rgba(168, 85, 247, .09), transparent 62%), var(--s-base); }
+.sv-engage { padding: var(--x7) 0; border-block: 1px solid var(--line); background: radial-gradient(110% 130% at 50% 0%, rgba(26, 109, 255, .09), transparent 62%), var(--s-base); }
 .sv-engage .sv-head { margin-bottom: var(--x4); }
 .sv-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: var(--x5); }
 .sv-actions .nav-button { min-height: 46px; padding: 0 22px; border-radius: var(--r); font-size: .88rem; }

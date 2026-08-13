@@ -62,19 +62,29 @@ async function callProvider(provider, messages, options = {}) {
     };
     if (provider.name === "openrouter") {
       headers["HTTP-Referer"] = process.env.PUBLIC_SITE_URL || "http://localhost:3000";
-      headers["X-Title"] = "Falaq Intelligence Workflow Builder";
+      headers["X-OpenRouter-Title"] = "Falaq Intelligence Workflow Builder";
     }
+
+    const completionBudget = options.maxTokens || 2200;
+    const body = {
+      model: process.env[provider.modelEnv] || provider.defaultModel,
+      messages
+    };
+    // Cerebras and Groq use the current OpenAI-compatible field name.
+    // Gemini 3.6 ignores temperature, so omit it instead of sending a
+    // deprecated parameter that future versions may reject.
+    if (provider.name === "cerebras" || provider.name === "groq") {
+      body.max_completion_tokens = completionBudget;
+    } else {
+      body.max_tokens = completionBudget;
+    }
+    if (provider.name !== "gemini") body.temperature = options.temperature ?? 0.35;
 
     const response = await fetch(provider.url, {
       method: "POST",
       headers,
       signal: controller.signal,
-      body: JSON.stringify({
-        model: process.env[provider.modelEnv] || provider.defaultModel,
-        messages,
-        temperature: options.temperature ?? 0.35,
-        max_tokens: options.maxTokens || 2200
-      })
+      body: JSON.stringify(body)
     });
 
     if (!response.ok) {

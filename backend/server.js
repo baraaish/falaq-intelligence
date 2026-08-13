@@ -14,8 +14,8 @@ const port = Number(process.env.PORT) || 3000;
 const root = path.resolve(__dirname, "..");
 const dataDirectory = path.join(__dirname, "data");
 
-// Render terminates TLS in front of the app, so without this every request
-// reports the proxy address and the whole rate limiter collapses to one bucket.
+// cPanel Passenger terminates TLS in front of the app. Trusting the first proxy
+// preserves the visitor address used by the rate limiter.
 app.set("trust proxy", 1);
 
 app.use(express.json({ limit: "1mb" }));
@@ -23,7 +23,6 @@ app.use(express.json({ limit: "1mb" }));
 const allowedOrigins = new Set([
   "https://falaqai.com",
   "https://www.falaqai.com",
-  "https://baraaish.github.io",
   ...(process.env.CORS_ORIGINS || "").split(",").map((origin) => origin.trim()).filter(Boolean)
 ]);
 
@@ -41,8 +40,7 @@ app.use((request, response, next) => {
   next();
 });
 
-// POST only — Render polls the status route as its health check and must never
-// be throttled by traffic arriving through the same proxy address.
+// POST only: status checks must never spend a visitor's rate-limit allowance.
 app.use("/api/agent", (request, response, next) => {
   if (request.method !== "POST") return next();
   return floodLimit(request, response, next);
@@ -84,9 +82,8 @@ async function recordLead(record) {
   }
 }
 
-// Render polls this as the health check, so the default response stays a cheap
-// config read. `?probe=1` is the deliberate, cached version that actually calls
-// each provider — a configured key proves nothing about a retired endpoint.
+// The default response is a cheap config read. `?probe=1` is the deliberate,
+// cached version that actually calls each provider.
 app.get("/api/agent/status", async (request, response) => {
   const base = {
     ok: true,
@@ -203,7 +200,7 @@ app.post("/api/agent/finalize", finalizeLimit, async (request, response) => {
 });
 
 app.use((request, response, next) => {
-  if (/^\/(backend|node_modules)(\/|$)/.test(request.path) || ["/package.json", "/package-lock.json", "/google-apps-script.js", "/GOOGLE_SHEETS_SETUP.md"].includes(request.path) || request.path.startsWith("/.env")) {
+  if (/^\/(backend|node_modules)(\/|$)/.test(request.path) || ["/app.js", "/package.json", "/package-lock.json", "/google-apps-script.js", "/GOOGLE_SHEETS_SETUP.md"].includes(request.path) || request.path.startsWith("/.env")) {
     return response.sendStatus(404);
   }
   next();

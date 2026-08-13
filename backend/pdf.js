@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const puppeteer = require("puppeteer-core");
+const { renderPdfLite } = require("./pdf-lite");
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -250,22 +251,29 @@ function findBrowser() {
 }
 
 async function renderPdf(data) {
+  if (process.env.PDF_RENDERER === "lite") return renderPdfLite(data);
   const executablePath = findBrowser();
-  if (!executablePath) throw new Error("No compatible browser was found for PDF generation");
+  if (!executablePath) return renderPdfLite(data);
 
-  const browser = await puppeteer.launch({
-    executablePath,
-    headless: true,
-    timeout: 60000,
-    args: ["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu"]
-  });
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      executablePath,
+      headless: true,
+      timeout: 60000,
+      args: ["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu"]
+    });
+  } catch (error) {
+    console.warn(`Chromium PDF unavailable; using the lightweight renderer: ${error.message}`);
+    return renderPdfLite(data);
+  }
 
   try {
     const page = await browser.newPage();
     await page.setContent(proposalHtml(data), { waitUntil: "networkidle0" });
     return await page.pdf({ format: "A4", printBackground: true, preferCSSPageSize: true });
   } finally {
-    await browser.close();
+    if (browser) await browser.close();
   }
 }
 

@@ -787,8 +787,7 @@ function rawPathParts() {
 }
 
 function pathParts() {
-  const parts = rawPathParts();
-  return location.hostname.endsWith("github.io") && parts[0] === "falaq-intelligence" ? parts.slice(1) : parts;
+  return rawPathParts();
 }
 
 function isArabic() {
@@ -796,8 +795,7 @@ function isArabic() {
 }
 
 function siteBase() {
-  const first = rawPathParts()[0];
-  return location.hostname.endsWith("github.io") && first === "falaq-intelligence" ? "/falaq-intelligence" : "";
+  return "";
 }
 
 function rootPath(path = "") {

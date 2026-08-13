@@ -12,9 +12,9 @@
   :root{
     --bg:#03030A; --bg2:#05050D; --panel:#0B0B13; --panel2:#11111B; --card:#080810;
     --line:#21182B; --line-hi:#382646;
-    --ink:#E8E8EC; --dim:#9C9CA8; --mute:#5A5A68;
-    --coral:#A855F7; --amber:#C896FF; --violet:#C084FC; --teal:#A855F7; --blue:#8B5CF6;
-    --accent:#A855F7;
+    --ink:#E8E8EC; --dim:#b3b3bf; --mute:#5A5A68;
+    --coral:#1a6dff; --amber:#4da3ff; --violet:#4da3ff; --teal:#1a6dff; --blue:#1553d6;
+    --accent:#1a6dff;
     --fen:'Manrope',system-ui,-apple-system,sans-serif;
     --far:'Tajawal',system-ui,sans-serif;
     --font:var(--far);
@@ -33,7 +33,7 @@
   .wrap{width:min(var(--maxw),calc(100% - 44px));margin:0 auto}
   .skip-link{position:fixed;top:10px;inset-inline-start:10px;z-index:100;padding:10px 14px;border-radius:8px;background:#fff;color:#03030A;font-weight:800;transform:translateY(-150%)}
   .skip-link:focus{transform:translateY(0)}
-  :is(a,button,input,select,textarea):focus-visible{outline:3px solid #C084FC!important;outline-offset:3px}
+  :is(a,button,input,select,textarea):focus-visible{outline:3px solid #4da3ff!important;outline-offset:3px}
 
   /* keyframes lifted from the Falaq design system */
   @keyframes floatOrb1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-40px) scale(1.08)}}
@@ -41,7 +41,7 @@
   @keyframes iconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   @keyframes iconScan{0%{transform:translateY(-14px);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(16px);opacity:0}}
   @keyframes bounceArrow{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
-  @keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,.35)}50%{box-shadow:0 0 0 10px rgba(168,85,247,0)}}
+  @keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(26,109,255,.35)}50%{box-shadow:0 0 0 10px rgba(26,109,255,0)}}
   @keyframes gridPan{0%{background-position:0 0}100%{background-position:56px 56px}}
   @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 
@@ -52,7 +52,7 @@
   .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.15rem;letter-spacing:.2px}
   .brand .mark{width:34px;height:34px;border-radius:10px;
     background:radial-gradient(circle at 35% 30%,#1c1230,#0b1120);
-    border:1px solid rgba(168,85,247,.5);display:grid;place-items:center;
+    border:1px solid rgba(26,109,255,.5);display:grid;place-items:center;
     box-shadow:0 8px 22px rgba(0,0,0,.4);animation:iconFloat 5s ease-in-out infinite}
   .brand .mark svg{width:19px;height:19px}
   .brand small{color:var(--mute);font-weight:500;font-size:.7rem;display:block;margin-top:-4px}
@@ -64,8 +64,8 @@
     min-height:44px;padding:0 20px;border-radius:10px;font-weight:700;font-size:.92rem;
     cursor:pointer;border:1px solid transparent;transition:transform .16s,box-shadow .16s,background .16s,border-color .16s;font-family:inherit}
   .btn:hover{transform:translateY(-2px)}
-  .btn-primary{background:linear-gradient(180deg,#C896FF,var(--coral));color:#14081f;
-    box-shadow:0 10px 30px rgba(168,85,247,.32)}
+  .btn-primary{background:linear-gradient(180deg,#4da3ff,var(--coral));color:#14081f;
+    box-shadow:0 10px 30px rgba(26,109,255,.32)}
   .btn-ghost{background:rgba(244,247,255,.04);border-color:var(--line-hi);color:var(--ink)}
   .btn-lang{min-height:38px;padding:0 12px;background:transparent;border-color:var(--line-hi);color:var(--dim);font-weight:600}
   .nav-toggle{display:none;background:none;border:1px solid var(--line-hi);border-radius:9px;width:42px;height:42px;color:var(--ink);cursor:pointer}
@@ -75,29 +75,29 @@
   .hero .orbs{position:absolute;inset:0;pointer-events:none}
   .orb{position:absolute;border-radius:50%;filter:blur(14px)}
   .orb.a{top:-8%;inset-inline-end:-6%;width:520px;height:520px;
-    background:radial-gradient(circle at 30% 30%,rgba(168,85,247,.30),transparent 65%);animation:floatOrb1 17s ease-in-out infinite}
+    background:radial-gradient(circle at 30% 30%,rgba(26,109,255,.30),transparent 65%);animation:floatOrb1 17s ease-in-out infinite}
   .orb.b{bottom:-16%;inset-inline-start:-8%;width:560px;height:560px;
-    background:radial-gradient(circle at 60% 40%,rgba(139,92,246,.20),transparent 65%);animation:floatOrb2 19s ease-in-out infinite}
+    background:radial-gradient(circle at 60% 40%,rgba(21,83,214,.20),transparent 65%);animation:floatOrb2 19s ease-in-out infinite}
   .orb.c{top:24%;inset-inline-start:36%;width:360px;height:360px;
-    background:radial-gradient(circle at 50% 50%,rgba(192,132,252,.14),transparent 65%);animation:floatOrb1 21s ease-in-out infinite}
+    background:radial-gradient(circle at 50% 50%,rgba(77,163,255,.14),transparent 65%);animation:floatOrb1 21s ease-in-out infinite}
   .hero .grid-bg{position:absolute;inset:0;opacity:.5;pointer-events:none;
     background-image:linear-gradient(rgba(42,51,80,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(42,51,80,.16) 1px,transparent 1px);
     background-size:56px 56px;mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000,transparent 75%);animation:gridPan 24s linear infinite}
   .hero-in{position:relative;z-index:2;max-width:920px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:22px}
   .hero-mark{position:relative;width:88px;height:88px;display:grid;place-items:center}
   .hero-mark .box{width:78px;height:78px;border-radius:22px;
-    background:linear-gradient(150deg,#1c1230,#0b1120);border:1px solid rgba(168,85,247,.45);
+    background:linear-gradient(150deg,#1c1230,#0b1120);border:1px solid rgba(26,109,255,.45);
     display:grid;place-items:center;box-shadow:0 18px 40px rgba(0,0,0,.45);animation:iconFloat 4.6s ease-in-out infinite;overflow:hidden;position:relative}
   .hero-mark .box svg{width:36px;height:36px}
   .hero-mark .scan{position:absolute;left:10px;right:10px;top:6px;height:2px;
-    background:linear-gradient(90deg,rgba(168,85,247,0),rgba(168,85,247,.9),rgba(168,85,247,0));animation:iconScan 2.6s ease-in-out infinite}
+    background:linear-gradient(90deg,rgba(26,109,255,0),rgba(26,109,255,.9),rgba(26,109,255,0));animation:iconScan 2.6s ease-in-out infinite}
   .eyebrow{display:inline-flex;align-items:center;gap:10px;padding:7px 15px;border-radius:999px;
-    background:rgba(168,85,247,.09);border:1px solid rgba(168,85,247,.3);color:#d8b4fe;
+    background:rgba(26,109,255,.09);border:1px solid rgba(26,109,255,.3);color:#8dd6ff;
     font-size:.82rem;font-weight:600}
   .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--coral);animation:badgePulse 2.4s infinite}
   h1{font-size:clamp(2rem,5.2vw,3.5rem);line-height:1.18;font-weight:800;letter-spacing:-.5px}
   html[dir="ltr"] h1{letter-spacing:-1.5px}
-  .grad{background:linear-gradient(120deg,#fff 20%,#d8b4fe 60%,#c084fc);
+  .grad{background:linear-gradient(120deg,#fff 20%,#8dd6ff 60%,#4da3ff);
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .lead{font-size:clamp(1rem,2vw,1.18rem);color:var(--dim);max-width:720px}
   .hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:6px}
@@ -115,7 +115,7 @@
     font-family:var(--fen);font-size:.84rem;font-weight:600}
   .ai-badge i{width:7px;height:7px;border-radius:50%;font-style:normal;flex-shrink:0}
   .ai-badge svg{width:18px;height:18px;flex-shrink:0}
-  .ai-badge-brand{border-color:rgba(192,132,252,.42);background:rgba(168,85,247,.10);color:#e9d5ff}
+  .ai-badge-brand{border-color:rgba(77,163,255,.42);background:rgba(26,109,255,.10);color:#e9d5ff}
   .ai-fade{position:absolute;top:0;bottom:0;width:90px;pointer-events:none;z-index:2}
   .ai-fade-l{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
   .ai-fade-r{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
@@ -130,7 +130,7 @@
   /* generic section */
   section.blk{padding:84px 0;position:relative}
   .sec-head{max-width:680px;margin:0 auto 48px;text-align:center}
-  .kick{display:inline-block;color:var(--coral);font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+  .kick{display:inline-block;color:var(--acc-lo);font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
   html[dir="rtl"] .kick{letter-spacing:0;text-transform:none}
   h2{font-size:clamp(1.6rem,3.4vw,2.4rem);font-weight:800;line-height:1.25;letter-spacing:-.4px}
   .sec-head p{color:var(--dim);margin-top:14px;font-size:1.05rem}
@@ -166,20 +166,71 @@
   .flow-tab:hover{border-color:var(--line-hi);color:#fff}
   .flow-tab.on{border-color:transparent;background:#fff;color:#08050d}
   .flow-agent{margin:0 0 22px;text-align:center;color:var(--dim);font-size:.9rem}
-  .flow-agent a{color:#c084fc;font-weight:700}
-  .sandbox-head{max-width:620px;margin:38px auto 16px;text-align:center}
-  .sandbox-head h3{margin:0 0 8px;font-size:1.15rem}
-  .sandbox-head p{margin:0;color:var(--dim);font-size:.88rem}
-  .sandbox{max-width:960px;margin-inline:auto}
+  .flow-agent a{color:#4da3ff;font-weight:700}
+  /* ── service cards ─────────────────────────────────────────────── */
+  .svc-filter{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:32px}
+  .svc-filter button{padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:transparent;
+    color:var(--dim);font:inherit;font-size:.84rem;font-weight:650;cursor:pointer;transition:.18s ease}
+  .svc-filter button:hover{border-color:var(--line-hi);color:#fff}
+  .svc-filter button.on{border-color:transparent;background:#fff;color:#08050d}
+  .svc-filter button b{opacity:.55;font-weight:700;font-size:.76rem}
+  .svc-filter button.on b{opacity:.5}
+
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .svc-card{display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(255,255,255,0.06);border-top:1px solid rgba(255,255,255,0.12);
+    border-radius:14px;background:rgba(12,10,18,0.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:inherit;text-decoration:none;
+    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
+  .svc-card:hover{transform:translateY(-4px);border-color:rgba(77,163,255,0.35);box-shadow:0 20px 40px rgba(0,0,0,0.4),0 0 40px rgba(26,109,255,0.1)}
+  .svc-card[hidden]{display:none}
+
+  .svc-media{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:transparent}
+  .svc-media img{width:100%;height:100%;object-fit:cover;filter:grayscale(.35) brightness(.72);
+    -webkit-mask-image:linear-gradient(180deg, black 45%, transparent 100%);
+    mask-image:linear-gradient(180deg, black 45%, transparent 100%);
+    transition:filter .3s ease,transform .4s ease}
+  .svc-card:hover .svc-media img{filter:grayscale(0) brightness(.9);transform:scale(1.04)}
+  /* Removed old ::after overlay in favor of modern mask-image blending */
+  /* Fallback when the photograph is missing. */
+  .svc-media.is-blank{background:
+    radial-gradient(circle at 30% 25%,rgba(26,109,255,.16),transparent 60%),
+    linear-gradient(145deg,#0d0f14,#08080a)}
+  .svc-media.is-blank::before{content:"";position:absolute;inset:0;opacity:.5;
+    background-image:linear-gradient(rgba(77,163,255,.09) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(77,163,255,.09) 1px,transparent 1px);background-size:22px 22px}
+  .svc-num{position:absolute;z-index:2;top:12px;inset-inline-start:12px;padding:3px 9px;
+    border:1px solid rgba(141,214,255,.28);border-radius:6px;background:rgba(7,7,8,.62);
+    color:#8dd6ff;font-family:'Inter',monospace;font-size:.68rem;font-weight:700;letter-spacing:.08em;
+    backdrop-filter:blur(6px)}
+
+  .svc-body{flex:1;padding:20px 20px 6px}
+  .svc-body h3{margin:0 0 9px;font-size:1.02rem;font-weight:750;line-height:1.35;color:#fff}
+  .svc-body p{margin:0;color:var(--dim);font-size:.88rem;line-height:1.7;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .svc-go{display:flex;align-items:center;gap:7px;padding:14px 20px 18px;
+    color:#4da3ff;font-size:.82rem;font-weight:700}
+  .svc-go i{font-style:normal;transition:transform .2s ease}
+  .svc-card:hover .svc-go i{transform:translateX(var(--go-x,-4px))}
+  html[dir="ltr"] .svc-card{--go-x:4px}
+  /* staggered entrance animation */
+  @keyframes svcReveal{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+  .svc-card{opacity:0}
+  .svc-card.is-visible{animation:svcReveal .55s cubic-bezier(.2,.7,.3,1) both;animation-delay:var(--reveal-delay,0s)}
+  /* mouse-tracking glow on hover */
+  .svc-card{--glow-x:50%;--glow-y:50%;position:relative}
+  .svc-card::before{content:"";position:absolute;inset:0;z-index:0;border-radius:inherit;
+    background:radial-gradient(400px circle at var(--glow-x) var(--glow-y),rgba(26,109,255,.1),transparent 65%);
+    opacity:0;transition:opacity .32s ease;pointer-events:none}
+  .svc-card:hover::before{opacity:1}
+
   .sec-more{margin:26px 0 0;text-align:center}
-  .sec-more a{color:var(--acc,#c084fc);font-weight:700;text-decoration:none}
+  .sec-more a{color:var(--acc,#4da3ff);font-weight:700;text-decoration:none}
   .sec-more a:hover{text-decoration:underline}
   .stats-blk{padding-top:0}
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
   .stat{padding:22px 18px;border-radius:16px;background:var(--panel);border:1px solid var(--line)}
   .stat b{display:block;font-family:'Manrope',sans-serif;font-size:2.1rem;line-height:1.1;color:#fff}
   .stat span{display:block;margin-top:8px;color:var(--dim);font-size:.86rem}
-  .ind .ii{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.22)}
+  .ind .ii{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(26,109,255,.08);border:1px solid rgba(26,109,255,.22)}
   .ind .ii svg{width:22px;height:22px}
   .ind h4{font-size:1rem;font-weight:700}
   .ind p{color:var(--mute);font-size:.85rem}
@@ -188,18 +239,18 @@
   .why{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:center}
   .why-list{display:flex;flex-direction:column;gap:16px}
   .why-item{display:flex;gap:14px;padding:18px 20px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
-  .why-item .ck{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.4);display:grid;place-items:center;color:var(--teal);font-weight:900;font-size:.8rem}
+  .why-item .ck{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(26,109,255,.14);border:1px solid rgba(26,109,255,.4);display:grid;place-items:center;color:var(--teal);font-weight:900;font-size:.8rem}
   .why-item h4{font-size:1.02rem;font-weight:700;margin-bottom:3px}
   .why-item p{color:var(--dim);font-size:.9rem}
   .why-vis{position:relative;border-radius:22px;border:1px solid var(--line);overflow:hidden;
     background:radial-gradient(ellipse 80% 70% at 50% 30%,#141b30,#080c16);min-height:360px;display:grid;place-items:center}
-  .why-vis .ring{position:absolute;border:1px solid rgba(168,85,247,.16);border-radius:50%}
+  .why-vis .ring{position:absolute;border:1px solid rgba(26,109,255,.16);border-radius:50%}
   .why-vis .ring.r1{width:150px;height:150px}
   .why-vis .ring.r2{width:250px;height:250px}
   .why-vis .ring.r3{width:350px;height:350px}
   .why-vis .core{width:96px;height:96px;border-radius:26px;display:grid;place-items:center;
-    background:linear-gradient(150deg,#1c1230,#0b1120);border:1px solid rgba(168,85,247,.5);z-index:2;
-    box-shadow:0 0 60px rgba(168,85,247,.3);animation:iconFloat 4.6s ease-in-out infinite}
+    background:linear-gradient(150deg,#1c1230,#0b1120);border:1px solid rgba(26,109,255,.5);z-index:2;
+    box-shadow:0 0 60px rgba(26,109,255,.3);animation:iconFloat 4.6s ease-in-out infinite}
   .why-vis .core svg{width:44px;height:44px}
   .why-vis .chip{position:absolute;padding:8px 13px;border-radius:10px;background:rgba(15,20,33,.9);
     border:1px solid var(--line-hi);font-size:.78rem;font-weight:600;color:var(--dim);backdrop-filter:blur(6px)}
@@ -207,8 +258,8 @@
   /* MODELS */
   .models{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
   .model{padding:30px 26px;border-radius:18px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
-  .model.feat{border-color:rgba(168,85,247,.4);background:linear-gradient(180deg,rgba(168,85,247,.06),var(--card))}
-  .model .tag{align-self:flex-start;padding:5px 12px;border-radius:999px;font-size:.74rem;font-weight:700;background:rgba(168,85,247,.12);color:#d8b4fe;border:1px solid rgba(168,85,247,.3)}
+  .model.feat{border-color:rgba(26,109,255,.4);background:linear-gradient(180deg,rgba(26,109,255,.06),var(--card))}
+  .model .tag{align-self:flex-start;padding:5px 12px;border-radius:999px;font-size:.74rem;font-weight:700;background:rgba(26,109,255,.12);color:#8dd6ff;border:1px solid rgba(26,109,255,.3)}
   .model h3{font-size:1.25rem;font-weight:800}
   .model p{color:var(--dim);font-size:.94rem;flex:1}
   .model ul{list-style:none;display:flex;flex-direction:column;gap:9px}
@@ -240,7 +291,7 @@
   .foot-brand .brand{margin-bottom:12px}
   .social-links{display:flex;gap:10px;margin-top:18px}
   .social-link{display:grid;width:40px;height:40px;place-items:center;border:1px solid var(--line-hi);border-radius:11px;color:var(--dim);transition:color .18s,border-color .18s,background .18s,transform .18s}
-  .social-link:hover{color:#fff;border-color:rgba(192,132,252,.65);background:rgba(168,85,247,.1);transform:translateY(-2px)}
+  .social-link:hover{color:#fff;border-color:rgba(77,163,255,.65);background:rgba(26,109,255,.1);transform:translateY(-2px)}
   .social-link svg{width:19px;height:19px}
   .copy{border-top:1px solid var(--line);margin-top:34px;padding-top:22px;color:var(--mute);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 
@@ -251,6 +302,7 @@
   @media(max-width:960px){
     .agents,.models,.team{grid-template-columns:repeat(2,1fr)}
     .inds{grid-template-columns:repeat(2,1fr)}
+    .svc-grid{grid-template-columns:repeat(2,1fr)}
     .stats{grid-template-columns:repeat(2,1fr)}
     .why{grid-template-columns:1fr}
     .nav-links{display:none}
@@ -272,6 +324,7 @@
     .nav-toggle{width:40px;height:40px}
     .nav-links.open{top:64px;max-height:calc(100dvh - 64px)}
     .agents,.models,.team,.inds{grid-template-columns:1fr}
+    .svc-grid{grid-template-columns:1fr}
     .stats{grid-template-columns:repeat(2,1fr)}
     .hero{padding:64px 0 60px}
     section.blk{padding:60px 0}
@@ -285,7 +338,7 @@
   <link rel="stylesheet" href="/assets/falaq-2026.css">
   <link rel="stylesheet" href="/assets/flow-view.css">
   <link rel="stylesheet" href="/assets/agent-console.css">
-  <link rel="stylesheet" href="/assets/agent-sandbox.css">
+  <link rel="stylesheet" href="/assets/agent-stage.css">
   <script defer src="/assets/aether-flow.js"></script>
 <!-- SEO:START -->
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
@@ -320,7 +373,7 @@
   <div class="wrap nav-in">
     <a class="brand" href="./" aria-label="Falaq">
       <span class="mark">
-        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gNav" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gNav)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gNav)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg>
+        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gNav" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#1553d6"/><stop offset=".55" stop-color="#4da3ff"/><stop offset="1" stop-color="#8dd6ff"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gNav)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gNav)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#8dd6ff"/><circle cx="7" cy="34" r="1.7" fill="#1553d6"/></svg>
       </span>
       <span><span data-i18n="brandName">فَلَق</span><small data-i18n="brandSub">للذكاء الاصطناعي</small></span>
     </a>
@@ -340,13 +393,12 @@
 
 <!-- HERO -->
 <header class="hero aether-flow-hero" id="main-content" tabindex="-1">
-  <canvas class="aether-canvas" aria-hidden="true"></canvas>
-  <div class="orbs"><span class="orb a"></span><span class="orb b"></span><span class="orb c"></span></div>
-  <div class="grid-bg"></div>
+  <video class="hero-bg-video" src="/assets/hero-video.mp4" autoplay loop muted playsinline aria-hidden="true"></video>
+  <div class="hero-noise-overlay" aria-hidden="true"></div>
   <div class="wrap hero-in">
     <div class="hero-mark">
       <div class="box">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M4 4H20L13 12.5V19L11 20V12.5L4 4Z" stroke="#A855F7" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 17.2l1.6 1.6 3.4-3.6" stroke="#A855F7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 4H20L13 12.5V19L11 20V12.5L4 4Z" stroke="#1a6dff" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 17.2l1.6 1.6 3.4-3.6" stroke="#1a6dff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span class="scan"></span>
       </div>
     </div>
@@ -365,26 +417,26 @@
 <div class="ai-strip" dir="ltr" aria-label="AI models we build with">
   <div class="ai-strip-track">
     <div class="ai-set">
-      <span class="ai-badge ai-badge-brand"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gStrip" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gStrip)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gStrip)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg>Falaq Intelligence — works with</span>
+      <span class="ai-badge ai-badge-brand"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gStrip" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#1553d6"/><stop offset=".55" stop-color="#4da3ff"/><stop offset="1" stop-color="#8dd6ff"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gStrip)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gStrip)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#8dd6ff"/><circle cx="7" cy="34" r="1.7" fill="#1553d6"/></svg>Falaq Intelligence — works with</span>
       <span class="ai-badge"><i style="background:#10a37f"></i>OpenAI GPT-4o</span>
       <span class="ai-badge"><i style="background:#d97757"></i>Anthropic Claude</span>
       <span class="ai-badge"><i style="background:#4285f4"></i>Google Gemini</span>
       <span class="ai-badge"><i style="background:#0668e1"></i>Meta Llama 3</span>
       <span class="ai-badge"><i style="background:#fa5c0f"></i>Mistral Large</span>
       <span class="ai-badge"><i style="background:#4d6bfe"></i>DeepSeek V3</span>
-      <span class="ai-badge"><i style="background:#c084fc"></i>ElevenLabs Voice</span>
-      <span class="ai-badge"><i style="background:#8b5cf6"></i>Whisper Speech</span>
+      <span class="ai-badge"><i style="background:#4da3ff"></i>ElevenLabs Voice</span>
+      <span class="ai-badge"><i style="background:#1553d6"></i>Whisper Speech</span>
     </div>
     <div class="ai-set" aria-hidden="true">
-      <span class="ai-badge ai-badge-brand"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gStrip)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gStrip)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg>Falaq Intelligence — works with</span>
+      <span class="ai-badge ai-badge-brand"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gStrip)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gStrip)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#8dd6ff"/><circle cx="7" cy="34" r="1.7" fill="#1553d6"/></svg>Falaq Intelligence — works with</span>
       <span class="ai-badge"><i style="background:#10a37f"></i>OpenAI GPT-4o</span>
       <span class="ai-badge"><i style="background:#d97757"></i>Anthropic Claude</span>
       <span class="ai-badge"><i style="background:#4285f4"></i>Google Gemini</span>
       <span class="ai-badge"><i style="background:#0668e1"></i>Meta Llama 3</span>
       <span class="ai-badge"><i style="background:#fa5c0f"></i>Mistral Large</span>
       <span class="ai-badge"><i style="background:#4d6bfe"></i>DeepSeek V3</span>
-      <span class="ai-badge"><i style="background:#c084fc"></i>ElevenLabs Voice</span>
-      <span class="ai-badge"><i style="background:#8b5cf6"></i>Whisper Speech</span>
+      <span class="ai-badge"><i style="background:#4da3ff"></i>ElevenLabs Voice</span>
+      <span class="ai-badge"><i style="background:#1553d6"></i>Whisper Speech</span>
     </div>
   </div>
   <span class="ai-fade ai-fade-l" aria-hidden="true"></span>
@@ -427,11 +479,6 @@
     <div class="flow-picker rv" id="flowPicker" role="tablist" aria-label="القطاعات"></div>
     <p class="flow-agent rv" id="flowAgent"></p>
     <div class="flow-canvas rv" id="flowCanvas" role="tabpanel" aria-live="polite"></div>
-    <div class="sandbox-head rv" id="sandboxHead" hidden>
-      <h3 data-i18n="sbTitle">جرّب القواعد بنفسك</h3>
-      <p data-i18n="sbSub">غيّر المدخلات وشاهد أي قاعدة تنطبق ولماذا. الحساب يجري في متصفحك — لا إرسال ولا تخزين.</p>
-    </div>
-    <div class="sandbox rv" id="sandbox"></div>
   </div>
 </section>
 
@@ -443,8 +490,8 @@
       <h2 data-i18n="agentsTitle">وكلاء جاهزون لأكثر مهامك تكرارًا</h2>
       <p data-i18n="agentsSub">كل وكيل مصمّم لعملية تجارية محددة، يعمل ضمن صلاحيات تحددها أنت، ويسلّم للموظف المختص عند الحاجة. اضغط على أي وكيل لمشاهدة صفحته التفاعلية.</p>
     </div>
-    <div class="agents" id="agentGrid"></div>
-    <p class="sec-more rv"><a href="/services/" data-services-link data-i18n="agentsMore">اطّلع على الخدمات السبعَ عشرة كاملة ←</a></p>
+    <div class="svc-filter rv" id="svcFilter" role="tablist"></div>
+    <div class="svc-grid" id="agentGrid"></div>
   </div>
 </section>
 
@@ -478,7 +525,7 @@
     </div>
     <div class="why-vis rv">
       <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
-      <div class="core"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gCore" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gCore)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gCore)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg></div>
+      <div class="core"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gCore" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#1553d6"/><stop offset=".55" stop-color="#4da3ff"/><stop offset="1" stop-color="#8dd6ff"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gCore)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gCore)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#8dd6ff"/><circle cx="7" cy="34" r="1.7" fill="#1553d6"/></svg></div>
       <span class="chip" style="top:16%;inset-inline-start:10%">WhatsApp</span>
       <span class="chip" style="top:26%;inset-inline-end:8%">CRM</span>
       <span class="chip" style="bottom:20%;inset-inline-start:8%" data-i18n="chipCal">التقويم</span>
@@ -524,7 +571,7 @@
   <div class="wrap">
     <div class="foot">
       <div class="foot-brand">
-        <a class="brand" href="./"><span class="mark"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gFoot" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".55" stop-color="#C084FC"/><stop offset="1" stop-color="#F0ABFC"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gFoot)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gFoot)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#F0ABFC"/><circle cx="7" cy="34" r="1.7" fill="#8B5CF6"/></svg></span><span data-i18n="brandName">فَلَق</span></a>
+        <a class="brand" href="./"><span class="mark"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="gFoot" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#1553d6"/><stop offset=".55" stop-color="#4da3ff"/><stop offset="1" stop-color="#8dd6ff"/></linearGradient></defs><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#gFoot)"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#gFoot)" stroke-width="3" stroke-linecap="round" opacity=".9"/><circle cx="41" cy="34" r="2.2" fill="#8dd6ff"/><circle cx="7" cy="34" r="1.7" fill="#1553d6"/></svg></span><span data-i18n="brandName">فَلَق</span></a>
         <p data-i18n="footBlurb">وكلاء ذكاء اصطناعي ينفذون العمل داخل عمليات الشركات في الأردن والخليج.</p>
         <div class="social-links" aria-label="Social media">
           <a class="social-link" href="https://www.instagram.com/falaqai/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
@@ -569,7 +616,7 @@
 <script src="/assets/config.js"></script>
 <script src="/assets/generated/home-data.js"></script>
 <script src="/assets/flow-view.js"></script>
-<script src="/assets/agent-sandbox.js"></script>
+<script src="/assets/agent-choreo.js"></script>
 <script src="/assets/agent-console.js"></script>
 <script>
 (function(){
@@ -588,14 +635,14 @@
   function svg(k,cur){return '<svg viewBox="0 0 24 24" fill="none">'+ic[k].replace(/CUR/g,cur)+'</svg>';}
 
   var indIc = {
-    education:'<path d="M12 5 3 9l9 4 9-4-9-4Z" stroke="#C896FF" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 11v5c0 1.1 2.2 2 5 2s5-.9 5-2v-5" stroke="#C896FF" stroke-width="1.5" stroke-linejoin="round"/><path d="M21 9v5" stroke="#C896FF" stroke-width="1.5" stroke-linecap="round"/>',
-    retail:'<path d="M4 8h16l-1.2 11a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8L4 8Z" stroke="#C084FC" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round"/>',
-    hospitality:'<path d="M6 3v7a2 2 0 0 0 4 0V3M8 10v11" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 21V3c-1.7.9-2.5 2.7-2.5 5s.8 3.6 2.5 4" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
-    health:'<path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10Z" stroke="#A855F7" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v5M9.5 10.5h5" stroke="#A855F7" stroke-width="1.4" stroke-linecap="round"/>',
-    realestate:'<path d="M4 11 12 4l8 7M6 10v9h12v-9" stroke="#8B5CF6" stroke-width="1.5" stroke-linejoin="round"/><rect x="10" y="13" width="4" height="6" stroke="#8B5CF6" stroke-width="1.4"/>',
-    logistics:'<rect x="2" y="7" width="12" height="9" rx="1" stroke="#C896FF" stroke-width="1.5"/><path d="M14 10h4l3 3v3h-7" stroke="#C896FF" stroke-width="1.5" stroke-linejoin="round"/><circle cx="6" cy="18" r="1.8" stroke="#C896FF" stroke-width="1.4"/><circle cx="17" cy="18" r="1.8" stroke="#C896FF" stroke-width="1.4"/>',
-    content:'<rect x="3" y="4" width="18" height="14" rx="2" stroke="#C084FC" stroke-width="1.5"/><path d="m10 9 4 2.5L10 14V9Z" fill="#C084FC"/>',
-    b2b:'<path d="M4 20V9l5-3 5 3v11M14 20V12l3-2 3 2v8" stroke="#A855F7" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 20h20" stroke="#A855F7" stroke-width="1.5" stroke-linecap="round"/>'
+    education:'<path d="M12 5 3 9l9 4 9-4-9-4Z" stroke="#4da3ff" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 11v5c0 1.1 2.2 2 5 2s5-.9 5-2v-5" stroke="#4da3ff" stroke-width="1.5" stroke-linejoin="round"/><path d="M21 9v5" stroke="#4da3ff" stroke-width="1.5" stroke-linecap="round"/>',
+    retail:'<path d="M4 8h16l-1.2 11a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8L4 8Z" stroke="#4da3ff" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="#4da3ff" stroke-width="1.5" stroke-linecap="round"/>',
+    hospitality:'<path d="M6 3v7a2 2 0 0 0 4 0V3M8 10v11" stroke="#1553d6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 21V3c-1.7.9-2.5 2.7-2.5 5s.8 3.6 2.5 4" stroke="#1553d6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+    health:'<path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10Z" stroke="#1a6dff" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v5M9.5 10.5h5" stroke="#1a6dff" stroke-width="1.4" stroke-linecap="round"/>',
+    realestate:'<path d="M4 11 12 4l8 7M6 10v9h12v-9" stroke="#1553d6" stroke-width="1.5" stroke-linejoin="round"/><rect x="10" y="13" width="4" height="6" stroke="#1553d6" stroke-width="1.4"/>',
+    logistics:'<rect x="2" y="7" width="12" height="9" rx="1" stroke="#4da3ff" stroke-width="1.5"/><path d="M14 10h4l3 3v3h-7" stroke="#4da3ff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="6" cy="18" r="1.8" stroke="#4da3ff" stroke-width="1.4"/><circle cx="17" cy="18" r="1.8" stroke="#4da3ff" stroke-width="1.4"/>',
+    content:'<rect x="3" y="4" width="18" height="14" rx="2" stroke="#4da3ff" stroke-width="1.5"/><path d="m10 9 4 2.5L10 14V9Z" fill="#4da3ff"/>',
+    b2b:'<path d="M4 20V9l5-3 5 3v11M14 20V12l3-2 3 2v8" stroke="#1a6dff" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 20h20" stroke="#1a6dff" stroke-width="1.5" stroke-linecap="round"/>'
   };
 
   // ---- i18n content ----
@@ -622,8 +669,6 @@
       acKick:'المحادثة، من الداخل',
       acTitle:'تحدّث مع الوكيل وشاهد القرار يتكوّن',
       acSub:'كل رسالة تدخل كإشارة، وتتحول أمامك إلى متغيرات وقاعدة وإجراء — مع حد تسليم واضح للإنسان.',
-      sbTitle:'جرّب القواعد بنفسك',
-      sbSub:'غيّر المدخلات وشاهد أي قاعدة تنطبق ولماذا. الحساب يجري في متصفحك — لا إرسال ولا تخزين.',
       indKick:'حلول حسب القطاع', indTitle:'أتمتة بالذكاء الاصطناعي مبنية حول عمليات قطاعك',
       indSub:'نصمم حلولًا للرعاية الصحية والعقارات واللوجستيات وصناعة المحتوى ومبيعات B2B وفق تدفقات العمل والضوابط الفعلية لكل قطاع.',
       whyKick:'لماذا فَلَق', whyTitle:'أتمتة عمليات بالذكاء الاصطناعي، لا مجرد شات بوت',
@@ -638,13 +683,13 @@
       footAgents:'الوكلاء', footCompany:'الشركة', footAll:'كل الخدمات', footRights:'جميع الحقوق محفوظة',
       ag_lead:'تأهيل العملاء', ag_quote:'متابعة العروض', ag_booking:'الحجز والمكالمات', ag_cs:'خدمة العملاء', ag_ar:'تحصيل المستحقات', ag_doc:'معالجة المستندات', ag_crm:'التحكم في CRM',
       agents:[
-        {k:'lead',slug:'lead-qualification',c:'#A855F7',t:'وكيل تأهيل العملاء',d:'يستقبل كل عميل من واتساب أو الموقع أو الإعلانات، يجمع بياناته، يمنحه درجة تأهيل، ويوجّهه فورًا للإجراء الصحيح.'},
-        {k:'quote',slug:'quote-follow-up',c:'#C896FF',t:'وكيل متابعة العروض',d:'يتابع كل عرض سعر تلقائيًا، يكتشف الاهتمام الحقيقي، وينبّه المبيعات لحظة ظهور نية الشراء.'},
-        {k:'booking',slug:'booking-recovery',c:'#C896FF',t:'الحجز واسترجاع المكالمات',d:'يؤكّد المواعيد، يذكّر بها، ويعيد التواصل مع المكالمات الفائتة قبل أن يذهب العميل لمنافس.'},
-        {k:'cs',slug:'customer-service',c:'#C084FC',t:'وكيل خدمة العملاء',d:'يجيب على الاستفسارات المتكررة وفق قاعدة معرفتك، ويصعّد الحالات الحساسة للموظف المختص.'},
-        {k:'ar',slug:'accounts-receivable',c:'#A855F7',t:'وكيل تحصيل المستحقات',d:'يذكّر العملاء بالفواتير المستحقة برسائل مهذّبة ومنظمة، ويتابع حتى السداد دون إحراج فريقك.'},
-        {k:'doc',slug:'document-processing',c:'#8B5CF6',t:'وكيل معالجة المستندات',d:'يستخرج البيانات من المستندات والفواتير، ينظّمها، ويكتشف النواقص قبل أن تصبح مشكلة.'},
-        {k:'crm',slug:'crm-control',c:'#8B5CF6',t:'وكيل التحكم في CRM',d:'يبقي نظام إدارة العلاقات محدّثًا لحظيًا — كل عميل، كل تفاعل، كل حالة مسجّلة تلقائيًا.'}
+        {k:'lead',slug:'lead-qualification',c:'#1a6dff',t:'وكيل تأهيل العملاء',d:'يستقبل كل عميل من واتساب أو الموقع أو الإعلانات، يجمع بياناته، يمنحه درجة تأهيل، ويوجّهه فورًا للإجراء الصحيح.'},
+        {k:'quote',slug:'quote-follow-up',c:'#4da3ff',t:'وكيل متابعة العروض',d:'يتابع كل عرض سعر تلقائيًا، يكتشف الاهتمام الحقيقي، وينبّه المبيعات لحظة ظهور نية الشراء.'},
+        {k:'booking',slug:'booking-recovery',c:'#4da3ff',t:'الحجز واسترجاع المكالمات',d:'يؤكّد المواعيد، يذكّر بها، ويعيد التواصل مع المكالمات الفائتة قبل أن يذهب العميل لمنافس.'},
+        {k:'cs',slug:'customer-service',c:'#4da3ff',t:'وكيل خدمة العملاء',d:'يجيب على الاستفسارات المتكررة وفق قاعدة معرفتك، ويصعّد الحالات الحساسة للموظف المختص.'},
+        {k:'ar',slug:'accounts-receivable',c:'#1a6dff',t:'وكيل تحصيل المستحقات',d:'يذكّر العملاء بالفواتير المستحقة برسائل مهذّبة ومنظمة، ويتابع حتى السداد دون إحراج فريقك.'},
+        {k:'doc',slug:'document-processing',c:'#1553d6',t:'وكيل معالجة المستندات',d:'يستخرج البيانات من المستندات والفواتير، ينظّمها، ويكتشف النواقص قبل أن تصبح مشكلة.'},
+        {k:'crm',slug:'crm-control',c:'#1553d6',t:'وكيل التحكم في CRM',d:'يبقي نظام إدارة العلاقات محدّثًا لحظيًا — كل عميل، كل تفاعل، كل حالة مسجّلة تلقائيًا.'}
       ],
       inds:[
         {k:'health',t:'الرعاية الصحية',d:'حجز المواعيد، تقليل التخلّف، وتنشيط قوائم الانتظار — دعم إداري بإشراف طبي.'},
@@ -687,8 +732,6 @@
       acKick:'Inside the conversation',
       acTitle:'Chat with the agent and watch the decision form',
       acSub:'Every message enters as a signal and becomes variables, a rule and an action — with an explicit human handoff boundary.',
-      sbTitle:'Try the rules yourself',
-      sbSub:'Change the inputs and watch which rule applies, and why. The calculation runs in your browser — nothing is sent or stored.',
       indKick:'Industry solutions', indTitle:'AI automation designed around your industry workflows',
       indSub:'We build practical workflows for healthcare, real estate, logistics, content teams, and B2B sales around each sector’s real systems and controls.',
       whyKick:'Why Falaq', whyTitle:'AI workflow automation, not just another chatbot',
@@ -703,13 +746,13 @@
       footAgents:'Agents', footCompany:'Company', footAll:'All services', footRights:'All rights reserved',
       ag_lead:'Lead qualification', ag_quote:'Quote follow-up', ag_booking:'Booking & calls', ag_cs:'Customer service', ag_ar:'Accounts receivable', ag_doc:'Document processing', ag_crm:'CRM control',
       agents:[
-        {k:'lead',slug:'lead-qualification',c:'#A855F7',t:'Lead Qualification Agent',d:'Receives every lead from WhatsApp, your site, or ads, collects their data, scores them, and routes them instantly to the right action.'},
-        {k:'quote',slug:'quote-follow-up',c:'#C896FF',t:'Quote Follow-Up Agent',d:'Follows up on every quote automatically, detects real buying interest, and alerts sales the moment intent appears.'},
-        {k:'booking',slug:'booking-recovery',c:'#C896FF',t:'Booking & Missed-Call Recovery',d:'Confirms and reminds appointments, and re-engages missed calls before the customer goes to a competitor.'},
-        {k:'cs',slug:'customer-service',c:'#C084FC',t:'Customer Service Agent',d:'Answers recurring questions from your knowledge base and escalates sensitive cases to the right staff member.'},
-        {k:'ar',slug:'accounts-receivable',c:'#A855F7',t:'Accounts Receivable Agent',d:'Reminds customers of due invoices with polite, organized messages and follows up to payment — without burdening your team.'},
-        {k:'doc',slug:'document-processing',c:'#8B5CF6',t:'Document Processing Agent',d:'Extracts data from documents and invoices, organizes it, and flags missing information before it becomes a problem.'},
-        {k:'crm',slug:'crm-control',c:'#8B5CF6',t:'CRM Control Agent',d:'Keeps your CRM updated in real time — every lead, every interaction, every status logged automatically.'}
+        {k:'lead',slug:'lead-qualification',c:'#1a6dff',t:'Lead Qualification Agent',d:'Receives every lead from WhatsApp, your site, or ads, collects their data, scores them, and routes them instantly to the right action.'},
+        {k:'quote',slug:'quote-follow-up',c:'#4da3ff',t:'Quote Follow-Up Agent',d:'Follows up on every quote automatically, detects real buying interest, and alerts sales the moment intent appears.'},
+        {k:'booking',slug:'booking-recovery',c:'#4da3ff',t:'Booking & Missed-Call Recovery',d:'Confirms and reminds appointments, and re-engages missed calls before the customer goes to a competitor.'},
+        {k:'cs',slug:'customer-service',c:'#4da3ff',t:'Customer Service Agent',d:'Answers recurring questions from your knowledge base and escalates sensitive cases to the right staff member.'},
+        {k:'ar',slug:'accounts-receivable',c:'#1a6dff',t:'Accounts Receivable Agent',d:'Reminds customers of due invoices with polite, organized messages and follows up to payment — without burdening your team.'},
+        {k:'doc',slug:'document-processing',c:'#1553d6',t:'Document Processing Agent',d:'Extracts data from documents and invoices, organizes it, and flags missing information before it becomes a problem.'},
+        {k:'crm',slug:'crm-control',c:'#1553d6',t:'CRM Control Agent',d:'Keeps your CRM updated in real time — every lead, every interaction, every status logged automatically.'}
       ],
       inds:[
         {k:'health',t:'Healthcare',d:'Appointment booking, no-show reduction, and waiting-list activation — admin support under clinical oversight.'},
@@ -749,16 +792,86 @@
       link.href = (lang === 'ar' ? '/' : '/en/') + link.getAttribute('data-company-path') + '/';
     });
 
-    // agents
-    document.getElementById('agentGrid').innerHTML = d.agents.map(function(a,i){
-      return '<a class="agent" style="--ac:'+a.c+'" href="services/'+a.slug+'/">'
-        +'<span class="glow"></span>'
-        +'<span class="num">0'+(i+1)+'</span>'
-        +'<span class="ic" style="border-color:'+a.c+'55">'+svg(a.k,a.c)+'</span>'
-        +'<h3>'+a.t+'</h3><p>'+a.d+'</p>'
-        +'<span class="go">'+(lang==='ar'?'شاهد الصفحة':'View page')+' <span class="ar">'+(lang==='ar'?'←':'→')+'</span></span>'
-        +'</a>';
-    }).join('');
+    function esc(v){ return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    // agents — all 17 services as cards, filterable by category.
+    // The photograph is optional: onerror swaps in a generated mark so a
+    // missing file degrades to the site's own style instead of a broken image.
+    (function(){
+      var home = (window.FALAQ_HOME||{})[lang] || {};
+      var services = home.services || [];
+      var cats = home.categories || [];
+      var grid = document.getElementById('agentGrid');
+      var filter = document.getElementById('svcFilter');
+      if (!grid || !services.length) return;
+
+      var allLabel = lang==='ar' ? 'الكل' : 'All';
+      filter.innerHTML = '<button type="button" role="tab" class="on" data-cat="">'+allLabel+
+        ' <b>'+services.length+'</b></button>' + cats.map(function(c){
+          var n = services.filter(function(s){return s.category===c.key;}).length;
+          return '<button type="button" role="tab" data-cat="'+c.key+'">'+esc(c.title)+' <b>'+n+'</b></button>';
+        }).join('');
+
+      function card(s){
+        return '<a class="svc-card" href="'+s.href+'" data-cat="'+s.category+'">'
+          +'<span class="svc-media">'
+            +'<img src="'+s.image+'" srcset="'+s.image+' 1x, '+s.image.replace('.webp','@2x.webp')+' 2x"'
+            +' alt="" loading="lazy" decoding="async"'
+            +' onerror="this.closest(\'.svc-media\').classList.add(\'is-blank\');this.remove()">'
+            +'<span class="svc-num">'+esc(s.number)+'</span>'
+          +'</span>'
+          +'<span class="svc-body"><h3>'+esc(s.name)+'</h3><p>'+esc(s.summary)+'</p></span>'
+          +'<span class="svc-go">'+(lang==='ar'?'التفاصيل':'Details')+'<i>'+(lang==='ar'?'←':'→')+'</i></span>'
+          +'</a>';
+      }
+      grid.innerHTML = services.map(card).join('');
+
+      filter.addEventListener('click', function(e){
+        var b = e.target.closest('[data-cat]'); if(!b) return;
+        var key = b.getAttribute('data-cat');
+        filter.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x===b); });
+        grid.querySelectorAll('.svc-card').forEach(function(c){
+          c.hidden = key !== '' && c.getAttribute('data-cat') !== key;
+        });
+      });
+
+      // staggered entrance animation via IntersectionObserver
+      var svcObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            var cards = grid.querySelectorAll('.svc-card:not([hidden])');
+            cards.forEach(function(c, i){
+              c.style.setProperty('--reveal-delay', (i * 0.06) + 's');
+              c.classList.add('is-visible');
+            });
+            svcObs.disconnect();
+          }
+        });
+      }, {threshold: 0.12});
+      svcObs.observe(grid);
+
+      // re-trigger animation when filter changes
+      filter.addEventListener('click', function(){
+        setTimeout(function(){
+          var visible = grid.querySelectorAll('.svc-card:not([hidden])');
+          visible.forEach(function(c, i){
+            c.classList.remove('is-visible');
+            void c.offsetWidth; // force reflow
+            c.style.setProperty('--reveal-delay', (i * 0.06) + 's');
+            c.classList.add('is-visible');
+          });
+        }, 10);
+      });
+
+      // mouse-tracking glow effect
+      grid.addEventListener('mousemove', function(e){
+        var card = e.target.closest('.svc-card');
+        if(!card) return;
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--glow-x', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--glow-y', (e.clientY - r.top) + 'px');
+      });
+    })();
 
     // industries — sourced from content/sectors.js so the cards, the sector
     // pages and the sitemap cannot drift apart. Cards are links: they used to
@@ -791,20 +904,6 @@
         var flow = (home.flows||{})[slug];
         if (!flow) return;
         window.FalaqFlow.render('#flowCanvas', flow, home.flowStrings);
-        // The sandbox makes the diagram above interactive. Sectors whose agent
-        // has no published rules simply do not show it.
-        var sbHost = document.getElementById('sandbox');
-        var sbHead = document.getElementById('sandboxHead');
-        var agentRules = (home.rules||{})[slug];
-        if (sbHost && window.FalaqSandbox) {
-          if (agentRules) {
-            sbHead.hidden = false;
-            window.FalaqSandbox.mount(sbHost, agentRules, home.ruleText, home.sandboxStrings, lang);
-          } else {
-            sbHead.hidden = true;
-            window.FalaqSandbox.mount(sbHost, null);
-          }
-        }
         var agentEl = document.getElementById('flowAgent');
         if (agentEl) agentEl.innerHTML = (lang==='ar'?'الوكيل الأول المعتاد: ':'Usual first agent: ')
           + '<a href="'+flow.agentHref+'">'+flow.agent+'</a>';

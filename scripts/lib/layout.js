@@ -12,6 +12,7 @@ const chromeLabels = {
     home: "الرئيسية",
     services: "الخدمات",
     sectors: "القطاعات",
+    agent: "تحدث للوكيل",
     trust: "الثقة والمعايير",
     about: "من نحن",
     contact: "تواصل معنا",
@@ -37,6 +38,7 @@ const chromeLabels = {
     home: "Home",
     services: "Services",
     sectors: "Sectors",
+    agent: "Talk to the agent",
     trust: "Trust & standards",
     about: "About",
     contact: "Contact us",
@@ -127,13 +129,14 @@ ${head}
   <link rel="stylesheet" href="/assets/company-pages.css">
   <link rel="stylesheet" href="/assets/service-pages.css">
   <link rel="stylesheet" href="/assets/flow-view.css">
+  <link rel="stylesheet" href="/assets/agent-stage.css">
 </head>
 <body>
   <a class="skip-link" href="#main">${l.skip}</a>
   <nav class="site-nav" aria-label="${l.mainNav}">
     <div class="wrap nav-inner">
-      <a class="brand" href="${home}" aria-label="Falaq Intelligence"><span class="brand-mark"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="#c084fc"/><path d="M10 40.5a17 17 0 0 0 28 0" fill="none" stroke="#c084fc" stroke-width="3" stroke-linecap="round"/></svg></span><span>${language === "ar" ? "فلق للذكاء الاصطناعي" : "Falaq Intelligence"}</span></a>
-      <div class="nav-links"><a href="${home}">${l.home}</a><a href="${sectionRoute("services", language)}"${mark("services")}>${l.services}</a><a href="${sectionRoute("industries", language)}"${mark("sectors")}>${l.sectors}</a><a href="${sectionRoute("trust", language)}">${l.trust}</a><a href="${sectionRoute("about", language)}">${l.about}</a></div>
+      <a class="brand" href="${home}" aria-label="Falaq Intelligence"><span class="brand-mark"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="#4da3ff"/><path d="M10 40.5a17 17 0 0 0 28 0" fill="none" stroke="#4da3ff" stroke-width="3" stroke-linecap="round"/></svg></span><span>${language === "ar" ? "فلق للذكاء الاصطناعي" : "Falaq Intelligence"}</span></a>
+      <div class="nav-links"><a href="${home}">${l.home}</a><a href="${sectionRoute("services", language)}"${mark("services")}>${l.services}</a><a href="${sectionRoute("industries", language)}"${mark("sectors")}>${l.sectors}</a><a href="${sectionRoute("agent", language)}"${mark("agent")}>${l.agent}</a><a href="${sectionRoute("trust", language)}">${l.trust}</a><a href="${sectionRoute("about", language)}">${l.about}</a></div>
       <div class="nav-actions"><a class="nav-button" href="${switchHref}" hreflang="${language === "ar" ? "en" : "ar"}">${l.language}</a><a class="nav-button primary" href="${language === "ar" ? "/#contact" : "/en/#contact"}">${l.contact}</a></div>
     </div>
   </nav>

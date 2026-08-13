@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070912">
+  <title>Falaq Pulse — Interactive Agent Concept</title>
+  <meta name="description" content="Standalone interactive frontend concept for a Falaq AI agent.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient-orb orb-one"></span>
+    <span class="ambient-orb orb-two"></span>
+    <span class="ambient-orb orb-three"></span>
+  </div>
+
+  <main class="prototype-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Falaq Pulse">
+        <span class="brand-mark"><img src="../../assets/falaq-symbol.png" alt=""></span>
+        <span class="brand-copy"><b>FALAQ</b><small>PULSE / CONCEPT 01</small></span>
+      </a>
+
+      <div class="topbar-center" aria-label="حالة النظام">
+        <span class="live-badge"><i></i> محاكاة حيّة</span>
+        <span class="session-id">RUN / 8F2A</span>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-button" type="button" id="soundToggle" aria-label="تبديل الصوت" title="الصوت">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h3l4 3V7L8 10H5Z"/><path class="sound-wave" d="M16 9c1 1 1 5 0 6M19 6c3 3 3 9 0 12"/></svg>
+        </button>
+        <button class="ghost-button" type="button" id="resetButton">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9a8 8 0 1 1 1 7M4 4v5h5"/></svg>
+          إعادة المحاكاة
+        </button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <section class="chat-panel surface" aria-labelledby="chatTitle">
+        <header class="panel-heading">
+          <div>
+            <span class="eyebrow">01 / CONVERSATION</span>
+            <h1 id="chatTitle">المحادثة</h1>
+          </div>
+          <div class="channel-switcher" role="group" aria-label="اختيار القناة">
+            <button class="channel-button is-active" type="button" data-channel="whatsapp" aria-pressed="true" title="واتساب">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-12 7l-4 1 1-4a8 8 0 1 1 15-4Z"/><path d="M9 8.5c.5 3 2 4.5 5 5l1-1.5"/></svg>
+            </button>
+            <button class="channel-button" type="button" data-channel="web" aria-pressed="false" title="ويب">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v12H8l-4 3V5Z"/><path d="M8 9h8M8 13h5"/></svg>
+            </button>
+            <button class="channel-button" type="button" data-channel="email" aria-pressed="false" title="بريد">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3V6Z"/><path d="m4 7 8 6 8-6"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="contact-card">
+          <span class="contact-avatar">ن</span>
+          <div><b>نور / عيادة مدار</b><span><i></i> نشط الآن عبر واتساب</span></div>
+          <button type="button" aria-label="المزيد"><span></span><span></span><span></span></button>
+        </div>
+
+        <div class="messages" id="messages" aria-live="polite">
+          <div class="day-divider"><span>اليوم، 10:42</span></div>
+          <article class="message incoming">
+            <p>مرحبًا، عندي عيادة أسنان وبنخسر تقريبًا 12 موعد كل أسبوع بسبب تأخر التأكيد.</p>
+            <span>10:42</span>
+          </article>
+          <article class="message agent">
+            <span class="agent-avatar"><img src="../../assets/falaq-symbol.png" alt=""></span>
+            <div><p>فهمت. كيف تؤكدون المواعيد حاليًا؟ وهل تريدين أن يتدخل موظف عند الحالات الحساسة؟</p><span>10:42 · تم التحليل</span></div>
+          </article>
+          <article class="message incoming">
+            <p>الموظفة ترسل يدويًا على واتساب. أريد النظام يتابع تلقائيًا ويسلّم لها فقط عند طلب تغيير الموعد.</p>
+            <span>10:43</span>
+          </article>
+        </div>
+
+        <div class="suggestion-strip" aria-label="أمثلة جاهزة">
+          <button type="button" data-prompt="لدينا 80 موعدًا أسبوعيًا ونستخدم Google Calendar">أضف الحجم والنظام</button>
+          <button type="button" data-prompt="أريد عرضًا ونبدأ هذا الشهر">أظهر الاهتمام الصريح</button>
+        </div>
+
+        <form class="composer" id="chatForm">
+          <button class="attach-button" type="button" aria-label="إرفاق ملف">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 12 5-5a3 3 0 0 1 4 4l-7 7a5 5 0 0 1-7-7l7-7"/></svg>
+          </button>
+          <label class="sr-only" for="chatInput">اكتب رسالة</label>
+          <textarea id="chatInput" rows="1" maxlength="400" placeholder="اكتب حالة من عملك…"></textarea>
+          <button class="send-button" type="submit" aria-label="إرسال">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 12 16-8-5 16-3-6-8-2Zm8 2 3-3"/></svg>
+          </button>
+        </form>
+      </section>
+
+      <section class="canvas-panel surface" aria-labelledby="canvasTitle">
+        <header class="canvas-heading">
+          <div>
+            <span class="eyebrow">02 / LIVE DECISION MAP</span>
+            <h2 id="canvasTitle">شاهد القرار وهو يتكوّن</h2>
+            <p>الإشارة تدخل، المتغيرات تتضح، ثم يعمل التريجر المناسب.</p>
+          </div>
+          <div class="canvas-controls">
+            <span class="latency"><i></i><b id="latencyValue">0.84s</b> LATENCY</span>
+            <button type="button" id="motionToggle" aria-pressed="true">
+              <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
+              <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="decision-canvas" id="decisionCanvas" data-state="open">
+          <div class="canvas-grid" aria-hidden="true"></div>
+          <svg class="connection-layer" viewBox="0 0 900 560" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="edgeCyanViolet" x1="0" x2="1">
+                <stop offset="0" stop-color="#52e7d5"/>
+                <stop offset="1" stop-color="#8f7cff"/>
+              </linearGradient>
+              <linearGradient id="edgeVioletGold" x1="0" x2="1">
+                <stop offset="0" stop-color="#8f7cff"/>
+                <stop offset="1" stop-color="#ffbd69"/>
+              </linearGradient>
+              <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="5" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <path id="pathSignalVariables" d="M215 182 C290 182 296 139 355 139"/>
+              <path id="pathVariablesTrigger" d="M580 154 C650 154 651 218 706 218"/>
+              <path id="pathTriggerAction" d="M772 278 C772 338 697 359 661 396"/>
+              <path id="pathVariablesAudit" d="M456 260 C456 341 357 373 277 405"/>
+            </defs>
+
+            <g class="edge-group edge-signal">
+              <use href="#pathSignalVariables" class="edge-base"/>
+              <use href="#pathSignalVariables" class="edge-active cyan-violet"/>
+              <circle class="packet packet-a" r="4" fill="#63eee0" filter="url(#softGlow)"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#pathSignalVariables"/></animateMotion></circle>
+            </g>
+            <g class="edge-group edge-variables">
+              <use href="#pathVariablesTrigger" class="edge-base"/>
+              <use href="#pathVariablesTrigger" class="edge-active violet-gold"/>
+              <circle class="packet packet-b" r="4" fill="#a897ff" filter="url(#softGlow)"><animateMotion dur="3.2s" begin="-.8s" repeatCount="indefinite"><mpath href="#pathVariablesTrigger"/></animateMotion></circle>
+            </g>
+            <g class="edge-group edge-action">
+              <use href="#pathTriggerAction" class="edge-base"/>
+              <use href="#pathTriggerAction" class="edge-active gold"/>
+              <circle class="packet packet-c" r="4" fill="#ffca7e" filter="url(#softGlow)"><animateMotion dur="2.6s" begin="-1.5s" repeatCount="indefinite"><mpath href="#pathTriggerAction"/></animateMotion></circle>
+            </g>
+            <g class="edge-group edge-audit">
+              <use href="#pathVariablesAudit" class="edge-base"/>
+              <use href="#pathVariablesAudit" class="edge-active violet"/>
+              <circle class="packet packet-d" r="3.5" fill="#9b8aff" filter="url(#softGlow)"><animateMotion dur="3.8s" begin="-2s" repeatCount="indefinite"><mpath href="#pathVariablesAudit"/></animateMotion></circle>
+            </g>
+          </svg>
+
+          <button class="flow-node node-signal is-active" type="button" data-node="signal" aria-pressed="true">
+            <span class="node-top"><i class="node-icon cyan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v12H8l-4 3V5Z"/><path d="M8 9h8M8 13h5"/></svg></i><em>INPUT / 01</em></span>
+            <strong>إشارة واردة</strong>
+            <p id="signalSummary">طلب متابعة مواعيد العيادة</p>
+            <span class="node-foot"><i></i><b id="signalChannel">واتساب</b><time>الآن</time></span>
+            <i class="node-port port-out"></i>
+          </button>
+
+          <button class="flow-node node-variables" type="button" data-node="variables" aria-pressed="false">
+            <span class="node-top"><i class="node-icon violet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H5v16h3M16 4h3v16h-3"/><path d="m10 9 4 6M14 9l-4 6"/></svg></i><em>MEMORY / 02</em></span>
+            <span class="node-title-row"><strong>ذاكرة العمل</strong><small id="variableCount">5 / 8</small></span>
+            <div class="variable-progress"><i id="variableProgress" style="width:62.5%"></i></div>
+            <div class="variable-cloud" id="variableCloud"></div>
+            <i class="node-port port-in"></i><i class="node-port port-out"></i>
+          </button>
+
+          <button class="flow-node node-trigger" type="button" data-node="trigger" aria-pressed="false">
+            <span class="node-top"><i class="node-icon gold"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-8 11h6l-1 9 9-12h-6V2Z"/></svg></i><em id="triggerId">TRIGGER / R4</em></span>
+            <span class="trigger-status"><i></i><b id="triggerStatus">السياق يتكوّن</b></span>
+            <strong id="triggerName">استمر في جمع المعلومات</strong>
+            <p id="triggerDescription">الأساس مكتمل، لكن الحالة تحتاج بيانات إضافية قبل أي إجراء.</p>
+            <span class="node-foot"><b id="triggerFoot">الإجراء: سؤال توضيحي</b><time id="confidenceValue">92%</time></span>
+            <i class="node-port port-in"></i><i class="node-port port-out bottom"></i>
+          </button>
+
+          <button class="flow-node node-action" type="button" data-node="action" aria-pressed="false">
+            <span class="node-top"><i class="node-icon coral"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"/><path d="m8 12 3 3 5-6"/></svg></i><em>ACTION / 04</em></span>
+            <strong id="actionTitle">سؤال ذكي تالٍ</strong>
+            <p id="actionDescription">الحجم والنظام المستخدم</p>
+            <span class="action-owner"><span class="mini-avatar agent-mini"><img src="../../assets/falaq-symbol.png" alt=""></span><b id="actionOwner">يملكه الوكيل</b><i></i></span>
+            <i class="node-port port-in top"></i>
+          </button>
+
+          <button class="flow-node node-audit" type="button" data-node="audit" aria-pressed="false">
+            <span class="node-top"><i class="node-icon mint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18H6z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></i><em>AUDIT / LIVE</em></span>
+            <span class="node-title-row"><strong>سجل شفاف</strong><small><i></i> يُكتب الآن</small></span>
+            <div class="audit-lines" id="auditLines"></div>
+            <i class="node-port port-in top"></i>
+          </button>
+
+          <div class="canvas-legend" aria-label="دليل ألوان الخريطة">
+            <span><i class="cyan-dot"></i> إشارة</span>
+            <span><i class="violet-dot"></i> متغير</span>
+            <span><i class="gold-dot"></i> قرار</span>
+            <span><i class="coral-dot"></i> إجراء</span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="inspector-panel surface" aria-labelledby="inspectorTitle">
+        <header class="panel-heading inspector-heading">
+          <div><span class="eyebrow">03 / INSPECTOR</span><h2 id="inspectorTitle">فحص مباشر</h2></div>
+          <span class="inspect-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19 13.5V10l2-1-2-4-2 1a8 8 0 0 0-3-2l-.5-2h-4L9 4a8 8 0 0 0-3 2L4 5 2 9l2 1v3.5l-2 1 2 4 2-1a8 8 0 0 0 3 2l.5 2h4l.5-2a8 8 0 0 0 3-2l2 1 2-4-2-1Z"/></svg></span>
+        </header>
+
+        <section class="selected-card" id="selectedCard">
+          <div class="selected-kicker"><span class="selected-icon cyan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v12H8l-4 3V5Z"/><path d="M8 9h8M8 13h5"/></svg></span><span><small>العقدة المحددة</small><b id="selectedNodeName">إشارة واردة</b></span></div>
+          <p id="selectedNodeDescription">نقطة بداية كل تشغيل. تحتفظ بالقناة والنص والتوقيت قبل أن ينتقل شيء إلى الذاكرة.</p>
+          <dl id="selectedNodeMeta">
+            <div><dt>المصدر</dt><dd>WhatsApp</dd></div>
+            <div><dt>الحالة</dt><dd><i></i> مستلمة</dd></div>
+          </dl>
+        </section>
+
+        <section class="scenario-section">
+          <div class="section-label"><span>بدّل المشهد</span><small>SCENARIOS</small></div>
+          <div class="scenario-grid" id="scenarioGrid">
+            <button type="button" data-scenario="blocked"><span class="scenario-icon blocked-icon">01</span><span><b>بيانات ناقصة</b><small>يتوقف قبل التصنيف</small></span></button>
+            <button class="is-active" type="button" data-scenario="open"><span class="scenario-icon open-icon">02</span><span><b>جمع السياق</b><small>يسأل السؤال التالي</small></span></button>
+            <button type="button" data-scenario="ready"><span class="scenario-icon ready-icon">03</span><span><b>جاهز للإجراء</b><small>يبدأ التواصل</small></span></button>
+            <button type="button" data-scenario="review"><span class="scenario-icon review-icon">04</span><span><b>تعارض</b><small>يسلّم إلى موظف</small></span></button>
+          </div>
+        </section>
+
+        <section class="event-section">
+          <div class="section-label"><span>آخر الأحداث</span><small>LIVE TRACE</small></div>
+          <ol class="event-list" id="eventList"></ol>
+        </section>
+
+        <div class="safety-note">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-5"/></svg>
+          <div><b>ضوابط ظاهرة، لا مخفية</b><p>كل قرار مرتبط بقاعدة وحدّ تسليم قابل للفحص.</p></div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="statusbar">
+      <div><span class="status-pulse"><i></i> AGENT ONLINE</span><span>AR / RTL</span><span id="footerChannel">CHANNEL / WHATSAPP</span></div>
+      <div><span>PROVIDER / FALAQ SIM</span><span>RULESET / V1.4</span><span>UTF-8 ✓</span></div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

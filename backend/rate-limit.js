@@ -1,5 +1,5 @@
-// Fixed-window limiter held in memory. The service runs as a single Render
-// instance, so a shared store would add a dependency without adding accuracy.
+// Fixed-window limiter held in memory. Keep the cPanel Passenger application
+// on one worker; move this store to Redis before enabling multiple workers.
 const buckets = new Map();
 
 function hit(key, limit, windowMs) {

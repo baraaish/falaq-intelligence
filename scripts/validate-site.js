@@ -96,7 +96,10 @@ for (const file of htmlFiles) {
 }
 
 for (const file of cssFiles) {
-  const css = fs.readFileSync(file, "utf8");
+  // Inline SVG data URIs contain their own url(#fragment) filter references.
+  // Those are internal to the embedded document, not files on disk, so the
+  // whole data URI is removed before the file references are collected.
+  const css = fs.readFileSync(file, "utf8").replace(/url\(\s*["']?data:[^)]*\)/gi, "");
   for (const match of css.matchAll(/url\(\s*["']?([^"')]+)["']?\s*\)/gi)) {
     const rawValue = match[1].trim();
     const resolved = localTarget(file, rawValue);

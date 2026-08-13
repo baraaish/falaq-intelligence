@@ -764,7 +764,189 @@ window.FALAQ_HOME = {
       "extracted": "ما استخرجه الوكيل",
       "rules": "القواعد التي انطبقت",
       "handoff": "التسليم"
-    }
+    },
+    "categories": [
+      {
+        "key": "revenue",
+        "title": "الإيرادات وعمليات العملاء",
+        "lead": "الوكلاء الذين يعملون على الطلب الوارد من لحظة وصوله حتى تسجيل نتيجته."
+      },
+      {
+        "key": "documents",
+        "title": "المستندات والبيانات والأنظمة",
+        "lead": "الوكلاء الذين يقرأون ويتحققون ويكتبون داخل الأنظمة التي تديرها الشركة اليوم."
+      },
+      {
+        "key": "integration",
+        "title": "خدمات التكامل",
+        "lead": "ربط الوكيل بالمنصات التي تحمل بياناتك الحية: المتجر، الحجوزات، نقاط البيع، الموقع."
+      },
+      {
+        "key": "channels",
+        "title": "القنوات",
+        "lead": "القنوات الرسمية التي يعمل عليها الوكيل، مُعدّة ومُشغّلة بالكامل."
+      },
+      {
+        "key": "intelligence",
+        "title": "الذكاء والتمكين",
+        "lead": "رفع دقة الأنظمة، قياس أثرها، وتدريب فريقك على تشغيلها."
+      }
+    ],
+    "services": [
+      {
+        "slug": "lead-qualification",
+        "number": "01",
+        "category": "revenue",
+        "name": "تأهيل العملاء المحتملين",
+        "summary": "يجيب على كل استفسار وارد، يجمع ما يحتاجه فريق المبيعات، ويُسند العميل إلى مندوب بالاسم.",
+        "href": "/services/lead-qualification/",
+        "image": "/assets/services/lead-qualification.webp"
+      },
+      {
+        "slug": "quote-follow-up",
+        "number": "02",
+        "category": "revenue",
+        "name": "متابعة عروض الأسعار",
+        "summary": "يتابع كل عرض سعر صادر ويتواصل مع العميل على فترات محددة حتى تُسجَّل نتيجة.",
+        "href": "/services/quote-follow-up/",
+        "image": "/assets/services/quote-follow-up.webp"
+      },
+      {
+        "slug": "booking-recovery",
+        "number": "03",
+        "category": "revenue",
+        "name": "الحجز واستعادة المكالمات",
+        "summary": "يحجز ويؤكد المواعيد وفق التوافر الحي، ويعاود الاتصال بعد المكالمة الفائتة أو الموعد غير المحضور.",
+        "href": "/services/booking-recovery/",
+        "image": "/assets/services/booking-recovery.webp"
+      },
+      {
+        "slug": "customer-service",
+        "number": "04",
+        "category": "revenue",
+        "name": "خدمة العملاء",
+        "summary": "يجيب على أسئلة العملاء اعتمادًا على سياسات الشركة وأسعارها وبيانات منتجاتها الموثقة، دون سواها.",
+        "href": "/services/customer-service/",
+        "image": "/assets/services/customer-service.webp"
+      },
+      {
+        "slug": "accounts-receivable",
+        "number": "05",
+        "category": "revenue",
+        "name": "تحصيل المستحقات",
+        "summary": "يتواصل مع العملاء أصحاب الفواتير المتأخرة وفق تسلسل محدد، ويسجّل كل رد.",
+        "href": "/services/accounts-receivable/",
+        "image": "/assets/services/accounts-receivable.webp"
+      },
+      {
+        "slug": "document-processing",
+        "number": "06",
+        "category": "documents",
+        "name": "معالجة المستندات",
+        "summary": "يقرأ المستندات المُرسلة، يستخرج الحقول التي تحددها الشركة، ويطابقها مع السجلات القائمة.",
+        "href": "/services/document-processing/",
+        "image": "/assets/services/document-processing.webp"
+      },
+      {
+        "slug": "crm-control",
+        "number": "07",
+        "category": "documents",
+        "name": "ضبط الـ CRM",
+        "summary": "يكتب كل تفاعل ونتيجة في الـ CRM لحظة حدوثها، ويطبّق قواعد بيانات الشركة.",
+        "href": "/services/crm-control/",
+        "image": "/assets/services/crm-control.webp"
+      },
+      {
+        "slug": "workflow-automation",
+        "number": "08",
+        "category": "documents",
+        "name": "أتمتة سير العمل والعمليات",
+        "summary": "يربط خطوات العملية التي تمر اليوم بين عدة أشخاص وأنظمة، ويؤتمت التوجيه والاعتماد والتصعيد مع سجل كامل لكل خطوة.",
+        "href": "/services/workflow-automation/",
+        "image": "/assets/services/workflow-automation.webp"
+      },
+      {
+        "slug": "internal-knowledge-assistant",
+        "number": "09",
+        "category": "documents",
+        "name": "مساعد المعرفة الداخلي",
+        "summary": "يجيب أسئلة الموظفين حول السياسات والأسعار والإجراءات من وثائق الشركة الداخلية، مع ذكر المصدر وضبط الوصول حسب الدور.",
+        "href": "/services/internal-knowledge-assistant/",
+        "image": "/assets/services/internal-knowledge-assistant.webp"
+      },
+      {
+        "slug": "website-app-assistant",
+        "number": "10",
+        "category": "integration",
+        "name": "مساعد الموقع والتطبيق",
+        "summary": "مساعد مدمج في موقع الشركة أو تطبيقها، يُركَّب بوسم سكربت واحد أو حزمة SDK، ويعمل بتصميم الشركة وبالعربية والإنجليزية.",
+        "href": "/services/website-app-assistant/",
+        "image": "/assets/services/website-app-assistant.webp"
+      },
+      {
+        "slug": "ecommerce-integration",
+        "number": "11",
+        "category": "integration",
+        "name": "تكامل منصات التجارة الإلكترونية",
+        "summary": "يربط الوكيل بمتجر الشركة ليقرأ بيانات الطلبات والمنتجات والمخزون الحية، ويتعامل مع الاستفسارات والإرجاع ضمن حدود محددة.",
+        "href": "/services/ecommerce-integration/",
+        "image": "/assets/services/ecommerce-integration.webp"
+      },
+      {
+        "slug": "booking-pos-integration",
+        "number": "12",
+        "category": "integration",
+        "name": "تكامل الحجز ونقاط البيع والتقويم",
+        "summary": "اتصال ثنائي الاتجاه بنظام الحجز أو نقطة البيع أو التقويم، لقراءة التوافر والأسعار وكتابة الحجوزات المؤكدة مباشرة.",
+        "href": "/services/booking-pos-integration/",
+        "image": "/assets/services/booking-pos-integration.webp"
+      },
+      {
+        "slug": "whatsapp-business-api",
+        "number": "13",
+        "category": "channels",
+        "name": "واجهة واتساب للأعمال",
+        "summary": "نؤسس واجهة WhatsApp Business API الرسمية للشركة ونشغّل الوكيل عليها، مع حفظ سجلات الموافقة وحالة الرسائل وبقاء ملكية الرقم للشركة.",
+        "href": "/services/whatsapp-business-api/",
+        "image": "/assets/services/whatsapp-business-api.webp"
+      },
+      {
+        "slug": "voice-agents",
+        "number": "14",
+        "category": "channels",
+        "name": "وكلاء الاتصال الصوتي",
+        "summary": "يجيب على المكالمات الواردة ويجري المكالمات الصادرة بالعربية والإنجليزية، مع تسجيل ونص لكل مكالمة.",
+        "href": "/services/voice-agents/",
+        "image": "/assets/services/voice-agents.webp"
+      },
+      {
+        "slug": "custom-model-development",
+        "number": "15",
+        "category": "intelligence",
+        "name": "تطوير النماذج المخصصة والضبط الدقيق",
+        "summary": "نكيّف النموذج على مفردات الشركة ووثائقها ولهجتها حين لا تكفي النماذج العامة، ونقيس الدقة على حالات حقيقية قبل العمل وبعده.",
+        "href": "/services/custom-model-development/",
+        "image": "/assets/services/custom-model-development.webp"
+      },
+      {
+        "slug": "analytics-dashboards",
+        "number": "16",
+        "category": "intelligence",
+        "name": "البيانات والتقارير ولوحات التحليل",
+        "summary": "لوحة تعرض ما نفّذه الوكلاء، بأي كلفة وبأي أثر، مع إمكان الانتقال من كل رقم إلى المحادثات الفردية التي تقف خلفه.",
+        "href": "/services/analytics-dashboards/",
+        "image": "/assets/services/analytics-dashboards.webp"
+      },
+      {
+        "slug": "training-enablement",
+        "number": "17",
+        "category": "intelligence",
+        "name": "التدريب وتمكين الفريق",
+        "summary": "ندرّب موظفي الشركة على الإشراف على الأنظمة المُسلَّمة وتشغيلها وتوسيعها، مع أدلة تشغيل وتدريب مخصص للمشرفين والمديرين.",
+        "href": "/services/training-enablement/",
+        "image": "/assets/services/training-enablement.webp"
+      }
+    ]
   },
   "en": {
     "sectors": [
@@ -1529,6 +1711,188 @@ window.FALAQ_HOME = {
       "extracted": "What the agent extracted",
       "rules": "Rules that applied",
       "handoff": "Handoff"
-    }
+    },
+    "categories": [
+      {
+        "key": "revenue",
+        "title": "Revenue & Customer Operations",
+        "lead": "Agents that work inbound demand from the moment it arrives until an outcome is recorded."
+      },
+      {
+        "key": "documents",
+        "title": "Documents, Data & Systems",
+        "lead": "Agents that read, validate and write inside the systems a business already runs."
+      },
+      {
+        "key": "integration",
+        "title": "Integration Services",
+        "lead": "Connecting the agent to the platforms holding your live data: store, bookings, point of sale, website."
+      },
+      {
+        "key": "channels",
+        "title": "Channels",
+        "lead": "The official channels the agent operates on, established and run end to end."
+      },
+      {
+        "key": "intelligence",
+        "title": "Intelligence & Enablement",
+        "lead": "Raising system accuracy, measuring its effect, and training your team to operate it."
+      }
+    ],
+    "services": [
+      {
+        "slug": "lead-qualification",
+        "number": "01",
+        "category": "revenue",
+        "name": "Lead Qualification",
+        "summary": "Answers every inbound enquiry, collects what the sales team needs, and assigns the lead to a named salesperson.",
+        "href": "/en/services/lead-qualification/",
+        "image": "/assets/services/lead-qualification.webp"
+      },
+      {
+        "slug": "quote-follow-up",
+        "number": "02",
+        "category": "revenue",
+        "name": "Quote Follow-Up",
+        "summary": "Tracks every quotation issued and contacts the client at defined intervals until a decision is recorded.",
+        "href": "/en/services/quote-follow-up/",
+        "image": "/assets/services/quote-follow-up.webp"
+      },
+      {
+        "slug": "booking-recovery",
+        "number": "03",
+        "category": "revenue",
+        "name": "Booking & Call Recovery",
+        "summary": "Takes and confirms appointments against live availability, and re-contacts customers after a missed call or appointment.",
+        "href": "/en/services/booking-recovery/",
+        "image": "/assets/services/booking-recovery.webp"
+      },
+      {
+        "slug": "customer-service",
+        "number": "04",
+        "category": "revenue",
+        "name": "Customer Service",
+        "summary": "Answers customer questions using your own documented policies, prices and product data as its only source.",
+        "href": "/en/services/customer-service/",
+        "image": "/assets/services/customer-service.webp"
+      },
+      {
+        "slug": "accounts-receivable",
+        "number": "05",
+        "category": "revenue",
+        "name": "Accounts Receivable",
+        "summary": "Contacts customers holding overdue invoices on a defined sequence and records every response.",
+        "href": "/en/services/accounts-receivable/",
+        "image": "/assets/services/accounts-receivable.webp"
+      },
+      {
+        "slug": "document-processing",
+        "number": "06",
+        "category": "documents",
+        "name": "Document Processing",
+        "summary": "Reads submitted documents, extracts the fields you specify, and validates them against existing records.",
+        "href": "/en/services/document-processing/",
+        "image": "/assets/services/document-processing.webp"
+      },
+      {
+        "slug": "crm-control",
+        "number": "07",
+        "category": "documents",
+        "name": "CRM Control",
+        "summary": "Writes every interaction and outcome back to the CRM as work occurs, and enforces your data rules.",
+        "href": "/en/services/crm-control/",
+        "image": "/assets/services/crm-control.webp"
+      },
+      {
+        "slug": "workflow-automation",
+        "number": "08",
+        "category": "documents",
+        "name": "Workflow & Process Automation",
+        "summary": "Connects the steps of a process that currently passes between several people and several systems.",
+        "href": "/en/services/workflow-automation/",
+        "image": "/assets/services/workflow-automation.webp"
+      },
+      {
+        "slug": "internal-knowledge-assistant",
+        "number": "09",
+        "category": "documents",
+        "name": "Internal Knowledge Assistant",
+        "summary": "Answers staff questions on policy, pricing and procedure from your internal documentation.",
+        "href": "/en/services/internal-knowledge-assistant/",
+        "image": "/assets/services/internal-knowledge-assistant.webp"
+      },
+      {
+        "slug": "website-app-assistant",
+        "number": "10",
+        "category": "integration",
+        "name": "Website & In-App AI Assistant",
+        "summary": "An assistant embedded within your website or mobile application, installed as a single script tag or an SDK.",
+        "href": "/en/services/website-app-assistant/",
+        "image": "/assets/services/website-app-assistant.webp"
+      },
+      {
+        "slug": "ecommerce-integration",
+        "number": "11",
+        "category": "integration",
+        "name": "E-commerce Platform Integration",
+        "summary": "Connects the agent to your online store so that it reads live order, product and stock data.",
+        "href": "/en/services/ecommerce-integration/",
+        "image": "/assets/services/ecommerce-integration.webp"
+      },
+      {
+        "slug": "booking-pos-integration",
+        "number": "12",
+        "category": "integration",
+        "name": "Booking, POS & Calendar Integration",
+        "summary": "A two-way connection to your booking system, point of sale or calendar that reads live availability and writes confirmed bookings directly.",
+        "href": "/en/services/booking-pos-integration/",
+        "image": "/assets/services/booking-pos-integration.webp"
+      },
+      {
+        "slug": "whatsapp-business-api",
+        "number": "13",
+        "category": "channels",
+        "name": "WhatsApp Business API",
+        "summary": "Establishes the official WhatsApp Business API for you and operates the agent on it.",
+        "href": "/en/services/whatsapp-business-api/",
+        "image": "/assets/services/whatsapp-business-api.webp"
+      },
+      {
+        "slug": "voice-agents",
+        "number": "14",
+        "category": "channels",
+        "name": "Voice AI Agents",
+        "summary": "Answers inbound calls and places outbound calls in Arabic and English, with a recording and transcript of each.",
+        "href": "/en/services/voice-agents/",
+        "image": "/assets/services/voice-agents.webp"
+      },
+      {
+        "slug": "custom-model-development",
+        "number": "15",
+        "category": "intelligence",
+        "name": "Custom Model Development & Fine-Tuning",
+        "summary": "Adapts a model to your own vocabulary, documents and dialect where general models are not sufficiently accurate.",
+        "href": "/en/services/custom-model-development/",
+        "image": "/assets/services/custom-model-development.webp"
+      },
+      {
+        "slug": "analytics-dashboards",
+        "number": "16",
+        "category": "intelligence",
+        "name": "Data, Reporting & Analytics Dashboards",
+        "summary": "A dashboard reporting what the agents performed, at what cost, and to what effect.",
+        "href": "/en/services/analytics-dashboards/",
+        "image": "/assets/services/analytics-dashboards.webp"
+      },
+      {
+        "slug": "training-enablement",
+        "number": "17",
+        "category": "intelligence",
+        "name": "AI Training & Team Enablement",
+        "summary": "Trains your staff to supervise, operate and extend the delivered systems, with operating guides and separate sessions for supervisors and managers.",
+        "href": "/en/services/training-enablement/",
+        "image": "/assets/services/training-enablement.webp"
+      }
+    ]
   }
 };

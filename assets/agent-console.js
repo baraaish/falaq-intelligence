@@ -53,6 +53,8 @@
       provider: "المزوّد",
       stateLabel: "الحالة",
       selectedNode: "العقدة المحددة",
+      workflowLabel: "مسار الوكيل المقترح",
+      flowStrings: { step: "خطوة", trigger: "يصل من", decision: "يتحقق", log: "يُسجَّل" },
       rulesLabel: "قواعد القرار",
       eventsLabel: "آخر الأحداث",
       filledLabel: "المكتمل",
@@ -148,6 +150,8 @@
       provider: "Provider",
       stateLabel: "State",
       selectedNode: "Selected node",
+      workflowLabel: "Proposed agent workflow",
+      flowStrings: { step: "Step", trigger: "Arrives from", decision: "Checks", log: "Recorded" },
       rulesLabel: "Decision rules",
       eventsLabel: "Recent events",
       filledLabel: "Filled",
@@ -335,18 +339,18 @@
             <div class="ac-canvas-scroll"><div class="ac-canvas" data-canvas dir="ltr">
               <svg class="ac-links" viewBox="0 0 760 470" preserveAspectRatio="none" aria-hidden="true">
                 <defs>
-                  <linearGradient id="ac-edge-a-${esc(sessionId)}" x1="0" x2="1"><stop stop-color="#c084fc"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
-                  <linearGradient id="ac-edge-b-${esc(sessionId)}" x1="0" x2="1"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#fbbf24"/></linearGradient>
+                  <linearGradient id="ac-edge-a-${esc(sessionId)}" x1="0" x2="1"><stop stop-color="#4da3ff"/><stop offset="1" stop-color="#1a6dff"/></linearGradient>
+                  <linearGradient id="ac-edge-b-${esc(sessionId)}" x1="0" x2="1"><stop stop-color="#1a6dff"/><stop offset="1" stop-color="#8dd6ff"/></linearGradient>
                   <filter id="ac-glow-${esc(sessionId)}" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                   <path id="ac-p1-${esc(sessionId)}" d="M176 168 C225 168 225 139 274 139"/>
                   <path id="ac-p2-${esc(sessionId)}" d="M494 156 C542 156 542 190 585 190"/>
                   <path id="ac-p3-${esc(sessionId)}" d="M665 260 C665 318 594 338 562 370"/>
                   <path id="ac-p4-${esc(sessionId)}" d="M380 258 C380 324 296 343 236 373"/>
                 </defs>
-                <g class="ac-edge ac-edge-signal"><use href="#ac-p1-${esc(sessionId)}" class="ac-edge-base"/><use href="#ac-p1-${esc(sessionId)}" class="ac-edge-flow" stroke="url(#ac-edge-a-${esc(sessionId)})"/><circle class="ac-packet" r="4" fill="#c084fc" filter="url(#ac-glow-${esc(sessionId)})"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#ac-p1-${esc(sessionId)}"/></animateMotion></circle></g>
-                <g class="ac-edge ac-edge-vars"><use href="#ac-p2-${esc(sessionId)}" class="ac-edge-base"/><use href="#ac-p2-${esc(sessionId)}" class="ac-edge-flow" stroke="url(#ac-edge-b-${esc(sessionId)})"/><circle class="ac-packet" r="4" fill="#c084fc" filter="url(#ac-glow-${esc(sessionId)})"><animateMotion dur="2.9s" begin="-.8s" repeatCount="indefinite"><mpath href="#ac-p2-${esc(sessionId)}"/></animateMotion></circle></g>
-                <g class="ac-edge ac-edge-action"><use href="#ac-p3-${esc(sessionId)}" class="ac-edge-base"/><use href="#ac-p3-${esc(sessionId)}" class="ac-edge-flow" stroke="#fbbf24"/><circle class="ac-packet" r="3.5" fill="#fbbf24" filter="url(#ac-glow-${esc(sessionId)})"><animateMotion dur="2.5s" begin="-1.4s" repeatCount="indefinite"><mpath href="#ac-p3-${esc(sessionId)}"/></animateMotion></circle></g>
-                <g class="ac-edge ac-edge-audit"><use href="#ac-p4-${esc(sessionId)}" class="ac-edge-base"/><use href="#ac-p4-${esc(sessionId)}" class="ac-edge-flow" stroke="#a855f7"/><circle class="ac-packet" r="3.5" fill="#a855f7" filter="url(#ac-glow-${esc(sessionId)})"><animateMotion dur="3.3s" begin="-1.8s" repeatCount="indefinite"><mpath href="#ac-p4-${esc(sessionId)}"/></animateMotion></circle></g>
+                <g class="ac-edge ac-edge-signal"><use href="#ac-p1-${esc(sessionId)}" class="ac-edge-base"/><use href="#ac-p1-${esc(sessionId)}" class="ac-edge-flow" stroke="url(#ac-edge-a-${esc(sessionId)})"/><circle class="ac-packet" r="4" fill="#4da3ff" filter="url(#ac-glow-${esc(sessionId)})"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#ac-p1-${esc(sessionId)}"/></animateMotion></circle></g>
+                <g class="ac-edge ac-edge-vars"><use href="#ac-p2-${esc(sessionId)}" class="ac-edge-base"/><use href="#ac-p2-${esc(sessionId)}" class="ac-edge-flow" stroke="url(#ac-edge-b-${esc(sessionId)})"/><circle class="ac-packet" r="4" fill="#4da3ff" filter="url(#ac-glow-${esc(sessionId)})"><animateMotion dur="2.9s" begin="-.8s" repeatCount="indefinite"><mpath href="#ac-p2-${esc(sessionId)}"/></animateMotion></circle></g>
+                <g class="ac-edge ac-edge-action"><use href="#ac-p3-${esc(sessionId)}" class="ac-edge-base"/><use href="#ac-p3-${esc(sessionId)}" class="ac-edge-flow" stroke="#8dd6ff"/><circle class="ac-packet" r="3.5" fill="#8dd6ff" filter="url(#ac-glow-${esc(sessionId)})"><animateMotion dur="2.5s" begin="-1.4s" repeatCount="indefinite"><mpath href="#ac-p3-${esc(sessionId)}"/></animateMotion></circle></g>
+                <g class="ac-edge ac-edge-audit"><use href="#ac-p4-${esc(sessionId)}" class="ac-edge-base"/><use href="#ac-p4-${esc(sessionId)}" class="ac-edge-flow" stroke="#1a6dff"/><circle class="ac-packet" r="3.5" fill="#1a6dff" filter="url(#ac-glow-${esc(sessionId)})"><animateMotion dur="3.3s" begin="-1.8s" repeatCount="indefinite"><mpath href="#ac-p4-${esc(sessionId)}"/></animateMotion></circle></g>
               </svg>
 
               <button class="ac-node ac-node-signal is-selected" type="button" data-node="signal" aria-pressed="true" dir="${lang === "ar" ? "rtl" : "ltr"}">
@@ -381,9 +385,9 @@
 
           <aside class="ac-inspector" aria-label="${esc(copy.inspector)}">
             <header class="ac-panel-head"><div><span class="ac-overline">03 / INSPECTOR</span><h3>${esc(copy.inspector)}</h3><p>${esc(copy.inspectorSub)}</p></div></header>
-            <section class="ac-selected" data-selected></section>
-            <section class="ac-rule-stack"><div class="ac-section-label"><span>${esc(copy.rulesLabel)}</span><small>RULESET / V1</small></div><div data-rule-stack></div></section>
-            <section class="ac-event-section"><div class="ac-section-label"><span>${esc(copy.eventsLabel)}</span><small>LIVE TRACE</small></div><ol data-events></ol></section>
+            <section class="ac-workflow" data-workflow hidden><div class="ac-section-label"><span>${esc(copy.workflowLabel)}</span><small>WORKFLOW</small></div><div class="flow-canvas" data-flow></div></section>
+            
+            
           </aside>
         </div>
 
@@ -420,7 +424,7 @@
         var hasValue = Boolean(state.brief[field]);
         var confidence = item.confidence || (hasValue ? "captured" : "missing");
         var changed = state.changed.indexOf(field) !== -1;
-        return '<span class="ac-variable is-' + esc(confidence) + (changed ? ' just-changed' : '') + '" title="' + esc(copy.fields[field] + ': ' + (state.brief[field] || copy.empty)) + '"><i></i><span><small>' + esc(copy.fields[field]) + '</small><b>' + esc(hasValue ? short(state.brief[field], 26) : copy.empty) + '</b></span><em>' + esc(copy.confidences[confidence] || copy.captured) + '</em></span>';
+        return '<span class="ac-variable is-' + esc(confidence) + (changed ? ' just-changed' : '') + '" data-field="' + esc(field) + '" title="' + esc(copy.fields[field] + ': ' + (state.brief[field] || copy.empty)) + '"><i></i><span><small>' + esc(copy.fields[field]) + '</small><b>' + esc(hasValue ? short(state.brief[field], 26) : copy.empty) + '</b></span><em>' + esc(copy.confidences[confidence] || copy.captured) + '</em></span>';
       }).join("");
       host.querySelector("[data-count]").textContent = filled.length + " / " + FIELD_KEYS.length;
       host.querySelector("[data-progress]").style.width = Math.round((filled.length / FIELD_KEYS.length) * 100) + "%";
@@ -428,7 +432,8 @@
 
     function renderRules(governing) {
       var fired = unique((state.rulesFired || []).concat([governing.rule, "r4"]));
-      host.querySelector("[data-rule-stack]").innerHTML = ["r1", "r2", "r3", "r4"].map(function (ruleId) {
+      var rs = host.querySelector("[data-rule-stack]"); if (!rs) return;
+      rs.innerHTML = ["r1", "r2", "r3", "r4"].map(function (ruleId) {
         var rule = copy.rules[ruleId];
         var active = fired.indexOf(ruleId) !== -1;
         var current = governing.rule === ruleId;
@@ -437,7 +442,8 @@
     }
 
     function renderEvents() {
-      host.querySelector("[data-events]").innerHTML = state.events.map(function (event, index) {
+      var ev = host.querySelector("[data-events]"); if (!ev) return;
+      ev.innerHTML = state.events.map(function (event, index) {
         return '<li class="is-' + esc(event.tone) + '"><i></i><span>' + esc(event.label) + '</span><time>' + (index === 0 ? esc(copy.now) : esc(event.time)) + '</time></li>';
       }).join("");
       host.querySelector("[data-audit-lines]").innerHTML = state.events.slice(0, 3).map(function (event, index) {
@@ -457,7 +463,8 @@
       else if (node === "action") meta = [[copy.ownerLabel, action.owner], [copy.handoff, governing.handoff || copy.handoffs[governing.state]]];
       else meta = [[copy.updateLabel, copy.now], [copy.stateLabel, copy.rules.r4.name]];
 
-      host.querySelector("[data-selected]").innerHTML = '<div class="ac-selected-head"><span class="ac-node-icon is-' + ({ signal: "cyan", variables: "violet", trigger: "gold", action: "coral", audit: "mint" }[node]) + '">' + icon(node) + '</span><span><small>' + esc(copy.selectedNode) + '</small><b>' + esc(nodeCopy.title) + '</b></span></div><p>' + esc(copy.inspectors[node]) + '</p><dl>' + meta.map(function (pair, index) { return '<div><dt>' + esc(pair[0]) + '</dt><dd>' + (index === 1 ? '<i></i>' : '') + esc(pair[1] || copy.empty) + '</dd></div>'; }).join("") + '</dl>';
+      var sel = host.querySelector("[data-selected]"); if (!sel) return;
+      sel.innerHTML = '<div class="ac-selected-head"><span class="ac-node-icon is-' + ({ signal: "cyan", variables: "violet", trigger: "gold", action: "coral", audit: "mint" }[node]) + '">' + icon(node) + '</span><span><small>' + esc(copy.selectedNode) + '</small><b>' + esc(nodeCopy.title) + '</b></span></div><p>' + esc(copy.inspectors[node]) + '</p><dl>' + meta.map(function (pair, index) { return '<div><dt>' + esc(pair[0]) + '</dt><dd>' + (index === 1 ? '<i></i>' : '') + esc(pair[1] || copy.empty) + '</dd></div>'; }).join("") + '</dl>';
     }
 
     function paint() {
@@ -582,7 +589,13 @@
         addEvent(copy.events.governed + ": " + (copy.rules[state.governing.rule] || copy.rules.r4).id, state.governing.state || "accent");
         state.messages.push({ role: "assistant", content: data.reply || "" });
         pending.remove();
-        say("out", data.reply || "");
+        var replyEl = say("out", data.reply || "");
+        var choreo = window.FalaqChoreo;
+        if (choreo) {
+          // The reply writes itself while the panel fills beside it; both are
+          // paced reveals of data that has already arrived.
+          choreo.type(replyEl.querySelector("p"), data.reply || "");
+        }
         state.stage = "decision";
         selectNode("trigger");
       } catch (error) {
@@ -597,6 +610,45 @@
       } finally {
         state.busy = false;
         paint();
+        // After paint, not before: paint() re-renders the field list, so a class
+        // added earlier would be thrown away with the old nodes.
+        if (window.FalaqChoreo) {
+          window.FalaqChoreo.revealFields(host, state.changed);
+          // The workflow for whichever agent the model chose, assembled step by
+          // step. Categories without a published flow simply show nothing.
+          var flows = (window.FALAQ_FLOWS || {})[lang] || {};
+          var flow = flows[state.category];
+          var wrap = host.querySelector("[data-workflow]");
+          if (wrap && flow) {
+            var flowHost = host.querySelector("[data-flow]");
+            var redraw = state.category !== state.drawnFlow;
+            if (redraw) {
+              state.drawnFlow = state.category;
+              wrap.hidden = false;
+              window.FalaqChoreo.buildFlow(flowHost, flow, copy.flowStrings);
+            }
+            // Annotations replace the old inspector column: each one hangs off
+            // the step it describes and lights only once that step is satisfied.
+            var g = currentGovern();
+            var filled = FIELD_KEYS.filter(function (f) { return state.brief[f]; });
+            // r4 always applies, so it belongs on the log step. Repeating it on the
+            // decision step said nothing; when no gate is firing, the decision
+            // step reports the state it is actually in instead.
+            var gate = g.rule === "r4" ? null : copy.rules[g.rule];
+            var notes = [
+              { at: "trigger", label: copy.channels[state.channel], text: state.categoryLabel, satisfied: true },
+              { at: "step:1", label: copy.filledLabel, text: filled.length + " / " + FIELD_KEYS.length, satisfied: filled.length > 0 },
+              gate
+                ? { at: "decision", label: gate.id, text: gate.name, satisfied: true }
+                : { at: "decision", label: copy.stateLabel, text: copy.states[g.state] || "", satisfied: false },
+              { at: g.state === "ready" ? "yes" : "no", label: copy.states[g.state] || "", text: g.handoff, satisfied: true },
+              { at: "log", label: copy.rules.r4.id, text: copy.rules.r4.name, satisfied: true }
+            ];
+            window.setTimeout(function () {
+              window.FalaqChoreo.annotate(flowHost, notes);
+            }, redraw ? 1700 : 0);
+          }
+        }
         input.focus();
         settleTimer = window.setTimeout(function () {
           state.changed = [];

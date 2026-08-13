@@ -10,3 +10,4 @@ node_modules/
 backend/data/
 npm-debug.log*
 deploy-package/
+tmp/

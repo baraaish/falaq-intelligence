@@ -11,8 +11,7 @@
   const gsapAvailable = typeof gsap !== 'undefined';
 
   function siteBase() {
-    const parts = location.pathname.replace(/\/index\.html$/, '/').split('/').filter(Boolean);
-    return location.hostname.endsWith('github.io') && parts[0] === 'falaq-intelligence' ? '/falaq-intelligence' : '';
+    return '';
   }
   
   if (prefersReducedMotion || !gsapAvailable) {

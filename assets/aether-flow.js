@@ -5,6 +5,8 @@
     if (hero.dataset.aetherMounted === "true") return;
     hero.dataset.aetherMounted = "true";
 
+    if (hero.querySelector(".hero-bg-video")) return; // Abort canvas if video hero is active
+
     var canvas = hero.querySelector("canvas.aether-canvas");
     if (!canvas) {
       canvas = document.createElement("canvas");
@@ -79,7 +81,7 @@
         var y = Math.random() * Math.max(1, height - size * 4) + size * 2;
         var directionX = Math.random() * 0.4 - 0.2;
         var directionY = Math.random() * 0.4 - 0.2;
-        particles.push(new Particle(x, y, directionX, directionY, size, "rgba(191, 128, 255, 0.8)"));
+        particles.push(new Particle(x, y, directionX, directionY, size, "rgba(77, 163, 255, 0.8)"));
       }
     }
 
@@ -95,7 +97,7 @@
             var mouseDistance = mouse.x === null ? Infinity : Math.hypot(particles[a].x - mouse.x, particles[a].y - mouse.y);
             ctx.strokeStyle = mouseDistance < mouse.radius
               ? "rgba(255, 255, 255, " + opacityValue + ")"
-              : "rgba(200, 150, 255, " + opacityValue + ")";
+              : "rgba(141, 214, 255, " + opacityValue + ")";
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(particles[a].x, particles[a].y);
@@ -175,15 +177,22 @@
       '<svg class="falaq-logo-svg ' + (extraClass || "") + '" viewBox="0 0 48 48" fill="none" role="img" aria-label="Falaq">',
       '<defs>',
       '<linearGradient id="' + id + 'g" x1="10" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse">',
-      '<stop stop-color="#8b5cf6"/><stop offset=".55" stop-color="#c084fc"/><stop offset="1" stop-color="#f0abfc"/>',
+      '<stop stop-color="#1553d6"/><stop offset=".55" stop-color="#4da3ff"/><stop offset="1" stop-color="#8dd6ff"/>',
       '</linearGradient>',
       '</defs>',
       '<path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="url(#' + id + 'g)"/>',
       '<path d="M10 40.5a17 17 0 0 0 28 0" stroke="url(#' + id + 'g)" stroke-width="3" stroke-linecap="round" opacity=".9"/>',
-      '<circle cx="41" cy="34" r="2.2" fill="#f0abfc"/>',
-      '<circle cx="7" cy="34" r="1.7" fill="#8b5cf6"/>',
+      '<circle cx="41" cy="34" r="2.2" fill="#8dd6ff"/>',
+      '<circle cx="7" cy="34" r="1.7" fill="#1553d6"/>',
       '</svg>'
     ].join("");
+  }
+
+  // Avatar markup for chat contexts — replaces the old robot SVG in
+  // conversation UI while keeping the robot in the constellation visualisation.
+  function buildAvatarMarkup(size) {
+    size = size || 36;
+    return '<img class="falaq-avatar" src="/assets/avatar/agent-face.webp" width="' + size + '" height="' + size + '" alt="" loading="lazy">';
   }
 
   var robotIds = 0;
@@ -196,10 +205,10 @@
       '<linearGradient id="' + id + 'Head" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbfbfe"/><stop offset="1" stop-color="#c3c6d4"/></linearGradient>',
       '<linearGradient id="' + id + 'Body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef0f6"/><stop offset="1" stop-color="#a9adbf"/></linearGradient>',
       '<linearGradient id="' + id + 'Visor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#170f28"/><stop offset="1" stop-color="#070310"/></linearGradient>',
-      '<radialGradient id="' + id + 'Core" cx=".35" cy=".3" r="1"><stop offset="0" stop-color="#f0abfc"/><stop offset=".55" stop-color="#c026d3"/><stop offset="1" stop-color="#6b21a8"/></radialGradient>',
+      '<radialGradient id="' + id + 'Core" cx=".35" cy=".3" r="1"><stop offset="0" stop-color="#8dd6ff"/><stop offset=".55" stop-color="#c026d3"/><stop offset="1" stop-color="#6b21a8"/></radialGradient>',
       '<filter id="' + id + 'Glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>',
       '</defs>',
-      '<ellipse class="robot-shadow" cx="110" cy="250" rx="54" ry="8" fill="rgba(168,85,247,.22)"/>',
+      '<ellipse class="robot-shadow" cx="110" cy="250" rx="54" ry="8" fill="rgba(26,109,255,.22)"/>',
       '<g class="robot-rig">',
       '<g class="robot-antenna"><path d="M110 34V16" stroke="#e6d9ff" stroke-width="4" stroke-linecap="round"/><circle class="antenna-dot" cx="110" cy="12" r="6.5" fill="#e879f9" filter="url(#' + id + 'Glow)"/></g>',
       '<g class="robot-arm robot-arm-left"><rect x="31" y="148" width="17" height="54" rx="8.5" fill="url(#' + id + 'Body)" stroke="rgba(255,255,255,.5)"/></g>',
@@ -209,14 +218,14 @@
       '<rect x="37" y="58" width="9" height="27" rx="4.5" fill="#c9ccd9" stroke="rgba(255,255,255,.45)"/>',
       '<rect x="174" y="58" width="9" height="27" rx="4.5" fill="#c9ccd9" stroke="rgba(255,255,255,.45)"/>',
       '<rect x="60" y="45" width="100" height="60" rx="25" fill="url(#' + id + 'Visor)"/>',
-      '<g class="robot-eyes"><rect class="robot-eye eye-one" x="78" y="65" width="22" height="14" rx="7" fill="#d8b4fe" filter="url(#' + id + 'Glow)"/><circle cx="92" cy="69" r="2.2" fill="#fff" opacity=".8"/><rect class="robot-eye eye-two" x="120" y="65" width="22" height="14" rx="7" fill="#d8b4fe" filter="url(#' + id + 'Glow)"/><circle cx="134" cy="69" r="2.2" fill="#fff" opacity=".8"/></g>',
-      '<path class="robot-mouth" d="M102 91h16" fill="none" stroke="#c084fc" stroke-width="2.4" stroke-linecap="round" opacity=".62"/>',
+      '<g class="robot-eyes"><rect class="robot-eye eye-one" x="78" y="65" width="22" height="14" rx="7" fill="#8dd6ff" filter="url(#' + id + 'Glow)"/><circle cx="92" cy="69" r="2.2" fill="#fff" opacity=".8"/><rect class="robot-eye eye-two" x="120" y="65" width="22" height="14" rx="7" fill="#8dd6ff" filter="url(#' + id + 'Glow)"/><circle cx="134" cy="69" r="2.2" fill="#fff" opacity=".8"/></g>',
+      '<path class="robot-mouth" d="M102 91h16" fill="none" stroke="#4da3ff" stroke-width="2.4" stroke-linecap="round" opacity=".62"/>',
       '</g>',
       '<rect x="100" y="120" width="20" height="12" rx="3" fill="#b7bac8"/>',
       '<g class="robot-body">',
       '<rect x="52" y="130" width="116" height="88" rx="28" fill="url(#' + id + 'Body)" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>',
-      '<circle cx="70" cy="146" r="3.4" fill="rgba(168,85,247,.75)"/>',
-      '<circle cx="150" cy="146" r="3.4" fill="rgba(168,85,247,.75)"/>',
+      '<circle cx="70" cy="146" r="3.4" fill="rgba(26,109,255,.75)"/>',
+      '<circle cx="150" cy="146" r="3.4" fill="rgba(26,109,255,.75)"/>',
       '<g class="robot-core" filter="url(#' + id + 'Glow)"><circle cx="110" cy="174" r="23" fill="url(#' + id + 'Core)"/><g transform="translate(89 153) scale(.88)"><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="#fff"/><path d="M10 40.5a17 17 0 0 0 28 0" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".86"/></g></g>',
       '<rect x="82" y="207" width="56" height="4" rx="2" fill="rgba(124,58,237,.35)"/>',
       '</g>',
@@ -462,9 +471,7 @@
 
   var agentWarmed = false;
 
-  // The API sleeps on Render's free plan and takes close to a minute to wake.
-  // Pinging it the moment the launcher appears means the instance is usually up
-  // before the visitor has finished typing.
+  // Warm the API connection as soon as the launcher appears.
   function warmAgent() {
     if (agentWarmed) return;
     agentWarmed = true;
@@ -475,8 +482,7 @@
     return new Promise(function (resolve) { setTimeout(resolve, ms); });
   }
 
-  // 503 means either a sleeping instance or every provider failing at once, and
-  // both are worth waiting out. 429 is a real limit and must surface straight away.
+  // A transient 503 is worth retrying. 429 is a real limit and must surface.
   var RETRY_DELAYS = [3000, 6000, 10000, 15000];
 
   async function postAgent(path, payload, onWaking) {
@@ -509,7 +515,7 @@
   function showBotTyping(section) {
     var typing = document.createElement("div");
     typing.className = "bot-message bot-typing";
-    typing.innerHTML = '<span class="mini-bot">' + buildRobotMarkup() + '</span><span><i></i><i></i><i></i></span>';
+    typing.innerHTML = '<span class="mini-bot">' + buildAvatarMarkup(28) + '</span><span><i></i><i></i><i></i></span>';
     section.querySelector(".falaq-chat-messages").appendChild(typing);
     section.querySelector(".falaq-chat-messages").scrollTop = section.querySelector(".falaq-chat-messages").scrollHeight;
     return typing;
@@ -792,130 +798,63 @@
         renderBotSuggestions(section, copy.ideas, function (idea) { submitBotValue(section, idea); });
       }
     });
-    var launcherLabel = document.querySelector("[data-floating-bot-label]");
-    var launcherSub = document.querySelector("[data-floating-bot-sub]");
-    var closeButton = document.querySelector("[data-floating-bot-close]");
-    if (launcherLabel) launcherLabel.textContent = serviceCopy.launcher;
-    if (launcherSub) launcherSub.textContent = serviceCopy.launcherSub;
-    if (closeButton) closeButton.setAttribute("aria-label", serviceCopy.close);
   }
 
+  // The old floating robot and its chat overlay are gone. Service pages now
+  // point at /agent/, where the same conversation runs beside the live decision
+  // map instead of inside a corner bubble.
   function createServiceBotLauncher() {
-    var context = getServiceContext();
-    if (!context || document.getElementById("falaq-floating-launcher")) return;
+    // Any service or sector page, not just the seven that have entries in
+    // SERVICE_CONTEXTS — the launcher only needs to know it is on a page where
+    // offering the agent makes sense, and there are seventeen services now.
+    var onServicePage = /\/(services|industries)\/[^/]+\/?$/.test(location.pathname);
+    if (!onServicePage || document.getElementById("falaq-agent-link")) return;
 
-    var launcher = document.createElement("button");
-    launcher.id = "falaq-floating-launcher";
-    launcher.className = "falaq-floating-launcher";
-    launcher.type = "button";
-    launcher.setAttribute("aria-controls", "falaq-floating-chat");
-    launcher.setAttribute("aria-expanded", "false");
-    launcher.innerHTML = '<span class="floating-bot-robot">' + buildRobotMarkup() + '</span><span class="floating-bot-label"><strong data-floating-bot-label></strong><small data-floating-bot-sub></small></span>';
-
-    var overlay = document.createElement("div");
-    overlay.id = "falaq-floating-chat";
-    overlay.className = "falaq-floating-overlay";
-    overlay.hidden = true;
-    overlay.innerHTML = [
-      '<div class="falaq-floating-dialog" role="dialog" aria-modal="true" aria-labelledby="falaq-service-bot-title">',
-      '<button type="button" class="floating-bot-close" data-floating-bot-close>×</button>',
-      '<section id="falaq-service-bot" class="falaq-floating-bot is-awake" data-falaq-bot="service" data-service-key="' + context.key + '">',
-      '<div class="falaq-chat-panel">',
-      '<div class="bot-preview-badge" data-bot-copy="badge"></div>',
-      '<div class="chat-top"><span class="chat-avatar">' + buildRobotMarkup() + '</span><span><b id="falaq-service-bot-title" data-bot-copy="bot"></b><small><i></i><span data-bot-copy="status"></span></small></span></div>',
-      '<div class="falaq-chat-messages" role="log" aria-live="polite" aria-relevant="additions"></div>',
-      '<div class="bot-suggestions"></div>',
-      '<form class="bot-input-row"><input type="text" maxlength="1500" autocomplete="off" data-bot-placeholder><button type="submit" data-bot-copy="send"></button></form>',
-      '</div></section></div>'
-    ].join("");
-
-    document.body.append(launcher, overlay);
-    warmAgent();
-    var section = overlay.querySelector("#falaq-service-bot");
-    bindBotForm(section);
-    updateBotInstanceLanguage(section);
-    resetServiceBot(section);
-
-    function openChat() {
-      overlay.hidden = false;
-      launcher.setAttribute("aria-expanded", "true");
-      document.body.classList.add("bot-modal-open");
-      window.setTimeout(function () {
-        var firstChoice = overlay.querySelector(".bot-suggestions button");
-        (firstChoice || overlay.querySelector(".bot-input-row input") || overlay.querySelector(".floating-bot-close")).focus();
-      }, 20);
-    }
-    function closeChat() {
-      overlay.hidden = true;
-      launcher.setAttribute("aria-expanded", "false");
-      document.body.classList.remove("bot-modal-open");
-      launcher.focus();
-    }
-    launcher.addEventListener("click", openChat);
-    overlay.querySelector(".floating-bot-close").addEventListener("click", closeChat);
-    overlay.addEventListener("click", function (event) { if (event.target === overlay) closeChat(); });
-    document.addEventListener("keydown", function (event) {
-      if (overlay.hidden) return;
-      if (event.key === "Escape") return closeChat();
-      if (event.key !== "Tab") return;
-      var focusable = Array.from(overlay.querySelectorAll('button:not([disabled]),input:not([disabled]),a[href]'));
-      if (!focusable.length) return;
-      var first = focusable[0];
-      var last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-    });
+    var isArabic = document.documentElement.lang !== "en";
+    var link = document.createElement("a");
+    link.id = "falaq-agent-link";
+    link.className = "falaq-agent-link";
+    link.href = isArabic ? "/agent/" : "/en/agent/";
+    link.innerHTML =
+      '<img src="/assets/avatar/agent-face.webp" width="256" height="256" alt="" loading="lazy">' +
+      '<span><strong>' + (isArabic ? "تحدث إلى الوكيل" : "Talk to the agent") + '</strong>' +
+      '<small>' + (isArabic ? "صف عمليتك وشاهد القرار" : "Describe your process") + '</small></span>';
+    document.body.appendChild(link);
   }
 
+  // The inline scope advisor is gone. Two chat interfaces on one page split the
+  // visitor's attention and made both look like demos; the live console above is
+  // the real one. What remains here is a single invitation to the agent page,
+  // where the conversation has the room it needs.
   function createCustomBotSection() {
-    if (!document.getElementById("agents") || document.getElementById("falaq-custom-bot")) return;
+    var anchor = document.getElementById("agents");
+    if (!anchor || document.getElementById("falaq-agent-invite")) return;
+
+    var isArabic = document.documentElement.lang !== "en";
     var section = document.createElement("section");
-    section.id = "falaq-custom-bot";
-    section.className = "blk falaq-bot-section";
-    section.dataset.falaqBot = "main";
-    section.setAttribute("aria-labelledby", "falaq-custom-bot-heading");
-    section.innerHTML = [
-      '<div class="wrap">',
-      '<div class="sec-head rv in falaq-bot-heading"><span class="kick" data-bot-copy="kick"></span><h2 id="falaq-custom-bot-heading" data-bot-copy="title"></h2><p data-bot-copy="lead"></p></div>',
-      '<div class="custom-bot-shell">',
-      '<div class="bot-awakening-stage"><span class="bot-floor-ring"></span><div class="seated-falaq-robot">' + buildRobotMarkup() + '</div><span class="wake-signal"><span data-bot-copy="wake"></span> <i></i></span></div>',
-      '<div class="falaq-chat-panel">',
-      '<div class="bot-preview-badge" data-bot-copy="badge"></div>',
-      '<div class="chat-top"><span class="chat-avatar">' + buildRobotMarkup() + '</span><span><b id="falaq-main-bot-title" data-bot-copy="bot"></b><small><i></i><span data-bot-copy="status"></span></small></span></div>',
-      '<div class="falaq-chat-messages" role="log" aria-live="polite" aria-relevant="additions"><div class="bot-message"><span class="mini-bot">' + buildRobotMarkup() + '</span><p data-bot-copy="hello"></p></div></div>',
-      '<div class="bot-suggestions"></div>',
-      '<form class="bot-input-row"><input type="text" maxlength="1500" autocomplete="off" data-bot-placeholder><button type="submit" data-bot-copy="send"></button></form>',
-      '</div></div></div>'
-    ].join("");
-    document.getElementById("agents").after(section);
-
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          section.classList.add("is-awake");
-          observer.disconnect();
-          setTimeout(function () {
-            var host = section.querySelector(".seated-falaq-robot");
-            var ar = currentBotLanguage() === "ar";
-            if (host) host.dispatchEvent(new CustomEvent("falaq-cheer", {
-              detail: ar ? "صف العملية كما تحدث اليوم، وسأرتبها معك" : "Describe the process as it works today, and I’ll structure it with you"
-            }));
-          }, 1300);
-        }
-      });
-    }, { threshold: .24 });
-    observer.observe(section);
-
-    attachRobotPersona(section.querySelector(".bot-awakening-stage"), section.querySelector(".seated-falaq-robot"));
-
-    bindBotForm(section);
-    updateCustomBotLanguage();
+    section.id = "falaq-agent-invite";
+    section.className = "blk agent-invite";
+    section.innerHTML =
+      '<div class="wrap agent-invite-in">' +
+        '<img src="/assets/avatar/agent-bust.webp" width="520" height="616" alt="" loading="lazy">' +
+        '<div>' +
+          '<span class="kick">' + (isArabic ? "لم تجد ما يناسبك؟" : "Not sure which one?") + '</span>' +
+          '<h2>' + (isArabic ? "صف عمليتك، ودع الوكيل يحدد المسار" : "Describe your process and let the agent scope it") + '</h2>' +
+          '<p>' + (isArabic
+            ? "اكتب ما يحدث اليوم بكلماتك. الوكيل يستخرج ما يحتاجه، يطبّق قواعده، ويقول أين يتوقف ويسلّم لموظف."
+            : "Write what happens today in your own words. The agent extracts what it needs, applies its rules, and says where it stops and hands over.") + '</p>' +
+          '<a class="agent-invite-cta" href="' + (isArabic ? "/agent/" : "/en/agent/") + '">' +
+            (isArabic ? "ابدأ المحادثة" : "Start the conversation") +
+            '<i aria-hidden="true">' + (isArabic ? "←" : "→") + '</i></a>' +
+        '</div>' +
+      '</div>';
+    anchor.insertAdjacentElement("afterend", section);
   }
 
   function addChatMessage(section, text, user) {
     var message = document.createElement("div");
     message.className = user ? "user-message" : "bot-message";
-    if (!user) message.innerHTML = '<span class="mini-bot">' + buildRobotMarkup() + '</span>';
+    if (!user) message.innerHTML = '<span class="mini-bot">' + buildAvatarMarkup(28) + '</span>';
     var paragraph = document.createElement("p");
     paragraph.textContent = text;
     message.appendChild(paragraph);

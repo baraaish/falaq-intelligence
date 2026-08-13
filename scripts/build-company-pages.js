@@ -4,7 +4,7 @@ const path = require("node:path");
 const root = path.resolve(__dirname, "..");
 const site = "https://falaqai.com";
 // Content release date. Keep this explicit so generated output is deterministic.
-const updated = "2026-08-11";
+const updated = "2026-08-12";
 
 const labels = {
   ar: {
@@ -15,7 +15,7 @@ const labels = {
     about: "من نحن",
     contact: "تواصل معنا",
     contents: "محتويات الصفحة",
-    updated: "آخر تحديث: 11 أغسطس 2026",
+    updated: "آخر تحديث: 12 أغسطس 2026",
     related: "صفحات ذات صلة",
     company: "الشركة والمعايير",
     legal: "السياسات القانونية",
@@ -31,7 +31,7 @@ const labels = {
     about: "About",
     contact: "Contact us",
     contents: "On this page",
-    updated: "Last updated: 11 August 2026",
+    updated: "Last updated: 12 August 2026",
     related: "Related pages",
     company: "Company & standards",
     legal: "Legal policies",
@@ -204,7 +204,7 @@ const pages = [
       sections: [
         { title: "البيانات التي نجمعها", paragraphs: ["نجمع البيانات التي ترسلها طوعًا، مثل الاسم واسم الشركة والبريد ورقم واتساب ووصف العملية أو الطلب. قد تُجمع أيضًا معلومات تقنية أساسية لازمة لتشغيل الموقع وحمايته، مثل عنوان IP ونوع المتصفح وسجلات الأخطاء."], bullets: ["بيانات التواصل", "محتوى النماذج والمحادثات", "تفاصيل الطلب أو العملية التجارية", "سجلات تقنية وتشغيلية أساسية"] },
         { title: "كيف نستخدم البيانات", paragraphs: ["نستخدم البيانات للرد على الاستفسار، إعداد تصور أو عرض، تقديم الخدمة، تشغيل التكاملات، تحسين الجودة، حماية الأنظمة، والوفاء بالالتزامات القانونية أو التعاقدية."], bullets: ["التواصل وتنفيذ الطلب", "إنشاء وإرسال ملفات العروض", "تشغيل الخدمة ودعمها", "منع الإساءة والتحقيق في الأعطال"] },
-        { title: "المشاركة والمزودون", paragraphs: ["لا نبيع بياناتك. قد نعالجها عبر مزودي استضافة ونماذج ذكاء اصطناعي وبريد وتخزين وتكاملات بالقدر اللازم لتقديم الوظيفة المطلوبة. قد تُشارك البيانات أيضًا عندما يطلب القانون ذلك أو لحماية الحقوق والأمان."], bullets: ["GitHub Pages لاستضافة الواجهة", "Render لاستضافة خدمات التطبيق", "مزودو نماذج الذكاء الاصطناعي المعتمدون", "Resend للبريد وGoogle Sheets عند استخدامهما"] },
+        { title: "المشاركة والمزودون", paragraphs: ["لا نبيع بياناتك. قد نعالجها عبر مزودي استضافة ونماذج ذكاء اصطناعي وبريد وتخزين وتكاملات بالقدر اللازم لتقديم الوظيفة المطلوبة. قد تُشارك البيانات أيضًا عندما يطلب القانون ذلك أو لحماية الحقوق والأمان."], bullets: ["مزود استضافة Falaq للموقع وخدمات التطبيق", "مزودو نماذج الذكاء الاصطناعي المعتمدون", "Resend للبريد عند استخدامه", "Google Sheets عند تفعيل مزامنة الطلبات"] },
         { title: "الاحتفاظ والأمان", paragraphs: ["نحتفظ بالبيانات للمدة اللازمة للغرض الذي جُمعت من أجله، أو حسب العقد والمتطلبات النظامية. نستخدم ضوابط وصول واتصالات مشفرة أثناء النقل، لكن لا توجد وسيلة إلكترونية خالية تمامًا من المخاطر."], bullets: ["تحديد الاحتفاظ حسب الغرض والنطاق", "تقييد الوصول على من يحتاجه", "حذف أو إخفاء البيانات عند انتهاء الحاجة حيثما ينطبق", "مراجعة الحوادث والإجراءات التصحيحية"] },
         { title: "حقوقك وخياراتك", paragraphs: ["يمكنك طلب معرفة بياناتك أو تصحيحها أو حذفها أو الاعتراض على بعض أوجه استخدامها، مع مراعاة الالتزامات القانونية والتعاقدية. أرسل الطلب إلى hello@falaqai.com، وقد نحتاج للتحقق من الهوية قبل تنفيذه."], bullets: ["الوصول والتصحيح", "الحذف عند انطباقه", "سحب الموافقة للاتصالات الاختيارية", "الاستفسار عن مزودي المعالجة"] },
         { title: "التغييرات والتواصل", paragraphs: ["قد نحدث هذه السياسة عند تغير الموقع أو الخدمات أو المتطلبات. يظهر تاريخ آخر تحديث أعلى الصفحة. للأسئلة أو الطلبات المتعلقة بالخصوصية تواصل عبر hello@falaqai.com."] },
@@ -219,7 +219,7 @@ const pages = [
       sections: [
         { title: "Data we collect", paragraphs: ["We collect information you submit voluntarily, such as your name, company, email, WhatsApp number, and process or request description. Basic technical information needed to operate and protect the site may also be collected, such as IP address, browser type, and error logs."], bullets: ["Contact details", "Form and conversation content", "Request or business-process details", "Basic technical and operational logs"] },
         { title: "How we use data", paragraphs: ["We use data to answer inquiries, prepare a concept or proposal, provide services, operate integrations, improve quality, protect systems, and meet legal or contractual obligations."], bullets: ["Communication and request fulfillment", "Proposal file creation and delivery", "Service operation and support", "Abuse prevention and incident investigation"] },
-        { title: "Sharing and providers", paragraphs: ["We do not sell your data. It may be processed by hosting, AI model, email, storage, and integration providers to the extent needed for the requested function. Data may also be disclosed when required by law or to protect rights and security."], bullets: ["GitHub Pages for frontend hosting", "Render for application services", "Approved AI model providers", "Resend for email and Google Sheets when used"] },
+        { title: "Sharing and providers", paragraphs: ["We do not sell your data. It may be processed by hosting, AI model, email, storage, and integration providers to the extent needed for the requested function. Data may also be disclosed when required by law or to protect rights and security."], bullets: ["Falaq's hosting provider for the website and application services", "Approved AI model providers", "Resend for email when enabled", "Google Sheets when lead sync is enabled"] },
         { title: "Retention and security", paragraphs: ["We retain data for as long as needed for the purpose for which it was collected, or according to contract and legal requirements. We use access controls and encrypted connections in transit, but no electronic method is completely risk-free."], bullets: ["Retention based on purpose and scope", "Access restricted to those who need it", "Deletion or de-identification when no longer needed where applicable", "Incident and corrective-action review"] },
         { title: "Your rights and choices", paragraphs: ["You may request access, correction, deletion, or object to certain uses, subject to legal and contractual obligations. Send requests to hello@falaqai.com. Identity verification may be required before fulfilling a request."], bullets: ["Access and correction", "Deletion where applicable", "Withdrawal of consent for optional communications", "Questions about processing providers"] },
         { title: "Changes and contact", paragraphs: ["We may update this policy when the site, services, or requirements change. The latest update date appears above. For privacy questions or requests, email hello@falaqai.com."] },
@@ -488,7 +488,7 @@ function pageHtml(page, language) {
   <a class="skip-link" href="#main">${language === "ar" ? "تجاوز إلى المحتوى" : "Skip to content"}</a>
   <nav class="site-nav" aria-label="${language === "ar" ? "التنقل الرئيسي" : "Main navigation"}">
     <div class="wrap nav-inner">
-      <a class="brand" href="${language === "ar" ? "/" : "/en/"}" aria-label="Falaq Intelligence"><span class="brand-mark"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="#c084fc"/><path d="M10 40.5a17 17 0 0 0 28 0" fill="none" stroke="#c084fc" stroke-width="3" stroke-linecap="round"/></svg></span><span>${language === "ar" ? "فلق للذكاء الاصطناعي" : "Falaq Intelligence"}</span></a>
+      <a class="brand" href="${language === "ar" ? "/" : "/en/"}" aria-label="Falaq Intelligence"><span class="brand-mark"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3.5c1.9 10 6.7 14.8 16.5 16.7C30.7 22.1 25.9 26.9 24 37 22.1 26.9 17.3 22.1 7.5 20.2 17.3 18.3 22.1 13.5 24 3.5Z" fill="#4da3ff"/><path d="M10 40.5a17 17 0 0 0 28 0" fill="none" stroke="#4da3ff" stroke-width="3" stroke-linecap="round"/></svg></span><span>${language === "ar" ? "فلق للذكاء الاصطناعي" : "Falaq Intelligence"}</span></a>
       <div class="nav-links"><a href="${language === "ar" ? "/" : "/en/"}">${l.home}</a><a href="${language === "ar" ? "/services/" : "/en/services/"}">${l.services}</a><a href="${route("trust", language)}"${navCurrent === "trust" ? ' aria-current="page"' : ""}>${l.trust}</a><a href="${route("about", language)}"${navCurrent === "about" ? ' aria-current="page"' : ""}>${l.about}</a></div>
       <div class="nav-actions"><a class="nav-button" href="${alternatePath}" hreflang="${alternateLanguage}" lang="${alternateLanguage}">${l.language}</a><a class="nav-button primary" href="${language === "ar" ? "/#contact" : "/en/#contact"}">${l.contact}</a></div>
     </div>
